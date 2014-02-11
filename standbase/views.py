@@ -22,10 +22,10 @@ def index(request):
 @require_POST
 def catch(request):
 	lat = float(request.POST.get('lat', ''))
-	lon = float(request.POST.get('lat', ''))
+	lon = float(request.POST.get('lon', ''))
 
 	vendorid = request.POST.get('vendorid', '')
 
-	StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
+	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
 
-	return HttpResponse('1')
+	return HttpResponse('%d' % s.id)
