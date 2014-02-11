@@ -28,4 +28,4 @@ def catch(request):
 
 	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
 
-	return HttpResponse('%d' % s.id)
+	return HttpResponse('{"sessionid": %d}' % s.id, content_type='application/json')
