@@ -5,13 +5,27 @@ from django.http import HttpResponse
 from standbase.models import *
 
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 
 import logging
 logger = logging.getLogger('testlogger')
 
-
+    
 def index(request):
     return render(request, 'standbase/index.html', {
         
     })
+
+
+@csrf_exempt
+@require_POST
+def catch(request):
+	lat = float(request.POST.get('lat', ''))
+	lon = float(request.POST.get('lat', ''))
+
+	vendorid = request.POST.get('vendorid', '')
+
+	StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
+
+	return HttpResponse('1')
