@@ -17,7 +17,6 @@ def index(request):
         
     })
 
-
 @csrf_exempt
 @require_POST
 def catch(request):
@@ -28,4 +27,8 @@ def catch(request):
 
 	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
 
-	return HttpResponse('{"sessionid": %d}' % s.id, content_type='application/json')
+	response = {
+		'sessionid': s.id,
+		'secret': s.secret
+	}
+	return HttpResponse(json.dumps(response), content_type='application/json')
