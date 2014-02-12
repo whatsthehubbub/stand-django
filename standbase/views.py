@@ -22,7 +22,7 @@ def index(request):
 
 def stand(request, sessionid):
 	try:
-		s = StandSession.object.get(id=sessionid)
+		s = StandSession.objects.get(id=sessionid)
 
 		if s.datefinished:
 			return render(request, 'standbase/stand.html', {
