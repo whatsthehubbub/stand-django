@@ -5,6 +5,8 @@ from standbase import views
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^catch$', views.catch, name='catch'),
+    url(r'^done$', views.done, name='done'),
+
     # url(r'^signup_success$', views.signup_success, name='signup-success'),
 
     # url(r'^sms_catcher$', views.sms_catcher, name='sms-catcher'),
