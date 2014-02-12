@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 
 from django.utils import timezone
 
+import datetime
 import json
 import logging
 logger = logging.getLogger('testlogger')
@@ -40,17 +41,28 @@ def catch(request):
 def done(request):
 	secret = request.POST.get('secret', '')
 	sessionid = request.POST.get('sessionid', '')
-	duration = request.POST.get('duration', 0)
-	# TODO the request will probably come a bit later than it is actually finished
 
-	s = StandSession.objects.get(secret=secret, id=sessionid)
+	try:
+		s = StandSession.objects.get(secret=secret, id=sessionid)
 
-	s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
+		if 'duration' in request.POST:
+			duration = request.POST.get('duration', 0)
+			s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
-	s.save()
+		if 'message' in request.POST:
+			message = request.POST.get('message', '')
+
+			s.message = message
+
+		s.save()
+
+
+		code = 1
+	except StandSession.DoesNotExist:
+		code = 0
 
 	response = {
-		'status': 1
+		'status': code
 	}
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
