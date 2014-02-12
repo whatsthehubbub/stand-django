@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 # from django import forms
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 
 from standbase.models import *
 
@@ -19,6 +19,19 @@ def index(request):
     return render(request, 'standbase/index.html', {
         
     })
+
+def stand(request, sessionid):
+	try:
+		s = StandSession.object.get(id=sessionid)
+
+		if s.datefinished:
+			return render(request, 'standbase/stand.html', {
+
+			})
+		else:
+			return HttpResponseNotFound
+	except StandSession.DoesNotExist:
+		return HttpResponseNotFound
 
 @csrf_exempt
 @require_POST
