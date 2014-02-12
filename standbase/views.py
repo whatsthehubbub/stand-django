@@ -46,7 +46,7 @@ def done(request):
 		s = StandSession.objects.get(secret=secret, id=sessionid)
 
 		if 'duration' in request.POST:
-			duration = request.POST.get('duration', 0)
+			duration = int(request.POST.get('duration', '0'))
 			s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
 		if 'message' in request.POST:
