@@ -50,9 +50,8 @@
   <div id="map"></div>
 
   <div id="content">
-    <h1>Stood for {{ s.message }}</h1>
+    <h1>Stood for {{ s.message }} on {{ s.datecreated }}</h1>
 
-    {{ s.datefinished }} - {{ s.datecreated }}
     <p>Duration: {{ s.datefinished|timeuntil:s.datecreated }} seconds</p>
   </div>
   
