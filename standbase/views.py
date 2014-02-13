@@ -26,7 +26,7 @@ def stand(request, sessionid):
 
 		if s.datefinished:
 			return render(request, 'standbase/stand.html', {
-
+				's': s
 			})
 		else:
 			return HttpResponseNotFound

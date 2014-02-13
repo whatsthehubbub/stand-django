@@ -1,1 +1,71 @@
-Standing on the shoulders of giants.
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Somebody stood for {{ s.message }}</title>
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
+  <style type="text/css">
+  BODY {
+  	margin: 0;
+  	padding: 0;
+  }
+
+  H1 {
+  	margin: 0;
+  	padding: 0;
+  }
+
+  #map {
+  	position: absolute;
+  	height: 100%;
+  	width: 100%;
+
+  	z-index: -10;
+  }
+
+  #content {
+  	position: fixed;
+
+  	left: 40px;
+  	top: 40px;
+  	width: 40em;
+  	height: 100em;
+
+  	background: white;
+  }
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <div id="content">
+    <h1>Stood for {{ s.message }}</h1>
+
+    {{ s.datefinished }} - {{ s.datecreated }}
+    <p>Duration: {{ s.datefinished|timeuntil:s.datecreated }} seconds</p>
+  </div>
+  
+  <script type="text/javascript">
+  	var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }} - 0.06], 13);
+  	
+  	L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+	    maxZoom: 18
+	}).addTo(map);
+
+	var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
+
+  </script>
+</body>
+</html>
