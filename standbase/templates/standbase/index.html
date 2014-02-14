@@ -21,7 +21,7 @@
 
   {% for session in active_sessions %}
   	{{ session.lat }} x {{ session.lon }}<br>
-  {% else %}
+  {% empty %}
   	<p>No sessions right now.</p>
   {% endfor %}
 
