@@ -17,6 +17,18 @@
 
 <body>
 
+  <h1>People standing right now</h1>
+
+  {% for session in active_sessions %}
+  	{{ session.lat }} x {{ session.lon }}<br>
+  {% else %}
+  	<p>No sessions right now.</p>
+  {% endfor %}
+
+  <h1>Recently completed sessions</h1>
+
+  TODO
+
   <p>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2014</p>
 
   <script src="js/scripts.js"></script>

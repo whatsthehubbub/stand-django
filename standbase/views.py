@@ -17,7 +17,7 @@ logger = logging.getLogger('testlogger')
     
 def index(request):
     return render(request, 'standbase/index.html', {
-        
+        'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300))
     })
 
 def stand(request, sessionid):
@@ -41,7 +41,7 @@ def catch(request):
 
 	vendorid = request.POST.get('vendorid', '')
 
-	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid)
+	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now())
 
 	response = {
 		'sessionid': s.id,
