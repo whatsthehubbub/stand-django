@@ -49,6 +49,29 @@ def catch(request):
 	}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
+
+@csrf_exempt
+@require_POST
+def alive(request):
+	secret = request.POST.get('secret', '')
+	sessionid = request.POST.get('sessionid', '')
+
+	try:
+		s = StandSession.objects.get(secret=secret, id=sessionid)
+
+		s.datelive = timezone.now()
+		s.save()
+
+		code = 1
+	except StandSession.DoesNotExist:
+		code = 0
+
+	response = {
+		'status': code
+	}
+
+	return HttpResponse(json.dumps(response), content_type='application/json')
+
 @csrf_exempt
 @require_POST
 def done(request):
@@ -68,7 +91,6 @@ def done(request):
 			s.message = message
 
 		s.save()
-
 
 		code = 1
 	except StandSession.DoesNotExist:
