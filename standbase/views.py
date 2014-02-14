@@ -52,7 +52,7 @@ def catch(request):
 
 @csrf_exempt
 @require_POST
-def alive(request):
+def live(request):
 	secret = request.POST.get('secret', '')
 	sessionid = request.POST.get('sessionid', '')
 

@@ -6,6 +6,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^catch$', views.catch, name='catch'),
     url(r'^done$', views.done, name='done'),
+    url(r'^live$', views.live, name='live'),
 
     url(r'^stand/(?P<sessionid>\d+)/$', views.stand, name='stand'),
 
