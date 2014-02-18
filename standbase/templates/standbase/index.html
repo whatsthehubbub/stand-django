@@ -1,3 +1,5 @@
+{% load bootstrap3 %}
+
 <!doctype html>
 
 <html lang="en">
@@ -8,6 +10,8 @@
   <meta name="description" content="Stand for Something">
   <meta name="author" content="Hubbub">
 
+  {% bootstrap_css %} {% bootstrap_javascript %}
+
   <link rel="stylesheet" href="css/styles.css?v=1.0">
 
   <!--[if lt IE 9]>
@@ -17,7 +21,14 @@
 
 <body>
 
-  <h1>People standing right now</h1>
+<div class="container">
+  <h1>Stand for something</h1>
+
+  <p>Stand for Something is a website where people can take a stand for a cause. Get the iPhone app from the App Store and join us.</p>
+
+  <h2>People standing right now</h2>
+
+  <p>Locations where people are standing at this very moment.</p>
 
   {% for session in active_sessions %}
   	{{ session.lat }} x {{ session.lon }}<br>
@@ -27,9 +38,12 @@
 
   <h1>Recently completed sessions</h1>
 
+  <p>Sessions that have been completed recently including their duration and their reason.</p>
+
   TODO
 
-  <p>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2014</p>
+  <footer>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2014</footer>
+</div>
 
   <script src="js/scripts.js"></script>
 </body>
