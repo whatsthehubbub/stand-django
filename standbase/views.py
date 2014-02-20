@@ -11,13 +11,15 @@ from django.utils import timezone
 
 import datetime
 import json
+
 import logging
 logger = logging.getLogger('testlogger')
 
-    
+
 def index(request):
     return render(request, 'standbase/index.html', {
-        'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300))
+        'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
+        'completed_sessions': StandSession.objects.exclude(datefinished=None).order_by('-datefinished')
     })
 
 def stand(request, sessionid):

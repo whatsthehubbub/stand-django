@@ -30,17 +30,28 @@
 
   <p>Locations where people are standing at this very moment.</p>
 
-  {% for session in active_sessions %}
-  	{{ session.lat }} x {{ session.lon }}<br>
-  {% empty %}
-  	<p>No sessions right now.</p>
-  {% endfor %}
+  {% if active_sessions %}
+    <ol>
+    {% for session in active_sessions %}
+      <li>{{ session.lat }} x {{ session.lon }}</li>
+    {% endfor %}
+    </ol>
+  {% else %}
+    <p>No sessions right now.</p>
+  {% endif %}
+
 
   <h1>Recently completed sessions</h1>
 
   <p>Sessions that have been completed recently including their duration and their reason.</p>
 
-  TODO
+  {% if completed_sessions %}
+    <ol>
+    {% for session in completed_sessions %}
+      <li>Somebody stood for {{ session.message }} at {{ session.lat }}x{{ session.lon }} some {{ session.datefinished|timesince }} ago</li>
+    {% endfor %}
+    </ol>
+  {% endif %}
 
   <footer>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2014</footer>
 </div>
