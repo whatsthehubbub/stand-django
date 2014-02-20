@@ -37,6 +37,8 @@
 
         <p>On: {{ s.datecreated }}</p>
 
+        <p>Near: {{ s.nearest_available_area }}</p>
+
         <p>Duration: {{ s.datefinished|timeuntil:s.datecreated }}</p>
       </div>
 
