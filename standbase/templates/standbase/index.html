@@ -48,7 +48,7 @@
   {% if completed_sessions %}
     <ol>
     {% for session in completed_sessions %}
-      <li>Somebody stood for {{ session.message }} at {{ session.lat }}x{{ session.lon }} some {{ session.datefinished|timesince }} ago</li>
+      <li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.message }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }}x{{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
     {% endfor %}
     </ol>
   {% endif %}
