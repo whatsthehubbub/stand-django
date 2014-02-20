@@ -45,6 +45,10 @@ def catch(request):
 
 	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now())
 
+	import django_rq
+	
+	django_rq.enqueue(s.retrieve_reverse_geocode)
+
 	response = {
 		'sessionid': s.id,
 		'secret': s.secret

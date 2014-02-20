@@ -33,7 +33,7 @@
   {% if active_sessions %}
     <ol>
     {% for session in active_sessions %}
-      <li>{{ session.lat }} x {{ session.lon }}</li>
+      <li>{{ session.lat }} x {{ session.lon }} ({{ session.nearest_available_area }})</li>
     {% endfor %}
     </ol>
   {% else %}
