@@ -1,16 +1,10 @@
-{% load bootstrap3 %}
+{% extends "standbase/base.html" %}
 
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% block head %}Somebody stood for {{ s.message }}{% endblock head %}
 
-  <title>Somebody stood for {{ s.message }}</title>
-  <meta name="author" content="SitePoint">
 
-  {% bootstrap_css %} {% bootstrap_javascript %}
-
+{% block extrahead %}
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 
@@ -19,19 +13,13 @@
       height: 600px;
     }
   </style>
+{% endblock extrahead %}
 
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
 
-<body>
-  
-
+{% block content %}
   <div class="container">
 
     <div class="row">
-
       <div class="col-md-6" id="content">
         <h1>Stood for {{ s.message }}</h1>
 
@@ -47,15 +35,14 @@
   </div>
   
   <script type="text/javascript">
-  	var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
-  	
-  	L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
-	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-	    maxZoom: 18
-	}).addTo(map);
+    var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
+    
+    L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      maxZoom: 18
+  }).addTo(map);
 
-	var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
+  var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
 
   </script>
-</body>
-</html>
+{% endblock content %}

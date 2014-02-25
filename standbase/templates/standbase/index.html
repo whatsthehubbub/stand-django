@@ -1,27 +1,7 @@
-{% load bootstrap3 %}
+{% extends "standbase/base.html" %}
 
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title>Stand for Something</title>
-  <meta name="description" content="Stand for Something">
-  <meta name="author" content="Hubbub">
-
-  {% bootstrap_css %} {% bootstrap_javascript %}
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-
-<body>
-
-<div class="container">
+{% block content %}
+  <div class="container">
   <h1>Stand for something</h1>
 
   <p>Stand for Something is a website where people can take a stand for a cause. Get the iPhone app from the App Store and join us.</p>
@@ -55,7 +35,4 @@
 
   <footer>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2014</footer>
 </div>
-
-  <script src="js/scripts.js"></script>
-</body>
-</html>
+{% endblock content %}
