@@ -33,13 +33,20 @@ def session(request, sessionid):
                 's': s
             })
         else:
-            return HttpResponseNotFound
+            return HttpResponseNotFound("Couldn't find such a session.")
     except StandSession.DoesNotExist:
-        return HttpResponseNotFound
+        return HttpResponseNotFound("Couldn't find such a session.")
 
 
 def topic(request, topic_slug):
-    pass
+    try:
+        t = Topic.objects.get(name=topic_slug, public=True)
+
+        return render(request, 'standbase/topic.html', {
+            't': t
+        })
+    except:
+        return HttpResponseNotFound("Couldn't find such a topic.")
 
 
 @csrf_exempt
