@@ -1,7 +1,7 @@
 {% extends "standbase/base.html" %}
 
 
-{% block head %}Somebody stood for {{ s.message }}{% endblock head %}
+{% block head %}Somebody stood for <a href="{% url 'topic' s.topic_slug %}">{{ s.message }}</a>{% endblock head %}
 
 
 {% block extrahead %}

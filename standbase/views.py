@@ -8,9 +8,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from django.utils import timezone
+from django.utils.text import slugify
 
 import datetime
 import json
+import string
 
 import logging
 logger = logging.getLogger('testlogger')
@@ -22,7 +24,7 @@ def index(request):
         'completed_sessions': StandSession.objects.exclude(datefinished=None).order_by('-datefinished')
     })
 
-def stand(request, sessionid):
+def session(request, sessionid):
 	try:
 		s = StandSession.objects.get(id=sessionid)
 
@@ -34,6 +36,11 @@ def stand(request, sessionid):
 			return HttpResponseNotFound
 	except StandSession.DoesNotExist:
 		return HttpResponseNotFound
+
+
+def topic(request, topic_slug):
+	pass
+
 
 @csrf_exempt
 @require_POST
@@ -92,9 +99,18 @@ def done(request):
 			s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
 		if 'message' in request.POST:
-			message = request.POST.get('message', '')
 
-			s.message = message
+			if message:
+				message = request.POST.get('message', '')
+
+				# Set message and message slug
+				s.message = message
+
+				slug = slugify(message)
+				if slug[0] in string.digits:
+					slug = 's-' + slug
+
+				s.message_slug = slug
 
 		s.save()
 
