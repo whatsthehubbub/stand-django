@@ -25,102 +25,99 @@ def index(request):
     })
 
 def session(request, sessionid):
-	try:
-		s = StandSession.objects.get(id=sessionid)
+    try:
+        s = StandSession.objects.get(id=sessionid)
 
-		if s.datefinished:
-			return render(request, 'standbase/stand.html', {
-				's': s
-			})
-		else:
-			return HttpResponseNotFound
-	except StandSession.DoesNotExist:
-		return HttpResponseNotFound
+        if s.datefinished:
+            return render(request, 'standbase/stand.html', {
+                's': s
+            })
+        else:
+            return HttpResponseNotFound
+    except StandSession.DoesNotExist:
+        return HttpResponseNotFound
 
 
 def topic(request, topic_slug):
-	pass
+    pass
 
 
 @csrf_exempt
 @require_POST
 def catch(request):
-	lat = float(request.POST.get('lat', ''))
-	lon = float(request.POST.get('lon', ''))
+    lat = float(request.POST.get('lat', ''))
+    lon = float(request.POST.get('lon', ''))
 
-	vendorid = request.POST.get('vendorid', '')
+    vendorid = request.POST.get('vendorid', '')
 
-	s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now())
+    something = Topic.objects.get(name='something')
 
-	import django_rq
-	
-	django_rq.enqueue(s.retrieve_reverse_geocode)
+    s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now(), topic=something)
 
-	response = {
-		'sessionid': s.id,
-		'secret': s.secret
-	}
-	return HttpResponse(json.dumps(response), content_type='application/json')
+    import django_rq
+    
+    django_rq.enqueue(s.retrieve_reverse_geocode)
+
+    response = {
+        'sessionid': s.id,
+        'secret': s.secret
+    }
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 @csrf_exempt
 @require_POST
 def live(request):
-	secret = request.POST.get('secret', '')
-	sessionid = request.POST.get('sessionid', '')
+    secret = request.POST.get('secret', '')
+    sessionid = request.POST.get('sessionid', '')
 
-	try:
-		s = StandSession.objects.get(secret=secret, id=sessionid)
+    try:
+        s = StandSession.objects.get(secret=secret, id=sessionid)
 
-		s.datelive = timezone.now()
-		s.save()
+        s.datelive = timezone.now()
+        s.save()
 
-		code = 1
-	except StandSession.DoesNotExist:
-		code = 0
+        code = 1
+    except StandSession.DoesNotExist:
+        code = 0
 
-	response = {
-		'status': code
-	}
+    response = {
+        'status': code
+    }
 
-	return HttpResponse(json.dumps(response), content_type='application/json')
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 @csrf_exempt
 @require_POST
 def done(request):
-	secret = request.POST.get('secret', '')
-	sessionid = request.POST.get('sessionid', '')
+    secret = request.POST.get('secret', '')
+    sessionid = request.POST.get('sessionid', '')
 
-	try:
-		s = StandSession.objects.get(secret=secret, id=sessionid)
+    try:
+        s = StandSession.objects.get(secret=secret, id=sessionid)
 
-		if 'duration' in request.POST:
-			duration = int(request.POST.get('duration', '0'))
-			s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
+        if 'duration' in request.POST:
+            duration = int(request.POST.get('duration', '0'))
+            s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
-		if 'message' in request.POST:
+        # TODO rename to 
+        if 'message' in request.POST:
+            message = request.POST.get('message', '')
 
-			if message:
-				message = request.POST.get('message', '')
+            if message:
+                topic, created = Topic.objects.get_or_create(name=message)
 
-				# Set message and message slug
-				s.message = message
+                s.topic = topic
 
-				slug = slugify(message)
-				if slug[0] in string.digits:
-					slug = 's-' + slug
+        s.save()
 
-				s.message_slug = slug
+        code = 1
+    except StandSession.DoesNotExist:
+        code = 0
 
-		s.save()
+    response = {
+        'status': code
+    }
 
-		code = 1
-	except StandSession.DoesNotExist:
-		code = 0
-
-	response = {
-		'status': code
-	}
-
-	return HttpResponse(json.dumps(response), content_type='application/json')
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
