@@ -1,12 +1,24 @@
 {% extends "standbase/base.html" %}
 
 {% block content %}
-<div class="container">
-  <h1>Get Standing</h1>
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <h3 class="text-muted">Get Standing</h3>
+      </div>
 
-  <p>Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
+      <div class="jumbotron">
+        <h1>Jumbotron heading</h1>
+        <p class="lead">Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+      </div>
 
-  <h2>People standing right now</h2>
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h2>People standing right now</h2>
 
   <p>Locations where people are standing at this very moment.</p>
 
@@ -19,8 +31,10 @@
   {% else %}
     <p>No sessions right now.</p>
   {% endif %}
+        </div>
 
-  <h2>Recently completed sessions</h2>
+        <div class="col-lg-6">
+          <h2>Recently completed sessions</h2>
 
   <p>Sessions that have been completed recently including their duration and their reason.</p>
 
@@ -31,7 +45,6 @@
     {% endfor %}
     </ol>
   {% endif %}
+      </div>
 
-  <footer>&copy; <a href="http://hubbub.eu/">Hubbub</a> 2013&ndash;2014</footer>
-</div>
 {% endblock content %}
