@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Get Standing</title>
+    <title>{% block head %}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     {% bootstrap_css %}
@@ -26,6 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    {% block extrahead %}{% endblock %}
   </head>
 
   <body>
