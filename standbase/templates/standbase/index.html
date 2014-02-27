@@ -1,50 +1,32 @@
 {% extends "standbase/base.html" %}
 
 {% block content %}
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">Get Standing</h3>
-      </div>
 
-      <div class="jumbotron">
-        <h1>Jumbotron heading</h1>
-        <p class="lead">Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-      </div>
+<div class="starter-template">
+  <h1>Get Standing</h1>
+  <p class="lead">Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
 
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>People standing right now</h4>
-
+  <h2>People standing right now</h2>
   <p>Locations where people are standing at this very moment.</p>
-
   {% if active_sessions %}
-    <ol>
-    {% for session in active_sessions %}
-      <li>{{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
-    {% endfor %}
-    </ol>
+  <ol>
+  {% for session in active_sessions %}
+  <li>{{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
+  {% endfor %}
+  </ol>
   {% else %}
-    <p>No sessions right now.</p>
+  <p>No sessions right now.</p>
   {% endif %}
-        </div>
 
-        <div class="col-lg-6">
-          <h4>Recently completed sessions</h4>
-
+  <h2>Recently completed sessions</h2>
   <p>Sessions that have been completed recently including their duration and their reason.</p>
-
   {% if completed_sessions %}
-    <ol>
-    {% for session in completed_sessions %}
-      <li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
-    {% endfor %}
-    </ol>
+  <ol>
+  {% for session in completed_sessions %}
+  <li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
+  {% endfor %}
+  </ol>
   {% endif %}
-      </div>
+</div>
 
 {% endblock content %}
