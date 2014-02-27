@@ -4,7 +4,7 @@
 
 <div class="starter-template">
 <h1>Get Standing</h1>
-<p class="lead">Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
+<p class="lead bg-info">Get Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
 </div>
 
 <div class="row">
@@ -12,7 +12,7 @@
 <h2>People standing right now</h2>
 <p>Locations where people are standing at this very moment.</p>
 {% if active_sessions %}
-<ol>
+<ol class="list-unstyled">
 {% for session in active_sessions %}
 <li>Near {{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
 {% endfor %}
@@ -25,7 +25,7 @@
 <h2>Recently completed sessions</h2>
 <p>Sessions that have been completed recently including their duration and their reason.</p>
 {% if completed_sessions %}
-<ol>
+<ol class="list-unstyled">
 {% for session in completed_sessions %}
 <li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
 {% endfor %}
