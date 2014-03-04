@@ -57,7 +57,7 @@ def catch(request):
 
     vendorid = request.POST.get('vendorid', '')
 
-    something = Topic.objects.get_or_create(name='something')
+    something, created = Topic.objects.get_or_create(name='something')
 
     s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now(), topic=something)
 
