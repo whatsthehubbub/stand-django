@@ -49,8 +49,8 @@ def topic(request, topic_slug):
         return HttpResponseNotFound("Couldn't find such a topic.")
 
 
-@csrf_exempt
 @require_POST
+@csrf_exempt
 def catch(request):
     lat = float(request.POST.get('lat', ''))
     lon = float(request.POST.get('lon', ''))
@@ -62,7 +62,6 @@ def catch(request):
     s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now(), topic=something)
 
     import django_rq
-    
     django_rq.enqueue(s.retrieve_reverse_geocode)
 
     response = {
