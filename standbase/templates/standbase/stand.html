@@ -15,7 +15,7 @@
 <div class="row">
 <div class="col-md-6" id="content">
 
-<h1>Stood for <a href="{% url 'topic' s.topic.name %}">{{ s.topic }}</a></h1>
+<h1>Stood for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a></h1>
 <p>On {{ s.datecreated }} near {{ s.parsed_geocode.0 }} in {{ s.parsed_geocode.1 }} for {{ s.datefinished|timeuntil:s.datecreated }}.</p>
 
 </div>

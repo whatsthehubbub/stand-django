@@ -41,7 +41,7 @@ def session(request, sessionid):
 
 def topic(request, topic_slug):
     try:
-        t = Topic.objects.get(name=topic_slug, public=True)
+        t = Topic.objects.get(slug=topic_slug, public=True)
 
         return render(request, 'standbase/topic.html', {
             't': t
@@ -112,7 +112,12 @@ def done(request):
             message = request.POST.get('message', '')
 
             if message:
-                topic, created = Topic.objects.get_or_create(name=message)
+                slug = slugify(message)
+
+                try:
+                    topic = Topic.objects.get(slug=slug)
+                except Topic.DoesNotExist:
+                    topic = Topic.objects.create(name=message, slug=slug)
 
                 s.topic = topic
 
