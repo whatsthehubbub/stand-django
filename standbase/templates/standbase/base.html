@@ -1,5 +1,4 @@
 {% load bootstrap3 %}
-{% load compress %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +16,7 @@
     {% bootstrap_css %}
 
     <!-- Custom styles for this template -->
-
-    {% compress css %}
-      <link href="{{ STATIC_URL }}css/get-standing.css" type="text/css" rel="stylesheet">
-      <link href="{{ STATIC_URL }}css/test2.less" rel="stylesheet" type="text/less" />
-    {% endcompress %}
+    <link href="{{ STATIC_URL }}css/get-standing.css" type="text/css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
