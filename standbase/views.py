@@ -21,7 +21,7 @@ logger = logging.getLogger('testlogger')
 def index(request):
     # Todo make a custom manager on StandSession to filter these
     return render(request, 'standbase/index.html', {
-        'active_sessions': StandSession.objects.filter(topic__public=True).filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
+        'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
         'completed_sessions': StandSession.objects.filter(topic__public=True).exclude(datefinished=None).order_by('-datefinished')
     })
 
