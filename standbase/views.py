@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseNotFound
 
 from standbase.models import *
 
+from django.db.models import Count
+
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -22,7 +24,8 @@ def index(request):
     # Todo make a custom manager on StandSession to filter these
     return render(request, 'standbase/index.html', {
         'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
-        'completed_sessions': StandSession.objects.filter(topic__public=True).exclude(datefinished=None).order_by('-datefinished')
+        'completed_sessions': StandSession.objects.filter(topic__public=True).exclude(datefinished=None).order_by('-datefinished'),
+        'trending_topics': Topic.objects.exclude(public=False).annotate(Count('standsession')).order_by('-standsession__count')[:10]
     })
 
 def session(request, sessionid):

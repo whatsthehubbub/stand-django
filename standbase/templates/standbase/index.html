@@ -2,31 +2,12 @@
 
 {% block extrahead %}
   
-  <script type="text/javascript">
-
-    var active_sessions = {};
-    active_sessions[{{ session.id }}] = {
-      'datestart': new Date();
-    }
-
-    $(document).ready(function() {
-
-
-      // Update seconds on all the active sessions
-    });
-
-    function updateCounters() {
-      // Walk through all the active sessions and update the counters in #time_id
-    }
-
-    function checkForFinishedSessions() {
-      // Once every minute poll to see if any sessions have finished
-      // Will return an array of the sessions active right now
-
-      // TODO also update the recently completed sessions
-    }
-
-  </script>
+  <style type="text/css">
+  #map {
+    width: 400px;
+    height: 400px;
+  }
+  </style>
 
 {% endblock %}
 
@@ -51,6 +32,8 @@
     {% else %}
       <p>No sessions right now.</p>
     {% endif %}
+
+    <div id="map"></div>
   </div>
 
   <div class="col-md-6">
@@ -64,6 +47,73 @@
   </ol>
   {% endif %}
   </div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <h2>Trending causes</h2>
+    
+    <ol>
+      {% for topic in trending_topics %}
+        <li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
 </div>
 
 {% endblock content %}
+
+{% block extra_javascript %}
+  <script type="text/javascript">
+
+    var active_sessions = {};
+
+    {% for session in active_sessions %}
+    active_sessions[{{ session.id }}] = {
+      'datecreated': new Date('{{ session.datecreated|date:"Y-m-d\TH:i:sO" }}'),
+      'lat': {{ session.lat }},
+      'lon': {{ session.lon }}
+    };  
+    {% endfor %}
+    
+
+    $(document).ready(function() {
+
+      // Update seconds on all the active sessions
+      setInterval(updateCounters, 1000);
+    });
+
+    function updateCounters() {
+      // Walk through all the active sessions and update the counters in #time_id
+
+      for (var key in active_sessions) {
+        var now = new Date();
+
+        var seconds = Math.round((now.getTime() - active_sessions[key]['datecreated'].getTime()) / 1000);
+
+        $('#time_' + key).text('' + seconds + ' seconds');
+      }
+    }
+
+    function checkForFinishedSessions() {
+      // Once every minute poll to see if any sessions have finished
+      // Will return an array of the sessions active right now
+
+      // TODO also update the recently completed sessions
+    }
+
+  </script>
+
+  <script type="text/javascript">
+var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
+
+L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+maxZoom: 18
+}).addTo(map);
+
+var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
+
+</script>
+{% endblock extra_javascript %}
