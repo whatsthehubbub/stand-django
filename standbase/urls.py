@@ -8,6 +8,9 @@ urlpatterns = patterns('',
     url(r'^done$', views.done, name='done'),
     url(r'^live$', views.live, name='live'),
 
+    url(r'^about$', views.about, name="about"),
+    url(r'^contact$', views.contact, name="contact"),
+
     url(r'^s/(?P<sessionid>\d+)/$', views.session, name='session'),
     url(r'^for/(?P<topic_slug>\D+)/$', views.topic, name='topic'),
 
