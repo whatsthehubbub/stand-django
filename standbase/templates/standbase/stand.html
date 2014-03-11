@@ -1,37 +1,30 @@
 {% extends "standbase/base.html" %}
 
-
-{% block head %}Somebody stood for {{ s.message }}{% endblock head %}
-
+{% block head %}Someone stood for {{ s.message }}{% endblock head %}
 
 {% block extrahead %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 {% endblock extrahead %}
 
-
 {% block content %}
-
 <div class="row">
-<div class="col-md-6" id="content">
+	<div class="col-md-6" id="content">
+		<h1>Stood for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a></h1>
+		<p>On {{ s.datecreated }} near {{ s.parsed_geocode.0 }} in {{ s.parsed_geocode.1 }} for {{ s.datefinished|timeuntil:s.datecreated }}.</p>
+	</div>
 
-<h1>Stood for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a></h1>
-<p>On {{ s.datecreated }} near {{ s.parsed_geocode.0 }} in {{ s.parsed_geocode.1 }} for {{ s.datefinished|timeuntil:s.datecreated }}.</p>
-
-</div>
-
-<div class="col-md-6 google-map-canvas" id="map"></div>
+	<div class="col-md-6 google-map-canvas" id="map"></div>
 </div>
 
 <script type="text/javascript">
-var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
+	var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
 
-L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
-attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-maxZoom: 18
-}).addTo(map);
+	L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+		maxZoom: 18
+	}).addTo(map);
 
-var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
-
+	var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
 </script>
 {% endblock content %}
