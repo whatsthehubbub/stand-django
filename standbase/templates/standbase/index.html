@@ -14,6 +14,7 @@
 
 <div class="row">
 	<div class="col-md-6">
+	<h2>Recent sessions</h2>
 		<div class="list-group">
 		{% if active_sessions %}
 		{% for session in active_sessions %}
@@ -33,12 +34,12 @@
 	</div>
 </div>
 
-		<h2>Trending causes</h2>
-		<ol>
-			{% for topic in trending_topics %}
-			<li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
-			{% endfor %}
-		</ol>
+<h2>Trending causes</h2>
+<div class="list-group">
+	{% for topic in trending_topics %}
+	<a class="list-group-item" href="{{ topic.get_absolute_url }}">{{ topic.name }}</a>
+	{% endfor %}
+</div>
 
 {% include "standbase/footer.html" %}
 
