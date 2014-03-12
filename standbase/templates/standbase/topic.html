@@ -2,14 +2,14 @@
 
 {% block head %}for {{ t.name }}{% endblock %}
 {% block content %}
-<h1>For <span class="cause">{{ t.name }}</span></h1>
-<p>Total seconds stood: {{ duration }}</p>
+
+<h1><span class="cause">{{ t.name|capfirst }}</span></h1>
+<p>People have stood a total of {{ duration }} seconds for this cause.</p>
+
 {% for session in sessions %}
 <p>{{ session }}</p>
-
 <ul class="pager">
 </ul>
-
 {% endfor %}
 
 {% if sessions.has_previous %}
