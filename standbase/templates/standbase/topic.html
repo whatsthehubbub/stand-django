@@ -9,9 +9,9 @@
 <div class="list-group">
 {% for session in sessions %}
 	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>{{ session.datecreated|timesince }} ago near {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }}</small></a>
-</div>
 <!-- <ul class="pager"></ul> -->
 {% endfor %}
+</div>
 
 {% if sessions.has_previous %}
 	<li class="previous"><a href="?page={{ sessions.previous_page_number }}">&larr; Older</a></li>
