@@ -12,7 +12,7 @@
 <div class="row">
 	<div class="col-md-6" id="content">
 		<h1>{{ s.datefinished|timeuntil:s.datecreated }} for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a></h1>
-		<p><span title="{{ s.datecreated }}" class="text-info">{{ s.datecreated|timesince }} ago</span> near {{ s.parsed_geocode.1 }}</p>
+		<p><span title="{{ s.datefinished }}" class="text-info">{{ s.datefinished|timesince }} ago</span> near {{ s.parsed_geocode.1 }}</p>
 	</div>
 
 	<div class="col-md-6 google-map-canvas" id="map"></div>
