@@ -12,7 +12,7 @@
 <div class="page-header">
 <h1>
 {{ s.datefinished|timeuntil:s.datecreated }} for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
-<small>near {{ s.parsed_geocode.1 }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
+<small>in {{ s.parsed_geocode.1 }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
 </h1>
 </div>
 
