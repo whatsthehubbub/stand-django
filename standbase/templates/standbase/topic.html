@@ -1,18 +1,15 @@
 {% extends "standbase/base.html" %}
 
 {% block content %}
-<div class="row">
-	<div class="col-md-6" id="content">
-		<h1>People who have stood for the cause "{{ t.name }}"</h1>
-		<p>To-do.</p>
-
-		<p>Total seconds stood: {{ duration }}</p>
-
-		{% for session in sessions %}
-			<p>{{ session }}</p>
-		{% endfor %}
-	</div>
-</div>	
+<h1>{{ t.name }}</h1>
+<p>Total seconds stood: {{ duration }}</p>
+{% for session in sessions %}
+<p>{{ session }}</p>
+<ul class="pager">
+  <li class="previous"><a href="#">&larr; Older</a></li>
+  <li class="next"><a href="#">Newer &rarr;</a></li>
+</ul>
+{% endfor %}
 
 {% include "standbase/footer.html" %}
 
