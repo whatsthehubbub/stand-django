@@ -19,6 +19,19 @@
 </div>
 
 <div class="row">
+	<div class="col-md-12">
+		{% if completed_sessions %}
+		{% for session in completed_sessions %}
+		<ul>
+			<li><a href="{{ session.get_absolute_url }}">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong></a> <small>{{ session.datefinished|timesince }} ago near {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }}</small></li>
+		</ul>
+		{% endfor %}
+		{% endif %}
+	</div>
+</div>
+
+
+<div class="row">
 	<div class="col-md-6">
 		<h2>People standing right now</h2>
 		<p>Locations where people are standing at this very moment.</p>
@@ -31,19 +44,6 @@
 		</ol>
 		{% else %}
 			<p>No sessions right now.</p>
-		{% endif %}
-	</div>
-
-	<div class="col-md-6">
-		<h2>Recently completed sessions</h2>
-		<p>Sessions that have been completed recently including their duration and their reason.</p>
-
-		{% if completed_sessions %}
-		<ol class="list-unstyled">
-			{% for session in completed_sessions %}
-			<li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
-			{% endfor %}
-		</ol>
 		{% endif %}
 	</div>
 
