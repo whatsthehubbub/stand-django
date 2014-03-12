@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseNotFound
 
 from standbase.models import *
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.db.models import Count
 
 from django.views.decorators.csrf import csrf_exempt
@@ -45,10 +47,24 @@ def topic(request, topic_slug):
     try:
         t = Topic.objects.get(slug=topic_slug, public=True)
 
+        page = request.GET.get('page')
+
+        session_list = StandSession.public_objects.filter(topic=t).exclude(datefinished=None).order_by('-datefinished')
+        paginator = Paginator(session_list, 25)
+
+        try:
+            sessions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            sessions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            sessions = paginator.page(paginator.num_pages)
+
         return render(request, 'standbase/topic.html', {
             't': t,
             'duration': int(sum([(s.datefinished - s.datecreated).total_seconds() for s in t.standsession_set.exclude(datefinished=None)])),
-            'sessions': StandSession.public_objects.filter(topic=t).exclude(datefinished=None).order_by('-datefinished')
+            'sessions': sessions
         })
     except Topic.DoesNotExist:
         return HttpResponseNotFound("Couldn't find such a topic.")
