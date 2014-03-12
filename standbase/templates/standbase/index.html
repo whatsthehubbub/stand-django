@@ -2,61 +2,61 @@
 
 {% block extrahead %}
 <style type="text/css">
-  #map {
-    width: 400px;
-    height: 400px;
-  }
+	#map {
+		width: 400px;
+		height: 400px;
+	}
 </style>
 {% endblock %}
 
 {% block content %}
 
 <div class="starter-template">
-  <h1>Standing</h1>
-  <p class="lead bg-info">Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
+	<h1>Standing</h1>
+	<p class="lead bg-info">Standing is an app for ludic resistance. Go outside, find a public place, pick a cause and start standing.</p>
 </div>
 
 <div class="row">
-  <div class="col-md-6">
-    <h2>People standing right now</h2>
-    <p>Locations where people are standing at this very moment.</p>
+	<div class="col-md-6">
+		<h2>People standing right now</h2>
+		<p>Locations where people are standing at this very moment.</p>
 
-    {% if active_sessions %}
-    <ol class="list-unstyled">
-      {% for session in active_sessions %}
-      <li>For <span id="time_{{ session.id }}">x seconds</span> near {{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
-      {% endfor %}
-    </ol>
-    {% else %}
-      <p>No sessions right now.</p>
-    {% endif %}
-  </div>
+		{% if active_sessions %}
+		<ol class="list-unstyled">
+			{% for session in active_sessions %}
+			<li>For <span id="time_{{ session.id }}">x seconds</span> near {{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
+			{% endfor %}
+		</ol>
+		{% else %}
+			<p>No sessions right now.</p>
+		{% endif %}
+	</div>
 
-  <div class="col-md-6">
-    <h2>Recently completed sessions</h2>
-    <p>Sessions that have been completed recently including their duration and their reason.</p>
+	<div class="col-md-6">
+		<h2>Recently completed sessions</h2>
+		<p>Sessions that have been completed recently including their duration and their reason.</p>
 
-    {% if completed_sessions %}
-    <ol class="list-unstyled">
-      {% for session in completed_sessions %}
-      <li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
-      {% endfor %}
-    </ol>
-    {% endif %}
-  </div>
+		{% if completed_sessions %}
+		<ol class="list-unstyled">
+			{% for session in completed_sessions %}
+			<li><a href="{{ session.get_absolute_url }}">Somebody stood for {{ session.topic }} for {{ session.datefinished|timeuntil:session.datecreated }} at {{ session.lat }} &times; {{ session.lon }} some {{ session.datefinished|timesince }} ago</a></li>
+			{% endfor %}
+		</ol>
+		{% endif %}
+	</div>
 
-  <div class="col-md-6">
-    <div id="map"></div>
-  </div>
+	<div class="col-md-6">
+		<div id="map"></div>
+	</div>
 
-  <div class="col-md-6">
-    <h2>Trending causes</h2>
-    <ol>
-      {% for topic in trending_topics %}
-      <li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
-      {% endfor %}
-    </ol>
-  </div>
+	<div class="col-md-6">
+		<h2>Trending causes</h2>
+		<ol>
+			{% for topic in trending_topics %}
+			<li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
+			{% endfor %}
+		</ol>
+	</div>
 </div>
 
 {% include "standbase/about.html" %}
@@ -68,64 +68,64 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 
-  var active_sessions = {};
+	var active_sessions = {};
 
-  {% for session in active_sessions %}
-  active_sessions[{{ session.id }}] = {
-    'datecreated': new Date('{{ session.datecreated|date:"Y-m-d\TH:i:sO" }}'),
-    'lat': {{ session.lat }},
-    'lon': {{ session.lon }}
-  };
-  {% endfor %}
+	{% for session in active_sessions %}
+	active_sessions[{{ session.id }}] = {
+		'datecreated': new Date('{{ session.datecreated|date:"Y-m-d\TH:i:sO" }}'),
+		'lat': {{ session.lat }},
+		'lon': {{ session.lon }}
+	};
+	{% endfor %}
 
-  $(document).ready(function() {
-    // Update seconds on all the active sessions
-    setInterval(updateCounters, 1000);
-  });
-  
-  function getActiveSession() {
-    for (var key in active_sessions) {
-      return active_sessions[key];
-    }
-  }
-  
-  function updateCounters() {
-    // Walk through all the active sessions and update the counters in #time_id
-    for (var key in active_sessions) {
-      var now = new Date();
-      var seconds = Math.round((now.getTime() - active_sessions[key]['datecreated'].getTime()) / 1000);
-      $('#time_' + key).text('' + seconds + ' seconds');
-    }
-  }
+	$(document).ready(function() {
+		// Update seconds on all the active sessions
+		setInterval(updateCounters, 1000);
+	});
+	
+	function getActiveSession() {
+		for (var key in active_sessions) {
+			return active_sessions[key];
+		}
+	}
+	
+	function updateCounters() {
+		// Walk through all the active sessions and update the counters in #time_id
+		for (var key in active_sessions) {
+			var now = new Date();
+			var seconds = Math.round((now.getTime() - active_sessions[key]['datecreated'].getTime()) / 1000);
+			$('#time_' + key).text('' + seconds + ' seconds');
+		}
+	}
 
-  function checkForFinishedSessions() {
-    // Once every minute poll to see if any sessions have finished
-    // Will return an array of the sessions active right now
+	function checkForFinishedSessions() {
+		// Once every minute poll to see if any sessions have finished
+		// Will return an array of the sessions active right now
 
-    // TODO also update the recently completed sessions
-  }
+		// TODO also update the recently completed sessions
+	}
 
 </script>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <script type="text/javascript">
-  if (!$.isEmptyObject(active_sessions)) {
-    var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
+	if (!$.isEmptyObject(active_sessions)) {
+		var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
 
-    L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-      maxZoom: 18
-    }).addTo(map);
+		L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+			maxZoom: 18
+		}).addTo(map);
 
-    var markers = [];
+		var markers = [];
 
-    for (var key in active_sessions) {
-      var s = active_sessions[key];
-      markers.push(L.marker([s['lat'], s['lon']]).addTo(map));
-    }
+		for (var key in active_sessions) {
+			var s = active_sessions[key];
+			markers.push(L.marker([s['lat'], s['lon']]).addTo(map));
+		}
 
-    var group = new L.featureGroup(markers);
-    map.fitBounds(group.getBounds());
-  }
+		var group = new L.featureGroup(markers);
+		map.fitBounds(group.getBounds());
+	}
 </script>
 {% endblock extra_javascript %}
