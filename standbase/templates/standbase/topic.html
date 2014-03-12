@@ -1,6 +1,6 @@
 {% extends "standbase/base.html" %}
 
-{% block head %}for {{ t.name }}{% endblock %}
+{% block head %}{{ t.name|capfirst }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
