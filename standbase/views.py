@@ -21,11 +21,10 @@ logger = logging.getLogger('testlogger')
 
 
 def index(request):
-    # Todo make a custom manager on StandSession to filter these
     return render(request, 'standbase/index.html', {
         'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
-        'completed_sessions': StandSession.objects.filter(topic__public=True).exclude(datefinished=None).order_by('-datefinished'),
-        'trending_topics': Topic.objects.exclude(public=False).annotate(Count('standsession')).order_by('-standsession__count')[:10]
+        'completed_sessions': StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished'),
+        'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:10]
     })
 
 def session(request, sessionid):
@@ -47,7 +46,8 @@ def topic(request, topic_slug):
         t = Topic.objects.get(slug=topic_slug, public=True)
 
         return render(request, 'standbase/topic.html', {
-            't': t
+            't': t,
+            'duration': 0
         })
     except:
         return HttpResponseNotFound("Couldn't find such a topic.")
