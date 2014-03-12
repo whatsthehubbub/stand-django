@@ -1,7 +1,8 @@
 {% extends "standbase/base.html" %}
 
+{% block head %}for {{ t.name }}{% endblock %}
 {% block content %}
-<h1>{{ t.name }}</h1>
+<h1>For <span class="cause">{{ t.name }}</span></h1>
 <p>Total seconds stood: {{ duration }}</p>
 {% for session in sessions %}
 <p>{{ session }}</p>
