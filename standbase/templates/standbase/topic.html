@@ -1,6 +1,18 @@
 {% extends "standbase/base.html" %}
 
 {% block content %}
-	<h1>People who have stood for the cause "{{ t.name }}"</h1>
-	<p>To-do.</p>
+<div class="row">
+	<div class="col-md-6" id="content">
+		<h1>People who have stood for the cause "{{ t.name }}"</h1>
+		<p>To-do.</p>
+	</div>
+</div>	
+
+{% include "standbase/about.html" %}
+
+{% include "standbase/contact.html" %}
+
 {% endblock content %}
+
+{% block extra_javascript %}
+{% endblock extra_javascript %}
