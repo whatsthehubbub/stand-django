@@ -9,14 +9,14 @@
 {% endblock extrahead %}
 
 {% block content %}
-<div class="row">
-	<div class="col-md-6" id="content">
-		<h1>{{ s.datefinished|timeuntil:s.datecreated }} for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a></h1>
-		<p><span title="{{ s.datecreated }}" class="text-info">{{ s.datecreated|timesince }} ago</span> near {{ s.parsed_geocode.1 }}</p>
-	</div>
-
-	<div class="col-md-6 google-map-canvas" id="map"></div>
+<div class="page-header">
+<h1>
+{{ s.datefinished|timeuntil:s.datecreated }} for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
+<small><span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span> near {{ s.parsed_geocode.1 }}</small>
+</h1>
 </div>
+
+	<div class="google-map-canvas" id="map"></div>
 
 {% include "standbase/footer.html" %}
 
