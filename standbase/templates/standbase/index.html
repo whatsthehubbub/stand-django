@@ -19,47 +19,32 @@
 </div>
 
 <div class="row">
-	<div class="col-md-12">
-		{% if completed_sessions %}
-		{% for session in completed_sessions %}
-		<ul>
-			<li><a href="{{ session.get_absolute_url }}">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong></a> <small>{{ session.datefinished|timesince }} ago near {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }}</small></li>
-		</ul>
+	<div class="col-md-6">
+		<div class="list-group">
+		{% if active_sessions %}
+		{% for session in active_sessions %}
+			<span class="list-group-item active"><span id="time_{{ session.id }}">x seconds</span> for <strong>something</strong> <small>{{ session.datefinished|timesince }} ago near {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }}</small></span>
 		{% endfor %}
 		{% endif %}
-	</div>
-</div>
-
-
-<div class="row">
-	<div class="col-md-6">
-		<h2>People standing right now</h2>
-		<p>Locations where people are standing at this very moment.</p>
-
-		{% if active_sessions %}
-		<ol class="list-unstyled">
-			{% for session in active_sessions %}
-			<li>For <span id="time_{{ session.id }}">x seconds</span> near {{ session.lat }} &times; {{ session.lon }} ({{ session.nearest_available_area }})</li>
-			{% endfor %}
-		</ol>
-		{% else %}
-			<p>No sessions right now.</p>
+		{% if completed_sessions %}
+		{% for session in completed_sessions %}
+			<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>{{ session.datefinished|timesince }} ago near {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }}</small></a>
+		{% endfor %}
 		{% endif %}
+		</div>
 	</div>
 
 	<div class="col-md-6">
 		<div id="map"></div>
 	</div>
+</div>
 
-	<div class="col-md-6">
 		<h2>Trending causes</h2>
 		<ol>
 			{% for topic in trending_topics %}
 			<li><a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a></li>
 			{% endfor %}
 		</ol>
-	</div>
-</div>
 
 {% include "standbase/footer.html" %}
 
