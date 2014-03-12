@@ -17,6 +17,13 @@
 	<div class="col-md-6 google-map-canvas" id="map"></div>
 </div>
 
+{% include "standbase/about.html" %}
+
+{% include "standbase/contact.html" %}
+
+{% endblock content %}
+
+{% block extra_javascript %}
 <script type="text/javascript">
 	var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 13);
 
@@ -27,4 +34,4 @@
 
 	var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
 </script>
-{% endblock content %}
+{% endblock extra_javascript %}
