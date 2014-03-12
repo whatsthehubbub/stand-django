@@ -47,9 +47,9 @@ def topic(request, topic_slug):
 
         return render(request, 'standbase/topic.html', {
             't': t,
-            'duration': 0
+            'duration': int(sum([(s.datefinished - s.datecreated).total_seconds() for s in t.standsession_set.exclude(datefinished=None)]))
         })
-    except:
+    except Topic.DoesNotExist:
         return HttpResponseNotFound("Couldn't find such a topic.")
 
 
