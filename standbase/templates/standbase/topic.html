@@ -7,6 +7,10 @@
 		<p>To-do.</p>
 
 		<p>Total seconds stood: {{ duration }}</p>
+
+		{% for session in sessions %}
+			<p>{{ session }}</p>
+		{% endfor %}
 	</div>
 </div>	
 
