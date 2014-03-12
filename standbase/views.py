@@ -52,16 +52,6 @@ def topic(request, topic_slug):
     except:
         return HttpResponseNotFound("Couldn't find such a topic.")
 
-def about(request):
-    return render(request, 'standbase/about.html', {
-
-    })
-
-def contact(request):
-    return render(request, 'standbase/contact.html', {
-
-    })
-
 
 @require_POST
 @csrf_exempt
