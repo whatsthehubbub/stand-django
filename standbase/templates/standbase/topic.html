@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="page-header">
-<h1>For <span class="cause text-primary">{{ t.name }}</span> <small>{{ duration }} seconds in total</small></h1>
+<h1><span class="cause">{{ t.name|capfirst }}</span> <small>{{ duration }} seconds of standing in total</small></h1>
 </div>
 
 <div class="list-group">
