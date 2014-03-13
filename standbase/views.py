@@ -25,8 +25,8 @@ logger = logging.getLogger('testlogger')
 def index(request):
     return render(request, 'standbase/index.html', {
         'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
-        'completed_sessions': StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished'),
-        'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:10]
+        'completed_sessions': StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished')[:10],
+        'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:5]
     })
 
 def session(request, sessionid):
