@@ -50,15 +50,7 @@
 
 	var active_sessions = {};
 
-	{% comment %}
-	{% for session in active_sessions %}
-	active_sessions[{{ session.id }}] = {
-		'datecreated': new Date('{{ session.datecreated|date:"Y-m-d\TH:i:sO" }}'),
-		'lat': {{ session.lat }},
-		'lon': {{ session.lon }}
-	};
-	{% endfor %}
-	{% endcomment %}
+	var markers = null;
 
 	$(document).ready(function() {
 		// Update seconds on all the active sessions
@@ -66,22 +58,25 @@
 
 		setInterval(getCurrentState, 10000);
 
+		// We need to get the current state to seed any active sessions (not doing those from django anymore)
 		getCurrentState();
 	});
-	
-	function getActiveSession() {
-		for (var key in active_sessions) {
-			return active_sessions[key];
-		}
+
+	function getSeconds(s) {
+		var now = new Date();
+		var datecreated = new Date(s['datecreated']);
+
+		var seconds = Math.round((now.getTime() - datecreated.getTime()) / 1000);
+
+		return seconds;
 	}
-	
+
 	function updateCounters() {
 		// Walk through all the active sessions and update the counters in #active_time_id
 		for (var key in active_sessions) {
-			var now = new Date();
-			var datecreated = new Date(active_sessions[key]['datecreated']);
 
-			var seconds = Math.round((now.getTime() - datecreated.getTime()) / 1000);
+			var seconds = getSeconds(active_sessions[key]);
+
 			$('#session_' + key + ' .livetime').text('' + seconds + ' seconds');
 		}
 	}
@@ -135,7 +130,7 @@
 					active_sessions[s['id']] = s;
 
 					// Render it on the top of the list
-					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">x seconds</span> for <strong>something</strong> <small>in ' + s['parsed_geocode'][1] + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + s['parsed_geocode'][1] + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 				}
 			}
 
@@ -159,24 +154,25 @@
 				}
 			}
 
-			for (var i = 0; i < data['completed_sessions'].length; i++) {
-				processIncomingCompletedSession(data['completed_sessions'][i]);
+			// Show all active sessions on the map
+			if (markers) {
+				map.removeLayer(markers);
+			}
+			var markerList = [];
+
+			for (var key in active_sessions) {
+				markerList.push(L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]).addTo(map));
 			}
 
-			updateCounters();
+			markers = new L.featureGroup(markers);
+			map.fitBounds(markers);
+
+
+			// TODO do something with the recent session list as well
+			for (var i = 0; i < data['completed_sessions'].length; i++) {
+				// processIncomingCompletedSession(data['completed_sessions'][i]);
+			}
 		});
-	}
-
-
-	function processIncomingCompletedSession(s) {
-
-	}
-
-	function checkForFinishedSessions() {
-		// Once every minute poll to see if any sessions have finished
-		// Will return an array of the sessions active right now
-
-		// TODO also update the recently completed sessions
 	}
 
 </script>
@@ -184,27 +180,32 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
-	if (!$.isEmptyObject(active_sessions)) {
-		var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
+	var map = L.map('map').setView([46.0, 10.0], 4);
 
-		var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
+	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
+	map.addLayer(bing);
 
-		// L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
-		// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-		// 	maxZoom: 18
-		// }).addTo(map);
+	// if (!$.isEmptyObject(active_sessions)) {
+	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
 
-		map.addLayer(bing);
+		
 
-		var markers = [];
+	// 	// L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
+	// 	// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+	// 	// 	maxZoom: 18
+	// 	// }).addTo(map);
 
-		for (var key in active_sessions) {
-			var s = active_sessions[key];
-			markers.push(L.marker([s['lat'], s['lon']]).addTo(map));
-		}
+	// 	// map.addLayer(bing);
 
-		var group = new L.featureGroup(markers);
-		map.fitBounds(group.getBounds());
-	}
+	// 	var markers = [];
+
+	// 	for (var key in active_sessions) {
+	// 		var s = active_sessions[key];
+	// 		markers.push(L.marker([s['lat'], s['lon']]).addTo(map));
+	// 	}
+
+	// 	var group = new L.featureGroup(markers);
+	// 	map.fitBounds(group.getBounds());
+	// }
 </script>
 {% endblock extra_javascript %}
