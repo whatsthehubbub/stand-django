@@ -15,10 +15,13 @@
 <h2>Recent sessions</h2>
 <div class="row">
 	<div class="col-md-6">
-		<div class="list-group">
+		<div class="list-group" id="sessions">
+
+		{% comment %}
 		{% for session in active_sessions %}
 			<a class="list-group-item active" id="session_{{ session.id }}"><span class="livetime">x seconds</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 		{% endfor %}
+		{% endcomment %}
 
 		{% for session in completed_sessions %}
 			<a class="list-group-item" id="session_{{ session.id }}" href="{{ session.get_absolute_url }}" id="">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
@@ -47,6 +50,7 @@
 
 	var active_sessions = {};
 
+	{% comment %}
 	{% for session in active_sessions %}
 	active_sessions[{{ session.id }}] = {
 		'datecreated': new Date('{{ session.datecreated|date:"Y-m-d\TH:i:sO" }}'),
@@ -54,10 +58,16 @@
 		'lon': {{ session.lon }}
 	};
 	{% endfor %}
+	{% endcomment %}
 
 	$(document).ready(function() {
 		// Update seconds on all the active sessions
 		setInterval(updateCounters, 1000);
+
+		setInterval(getCurrentState, 10000);
+
+		getCurrentState();
+		updateCounters();
 	});
 	
 	function getActiveSession() {
@@ -70,9 +80,64 @@
 		// Walk through all the active sessions and update the counters in #active_time_id
 		for (var key in active_sessions) {
 			var now = new Date();
-			var seconds = Math.round((now.getTime() - active_sessions[key]['datecreated'].getTime()) / 1000);
+			var datecreated = new Date(active_sessions[key]['datecreated']);
+
+			var seconds = Math.round((now.getTime() - datecreated.getTime()) / 1000);
 			$('#session_' + key + ' .livetime').text('' + seconds + ' seconds');
 		}
+	}
+
+	function getCurrentState() {
+		console.log("Got new state");
+
+		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
+			console.log(data);
+
+			// Process incoming sessions
+			for (var i = 0; i < data['active_sessions'].length; i++) {
+				var s = data['active_sessions'][i];
+
+				if (s['id'] in active_sessions) {
+					// The id is already in there
+					// Probably nothing has to be done
+				} else {
+					// This session is new because it's not in the array anymore
+
+					// Add it to the array
+					active_sessions[s['id']] = s;
+
+					// Render it on the top of the list
+					$('#sessions A:first').prepend('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">x seconds</span> for <strong>[unknown]</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>');
+				}
+			}
+
+			// Cull active sesssions we still have which aren't active anymore
+			// By checking which keys in our currently active sessions are not in the incoming
+			for (var key in active_sessions) {
+
+				var present = false;
+				for (var i = 0; i < data['active_sessions'].length; i++) {
+					if (data['active_sessions'][i]['id'] == key) {
+						present = true;
+						break;
+					}
+				}
+
+				if (!present) {
+					// Remove this id from sessions
+					$('#session_' + key).slideUp();
+				}
+			}
+
+			for (var i = 0; i < data['completed_sessions'].length; i++) {
+				processIncomingCompletedSession(data['completed_sessions'][i]);
+			}
+		});
+	}
+
+
+	function processIncomingCompletedSession(s) {
+
 	}
 
 	function checkForFinishedSessions() {
