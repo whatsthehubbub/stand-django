@@ -16,17 +16,13 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="list-group">
-		{% if active_sessions %}
 		{% for session in active_sessions %}
 			<a class="list-group-item active"><span id="time_{{ session.id }}">x seconds</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 		{% endfor %}
-		{% endif %}
 
-		{% if completed_sessions %}
 		{% for session in completed_sessions %}
 			<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 		{% endfor %}
-		{% endif %}
 		</div>
 	</div>
 
