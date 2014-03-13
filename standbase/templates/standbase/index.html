@@ -67,7 +67,6 @@
 		setInterval(getCurrentState, 10000);
 
 		getCurrentState();
-		updateCounters();
 	});
 	
 	function getActiveSession() {
@@ -85,6 +84,35 @@
 			var seconds = Math.round((now.getTime() - datecreated.getTime()) / 1000);
 			$('#session_' + key + ' .livetime').text('' + seconds + ' seconds');
 		}
+	}
+
+	function timeSince(timestring) {
+		var date = new Date(timestring);
+
+		var seconds = Math.floor((new Date() - date) / 1000);
+
+		var interval = Math.floor(seconds / 31536000);
+
+		if (interval > 1) {
+			return interval + " years";
+		}
+		interval = Math.floor(seconds / 2592000);
+		if (interval > 1) {
+			return interval + " months";
+		}
+		interval = Math.floor(seconds / 86400);
+		if (interval > 1) {
+			return interval + " days";
+		}
+		interval = Math.floor(seconds / 3600);
+		if (interval > 1) {
+			return interval + " hours";
+		}
+		interval = Math.floor(seconds / 60);
+		if (interval > 1) {
+			return interval + " minutes";
+		}
+		return Math.floor(seconds) + " seconds";
 	}
 
 	function getCurrentState() {
@@ -107,7 +135,7 @@
 					active_sessions[s['id']] = s;
 
 					// Render it on the top of the list
-					$('#sessions A:first').prepend('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">x seconds</span> for <strong>[unknown]</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>');
+					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">x seconds</span> for <strong>something</strong> <small>in ' + s['parsed_geocode'][1] + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 				}
 			}
 
@@ -126,12 +154,16 @@
 				if (!present) {
 					// Remove this id from sessions
 					$('#session_' + key).slideUp();
+					// And from the local store
+					delete active_sessions[key];
 				}
 			}
 
 			for (var i = 0; i < data['completed_sessions'].length; i++) {
 				processIncomingCompletedSession(data['completed_sessions'][i]);
 			}
+
+			updateCounters();
 		});
 	}
 

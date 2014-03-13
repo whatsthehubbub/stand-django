@@ -37,8 +37,18 @@ def index(request):
     })
 
 def api_state(request):
+    # .values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name', 'parsed_geocode')
     response = {
-        'active_sessions': [s for s in get_active_sessions().values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name')],
+        'active_sessions': [{
+            'id': s.id,
+            'datecreated': s.datecreated,
+            'lat': s.lat,
+            'lon': s.lon,
+            'datelive': s.datelive,
+            'datefinished': s.datefinished,
+            'topic__name': 'something',
+            'parsed_geocode': s.parsed_geocode()
+        } for s in get_active_sessions()],
         'completed_sessions': [s for s in get_completed_sessions().values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name')]
     }
 
