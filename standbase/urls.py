@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^catch$', views.catch, name='catch'),
     url(r'^done$', views.done, name='done'),
     url(r'^live$', views.live, name='live'),
+    url(r'^api/state$', views.api_state, name='api_state'),
 
     url(r'^s/(?P<sessionid>\d+)/$', views.session, name='session'),
     url(r'^for/(?P<topic_slug>\D+)/$', views.topic, name='topic'),

@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from standbase.models import *
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.serializers.json import DjangoJSONEncoder
 
 from django.db.models import Count
 
@@ -22,12 +23,26 @@ import logging
 logger = logging.getLogger('testlogger')
 
 
+def get_active_sessions():
+    return StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated')
+
+def get_completed_sessions():
+    return StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished')[:10]
+
 def index(request):
     return render(request, 'standbase/index.html', {
-        'active_sessions': StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated'),
-        'completed_sessions': StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished')[:10],
+        'active_sessions': get_active_sessions(),
+        'completed_sessions': get_completed_sessions(),
         'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:5]
     })
+
+def api_state(request):
+    response = {
+        'active_sessions': [s for s in get_active_sessions().values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name')],
+        'completed_sessions': [s for s in get_completed_sessions().values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name')]
+    }
+
+    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type='application/json')
 
 def session(request, sessionid):
     try:
