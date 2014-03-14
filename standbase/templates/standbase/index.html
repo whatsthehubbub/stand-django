@@ -129,8 +129,13 @@
 					// Add it to the array
 					active_sessions[s['id']] = s;
 
+					var location = 'unknown location';
+					if (s['parsed_geocode']) {
+						location = s['parsed_geocode'][1];
+					}
+
 					// Render it on the top of the list
-					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + s['parsed_geocode'][1] + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 				}
 			}
 
@@ -161,11 +166,14 @@
 			var markerList = [];
 
 			for (var key in active_sessions) {
-				markerList.push(L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]).addTo(map));
+				markerList.push(L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]));
 			}
 
-			markers = new L.featureGroup(markerList);
-			map.fitBounds(markers);
+			if (markerList.length > 0) {
+				markers = new L.featureGroup(markerList);
+				markers.addTo(map);
+				map.fitBounds(markers);
+			}
 
 
 			// TODO do something with the recent session list as well
