@@ -164,7 +164,7 @@
 				markerList.push(L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]).addTo(map));
 			}
 
-			markers = new L.featureGroup(markers);
+			markers = new L.featureGroup(markerList);
 			map.fitBounds(markers);
 
 
