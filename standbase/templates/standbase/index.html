@@ -159,21 +159,24 @@
 				}
 			}
 
-			// Show all active sessions on the map
-			if (markers) {
-				map.removeLayer(markers);
-			}
-			var markerList = [];
+
+			markers.clearLayers();
 
 			for (var key in active_sessions) {
-				markerList.push(L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]));
+				var marker = L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]);
+
+				markers.addLayer(marker);
 			}
 
-			if (markerList.length > 0) {
-				markers = new L.featureGroup(markerList);
-				markers.addTo(map);
+			if (markers.getLayers().length > 0) {
 				map.fitBounds(markers);
 			}
+
+			// if (markerList.length > 0) {
+			// 	markers = new L.featureGroup(markerList);
+			// 	markers.addTo(map);
+			// 	map.fitBounds(markers);
+			// }
 
 
 			// TODO do something with the recent session list as well
@@ -185,13 +188,16 @@
 
 </script>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
 	var map = L.map('map').setView([46.0, 10.0], 4);
 
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
 	map.addLayer(bing);
+
+	markers = new L.featureGroup();
+	markers.addTo(map);
 
 	// if (!$.isEmptyObject(active_sessions)) {
 	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
