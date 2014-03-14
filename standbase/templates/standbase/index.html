@@ -121,6 +121,7 @@
 	}
 
 	var cycleIndex = 0;
+	var currentSessionId = null;
 
 	function cycle() {
 		if (markers) {
@@ -137,6 +138,7 @@
 			map.setZoom(13);
 			map.panTo(marker.getLatLng());
 
+			currentSessionId = marker.session_id;
 			$('#session_' + marker.session_id).addClass('active');
 
 			cycleIndex += 1;
@@ -213,6 +215,12 @@
 				$('#sessions').append('<a class="list-group-item completed" id="session_' + s['id'] + '" href="' + s['get_absolute_url'] + '" id="">' + getDuration(s) + ' seconds for <strong>' + s['topic__name'] + '</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 			}
 
+			// After replacing the entire DOM set the active link back
+			// Otherwise we get a nasty flicker
+			if (currentSessionId) {
+				$('#session_' + currentSessionId).addClass('active');
+			}
+
 
 			// Update map
 			markers.clearLayers();
@@ -226,7 +234,6 @@
 				markers.addLayer(marker);
 			}
 
-			// TODO
 			for (var i = 0; i < data['completed_sessions'].length; i++) {
 				var s = data['completed_sessions'][i];
 
@@ -238,21 +245,12 @@
 				markers.addLayer(marker);
 			}
 
-			if (markers.getLayers().length > 0) {
-				// map.fitBounds(markers);
-			}
-
 			// if (markerList.length > 0) {
 			// 	markers = new L.featureGroup(markerList);
 			// 	markers.addTo(map);
 			// 	map.fitBounds(markers);
 			// }
 
-
-			// TODO do something with the recent session list as well
-			for (var i = 0; i < data['completed_sessions'].length; i++) {
-				// processIncomingCompletedSession(data['completed_sessions'][i]);
-			}
 		});
 	}
 
