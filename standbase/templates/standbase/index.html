@@ -120,6 +120,33 @@
 		return Math.floor(seconds) + " seconds";
 	}
 
+	var cycleIndex = 0;
+
+	function cycle() {
+		if (markers) {
+			if (cycleIndex > markers.getLayers().length - 1) { cycleIndex = 0;}
+
+			console.log('in cycle with index', cycleIndex);
+
+			var marker = markers.getLayers()[cycleIndex];
+
+			console.log('active marker', marker);
+
+			$('#sessions A').removeClass('active');
+
+			map.setZoom(13);
+			map.panTo(marker.getLatLng());
+
+			$('#session_' + marker.session_id).addClass('active');
+
+			cycleIndex += 1;
+		}
+
+		setTimeout(cycle, 3000);
+	}
+
+	cycle();
+
 	function getCurrentState() {
 		console.log("Got new state");
 
@@ -145,7 +172,7 @@
 					}
 
 					// Render it on the top of the list
-					$('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+					$('#sessions A:first').before('<a class="list-group-item" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 				}
 			}
 
@@ -193,6 +220,9 @@
 			for (var key in active_sessions) {
 				var marker = L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]);
 
+				// Store id in the marker object as well
+				marker.session_id = active_sessions[key]['id'];
+
 				markers.addLayer(marker);
 			}
 
@@ -202,11 +232,14 @@
 
 				var marker = L.marker([s['lat'], s['lon']]);
 
+				// Store id in the marker object as well
+				marker.session_id = s['id'];
+
 				markers.addLayer(marker);
 			}
 
 			if (markers.getLayers().length > 0) {
-				map.fitBounds(markers);
+				// map.fitBounds(markers);
 			}
 
 			// if (markerList.length > 0) {
