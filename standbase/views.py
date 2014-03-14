@@ -49,7 +49,17 @@ def api_state(request):
             'topic__name': 'something',
             'parsed_geocode': s.parsed_geocode()
         } for s in get_active_sessions()],
-        'completed_sessions': [s for s in get_completed_sessions().values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name')]
+        'completed_sessions': [{
+            'id': s.id,
+            'datecreated': s.datecreated,
+            'lat': s.lat,
+            'lon': s.lon,
+            'datelive': s.datelive,
+            'datefinished': s.datefinished,
+            'topic__name': s.topic.name,
+            'parsed_geocode': s.parsed_geocode(),
+            'get_absolute_url': s.get_absolute_url(),
+        } for s in get_completed_sessions()]
     }
 
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type='application/json')

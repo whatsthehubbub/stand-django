@@ -24,7 +24,7 @@
 		{% endcomment %}
 
 		{% for session in completed_sessions %}
-			<a class="list-group-item" id="session_{{ session.id }}" href="{{ session.get_absolute_url }}" id="">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
+			<a class="list-group-item completed" id="session_{{ session.id }}" href="{{ session.get_absolute_url }}" id="">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 		{% endfor %}
 		</div>
 	</div>
@@ -71,6 +71,15 @@
 		return seconds;
 	}
 
+	function getDuration(s) {
+		var datefinished = new Date(s['datefinished']);
+		var datecreated = new Date(s['datecreated']);
+
+		var seconds = Math.round((datefinished.getTime() - datecreated.getTime()) / 1000);
+
+		return seconds
+	}
+
 	function updateCounters() {
 		// Walk through all the active sessions and update the counters in #active_time_id
 		for (var key in active_sessions) {
@@ -81,6 +90,7 @@
 		}
 	}
 
+	// TODO change this to just format seconds
 	function timeSince(timestring) {
 		var date = new Date(timestring);
 
@@ -116,7 +126,7 @@
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
 			console.log(data);
 
-			// Process incoming sessions
+			// Process incoming active sessions
 			for (var i = 0; i < data['active_sessions'].length; i++) {
 				var s = data['active_sessions'][i];
 
@@ -159,11 +169,38 @@
 				}
 			}
 
+			// Process incoming completed sessions
+			$('#sessions .completed').remove();
+			for (var i = 0; i < data['completed_sessions'].length; i++) {
+				var s = data['completed_sessions'][i];
 
+				var location = 'somewhere';
+				if (s['parsed_geocode']) {
+					location = s['parsed_geocode'][1];
+				}
+
+				{% comment %}
+				// $('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+				{% endcomment %}
+
+				$('#sessions').append('<a class="list-group-item completed" id="session_' + s['id'] + '" href="' + s['get_absolute_url'] + '" id="">' + getDuration(s) + ' seconds for <strong>' + s['topic__name'] + '</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+			}
+
+
+			// Update map
 			markers.clearLayers();
 
 			for (var key in active_sessions) {
 				var marker = L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]);
+
+				markers.addLayer(marker);
+			}
+
+			// TODO
+			for (var i = 0; i < data['completed_sessions'].length; i++) {
+				var s = data['completed_sessions'][i];
+
+				var marker = L.marker([s['lat'], s['lon']]);
 
 				markers.addLayer(marker);
 			}
@@ -188,7 +225,7 @@
 
 </script>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-<script src="{{ STATIC_URL }}js/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
 	var map = L.map('map').setView([46.0, 10.0], 4);
