@@ -10,10 +10,15 @@
 
 {% block content %}
 <div class="page-header">
-<h1>
-{{ s.datefinished|timeuntil:s.datecreated }} for <a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
-<small>in {{ s.parsed_geocode.1 }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
-</h1>
+	<h1>
+		{{ s.datefinished|timeuntil:s.datecreated }} for 
+		{% if s.topic.public %}
+			<a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
+		{% else %}
+			{{ s.topic }}
+		{% endif %}
+		<small>in {{ s.parsed_geocode.1 }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
+	</h1>
 </div>
 
 	<div class="google-map-canvas" id="map"></div>
