@@ -160,6 +160,8 @@ def done(request):
 
         if 'duration' in request.POST:
             duration = int(request.POST.get('duration', '0'))
+
+            s.duration = duration
             s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
         # TODO rename to 
