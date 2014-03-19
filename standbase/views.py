@@ -98,7 +98,6 @@ def topic(request, topic_slug):
 
         return render(request, 'standbase/topic.html', {
             't': t,
-            'duration': int(sum([(s.datefinished - s.datecreated).total_seconds() for s in t.standsession_set.exclude(datefinished=None)])),
             'sessions': sessions
         })
     except Topic.DoesNotExist:
