@@ -7,7 +7,14 @@ class StandSessionAdmin(admin.ModelAdmin):
 
 admin.site.register(StandSession, StandSessionAdmin)
 
+
+def make_public(modeladmin, request, queryset):
+	queryset.update(public=True)
+make_public.short_description = "Make topics public"
+
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'public')
+
+    actions = [make_public]
 
 admin.site.register(Topic, TopicAdmin)
