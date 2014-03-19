@@ -19,7 +19,7 @@
 
 		{% comment %}
 		{% for session in active_sessions %}
-			<a class="list-group-item active" id="session_{{ session.id }}"><span class="livetime">x seconds</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
+			<a class="list-group-item active" id="session_{{ session.id }}"><span class="glyphicon glyphicon-time"></span> <span class="livetime">x seconds</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 		{% endfor %}
 		{% endcomment %}
 
@@ -174,7 +174,7 @@
 					}
 
 					// Render it on the top of the list
-					$('#sessions A:first').before('<a class="list-group-item" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+					$('#sessions A:first').before('<a class="list-group-item" id="session_' + s['id'] + '"><span class="glyphicon glyphicon-time"></span> <span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
 				}
 			}
 
