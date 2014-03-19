@@ -192,7 +192,10 @@
 
 				if (!present) {
 					// Remove this id from sessions
-					$('#session_' + key).slideUp();
+					$('#session_' + key).slideUp(function() {
+						// We need to actually remove it to maintain some markup 
+						$('#session_' + key).remove();
+					});
 					// And from the local store
 					delete active_sessions[key];
 				}
