@@ -11,7 +11,8 @@
 {% block content %}
 <div class="page-header">
 	<h1>
-		{{ s.datefinished|timeuntil:s.datecreated }} for 
+		{{ s.get_duration }}
+		for 
 		{% if s.topic.public %}
 			<a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
 		{% else %}
