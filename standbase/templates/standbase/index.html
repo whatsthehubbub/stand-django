@@ -262,18 +262,24 @@
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
-	var map = L.map('map').setView([46.0, 10.0], 4);
+	// initialise map
+	var map = L.map('map', {
+		scrollWheelZoom: false
+	});
+	
+	// set position and zoom level
+	map.setView([46.0, 10.0], 4);
 
+	// set bing layer
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
 	map.addLayer(bing);
 
+	// add markers
 	markers = new L.featureGroup();
 	markers.addTo(map);
 
 	// if (!$.isEmptyObject(active_sessions)) {
 	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
-
-		
 
 	// 	// L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
 	// 	// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',

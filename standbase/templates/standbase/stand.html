@@ -29,17 +29,24 @@
 
 {% block extra_javascript %}
 <script type="text/javascript">
-	var map = L.map('map').setView([{{ s.lat }}, {{ s.lon }}], 16);
+	// initialise map
+	var map = L.map('map', {
+		scrollWheelZoom: false
+	});
 
+	// set position and zoom level
+	map.setView([{{ s.lat }}, {{ s.lon }}], 16);
+
+	// set bing layer
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
+	map.addLayer(bing);
 
 	// L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
 	// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 	// 	maxZoom: 18
 	// }).addTo(map);
 
-	map.addLayer(bing);
-
+	// add markers
 	var marker = L.marker([{{ s.lat }}, {{ s.lon }}]).addTo(map);
 </script>
 {% endblock extra_javascript %}
