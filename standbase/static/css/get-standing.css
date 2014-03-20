@@ -9,9 +9,8 @@ body {
 
 #map {
 	max-width: 100%;
-	min-height: 240px; 
-	height: auto;
-	/*height: 240px;*/
+	/*height: auto;*/
+	height: 405px; /* TODO: On home, make this 16x9 below medium, and 3x2 at medium and above. On session page, make this always 16x9. */
 	margin-bottom: 10px;
 }
 
