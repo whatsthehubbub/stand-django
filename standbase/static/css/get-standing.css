@@ -8,7 +8,11 @@ body {
 }
 
 #map {
-	height: 400px;
+	max-width: 100%;
+	min-height: 240px; 
+	height: auto;
+	/*height: 240px;*/
+	margin-bottom: 10px;
 }
 
 #footer {
