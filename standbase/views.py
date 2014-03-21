@@ -58,6 +58,13 @@ def expire_view_cache(view_name, args=[], namespace=None, key_prefix=None):
         return True
     return False
 
+from django.db.models.signals import post_save
+
+def invalidate_api_state(sender, **kwargs):
+    expire_view_cache('api_state')
+
+post_save.connect(invalidate_api_state, sender=StandSession)
+
 
 def get_active_sessions():
     return StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated')
@@ -144,9 +151,6 @@ def topic(request, topic_slug):
 @require_POST
 @csrf_exempt
 def catch(request):
-    # Invalidate the API cache
-    expire_view_cache('api_state')
-
     lat = float(request.POST.get('lat', ''))
     lon = float(request.POST.get('lon', ''))
 
@@ -191,9 +195,6 @@ def live(request):
 @csrf_exempt
 @require_POST
 def done(request):
-    # Invalidate the API cache
-    expire_view_cache('api_state')
-    
     secret = request.POST.get('secret', '')
     sessionid = request.POST.get('sessionid', '')
 
