@@ -11,6 +11,7 @@ from django.db.models import Count
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.decorators.cache import cache_page
 
 from django.utils import timezone
 from django.utils.text import slugify
@@ -21,6 +22,41 @@ import string
 
 import logging
 logger = logging.getLogger('testlogger')
+
+def expire_view_cache(view_name, args=[], namespace=None, key_prefix=None):
+    """
+    This function allows you to invalidate any view-level cache. 
+        view_name: view function you wish to invalidate or it's named url pattern
+        args: any arguments passed to the view function
+        namepace: optioal, if an application namespace is needed
+        key prefix: for the @cache_page decorator for the function (if any)
+
+    from: http://stackoverflow.com/questions/2268417/expire-a-view-cache-in-django
+    """
+    from django.core.urlresolvers import reverse
+    from django.http import HttpRequest
+    from django.utils.cache import get_cache_key
+    from django.core.cache import cache
+    # create a fake request object
+    request = HttpRequest()
+    # Loookup the request path:
+    if namespace:
+        view_name = namespace + ":" + view_name
+    request.path = reverse(view_name, args=args)
+    # get cache key, expire if the cached item exists:
+    key = get_cache_key(request, key_prefix=key_prefix)
+    if key:
+        if cache.get(key):
+            # Delete the cache entry.  
+            #
+            # Note that there is a possible race condition here, as another 
+            # process / thread may have refreshed the cache between
+            # the call to cache.get() above, and the cache.set(key, None) 
+            # below.  This may lead to unexpected performance problems under 
+            # severe load.
+            cache.set(key, None, 0)
+        return True
+    return False
 
 
 def get_active_sessions():
@@ -36,6 +72,7 @@ def index(request):
         'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:5]
     })
 
+@cache_page(60 * 4)
 def api_state(request):
     # .values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name', 'parsed_geocode')
     response = {
@@ -107,6 +144,9 @@ def topic(request, topic_slug):
 @require_POST
 @csrf_exempt
 def catch(request):
+    # Invalidate the API cache
+    expire_view_cache('api_state')
+
     lat = float(request.POST.get('lat', ''))
     lon = float(request.POST.get('lon', ''))
 
@@ -151,6 +191,9 @@ def live(request):
 @csrf_exempt
 @require_POST
 def done(request):
+    # Invalidate the API cache
+    expire_view_cache('api_state')
+    
     secret = request.POST.get('secret', '')
     sessionid = request.POST.get('sessionid', '')
 
