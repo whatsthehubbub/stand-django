@@ -4,7 +4,9 @@
 {% block content %}
 
 <div class="page-header">
-<h1><span class="cause">{{ t.name|capfirst }}</span> <small>{{ t.get_total_duration }} seconds of standing in total</small></h1>
+	<h1>
+		<span class="cause">{{ t.name|capfirst }}</span> <small>{{ t.get_total_duration }} seconds of standing in total</small>
+	</h1>
 </div>
 
 <div class="list-group">
@@ -14,19 +16,19 @@
 </div>
 
 <ul class="pager">
-{% if sessions.has_previous %}
-<li class="previous"><a href="?page={{ sessions.previous_page_number }}">&larr; Newer</a></li>
-{% else %}
-<li class="previous disabled"><a href="#">&larr; Newer</a></li>
-{% endif %}
-
-<!-- <p>Page {{ sessions.number }} of {{ sessions.paginator.num_pages }}</p> -->
-
-{% if sessions.has_next %}
-<li class="next"><a href="?page={{ sessions.next_page_number }}">Older &rarr;</a></li>
-{% else %}
-<li class="next disabled"><a href="#">Older &rarr;</a></li>
-{% endif %}
+	{% if sessions.has_previous %}
+	<li class="previous"><a href="?page={{ sessions.previous_page_number }}">&larr; Newer</a></li>
+	{% else %}
+	<li class="previous disabled"><a href="#">&larr; Newer</a></li>
+	{% endif %}
+	
+	<!-- <p>Page {{ sessions.number }} of {{ sessions.paginator.num_pages }}</p> -->
+	
+	{% if sessions.has_next %}
+	<li class="next"><a href="?page={{ sessions.next_page_number }}">Older &rarr;</a></li>
+	{% else %}
+	<li class="next disabled"><a href="#">Older &rarr;</a></li>
+	{% endif %}
 </ul>
 {% include "standbase/footer.html" %}
 
