@@ -76,7 +76,7 @@ def index(request):
     return render(request, 'standbase/index.html', {
         'active_sessions': get_active_sessions(),
         'completed_sessions': get_completed_sessions(),
-        'trending_topics': Topic.public_objects.annotate(Count('standsession')).order_by('-standsession__count')[:5]
+        'trending_topics': Topic.public_objects.exclude(slug='something').annotate(Count('standsession')).order_by('-standsession__count')[:5]
     })
 
 @cache_page(60 * 4)
