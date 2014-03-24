@@ -64,6 +64,7 @@ def invalidate_api_state(sender, **kwargs):
     expire_view_cache('api_state')
 
 post_save.connect(invalidate_api_state, sender=StandSession)
+post_save.connect(invalidate_api_state, sender=Topic)
 
 
 def get_active_sessions():
