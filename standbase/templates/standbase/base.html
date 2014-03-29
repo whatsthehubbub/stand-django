@@ -12,15 +12,11 @@
 
 		<title>{% block head %}{% endblock %} &middot; Standing</title>
 
-		<!-- Bootstrap core CSS -->
-		{% bootstrap_css %}
+		<!-- CSS -->
+		<link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 
-		<!-- Custom styles for this template -->
-		<link href="{{ STATIC_URL }}css/get-standing.css" type="text/css" rel="stylesheet">
-		<script src="{{ STATIC_URL }}js/modernizr.js"></script>
-
-		<!-- Just for debugging purposes. Don't actually copy this line! -->
-		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+		<!-- JS -->
+		<script src="{{ STATIC_URL }}modernizr/modernizr.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -41,14 +37,13 @@
 
 		<div class="container">
 			{% block content %}{% endblock %}
-		</div><!-- /.container -->
+		</div>
 
-		<!-- Bootstrap core JavaScript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- JS EXTRA -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery.min.js"><\/script>')</script>
-		{% bootstrap_javascript %}
+        <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}jquery/dist/jquery.min.js"><\/script>')</script>
+		<script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.min.js"></script>
+		
 		{% block extra_javascript %}{% endblock %}
 	</body>
 </html>
