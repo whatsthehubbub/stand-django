@@ -26,6 +26,7 @@ To be up to date again always do: 9, 10, 12, 13.
 2. Browse to project folder and install all required dependencies: `bower install`
 
 ## Install Grunt (JavaScript task runner)
-1. Install grunt-cli globally with `npm install -g grunt-cli`.
-2. Navigate to the main directory, then run `npm install`. npm will look at package.json and automatically install the necessary local dependencies listed there.
+1. Grunt depends on Node and npm.
+2. Install grunt-cli globally with `npm install -g grunt-cli`.
+3. Navigate to the main directory, then run `npm install`. npm will look at package.json and automatically install the necessary local dependencies listed there.
 4. Watch with `grunt watch`
