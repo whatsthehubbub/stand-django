@@ -1,0 +1,28 @@
+{
+  "name": "standing",
+  "version": "1.0.0",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whatsthehubbub/stand-django.git"
+  },
+  "author": "Simon Scheiber",
+  "description": "The Standing web interface.",
+  "bugs": {
+    "url": "https://github.com/whatsthehubbub/stand-django/issues"
+  },
+  "homepage": "http://getstanding.com/",
+  "keywords": [
+    "standing",
+    "app",
+    "site",
+    "frontend"
+  ],
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-less": "^0.11.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-concat": "^0.3.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
