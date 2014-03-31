@@ -1,7 +1,7 @@
 {
   "name": "standing",
   "version": "1.0.0",
-  "main": "Gruntfile.js",
+  "main": "gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/whatsthehubbub/stand-django.git"
