@@ -25,8 +25,7 @@ To be up to date again always do: 9, 10, 12, 13.
 1. Bower depends on Node and npm. It's installed globally using npm: `npm install -g bower`
 2. Browse to project folder and install all required dependencies: `bower install`
 
-## Install Grunt (JavaScript task runner) for Bootstrap
+## Install Grunt (JavaScript task runner)
 1. Install grunt-cli globally with `npm install -g grunt-cli`.
-2. Navigate to the `/bootstrap` directory, then run `npm install`. npm will look at package.json and automatically install the necessary local dependencies listed there.
-3. If you run into some kind of "The package grunt does not satisfy its siblings' peerDependencies requirements!" error, please remove grund and reinstall (more info here: http://stackoverflow.com/a/22380638)
-4. Watch the /bootstrap folder with `grunt watch`
+2. Navigate to the main directory, then run `npm install`. npm will look at package.json and automatically install the necessary local dependencies listed there.
+4. Watch with `grunt watch`
