@@ -3,4 +3,5 @@ venv
 staticfiles
 .DS_Store
 *.codekit
+node_modules
 bower_components
