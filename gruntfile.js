@@ -8,12 +8,17 @@ module.exports = function(grunt) {
       options: {
         separator: ';',
       },
-      js_frontend: {
+      bootstrap: {
         src: [
-          './standbase/static/bower_components/jquery/dist/jquery.js',
-          './standbase/static/bower_components/bootstrap/dist/js/bootstrap.js'
+          './standbase/static/bower_components/bootstrap/dist/js/bootstrap.min.js'
         ],
-        dest: './standbase/static/js/base.js',
+        dest: './standbase/static/js/bootstrap.min.js',
+      },
+      jquery: {
+        src: [
+          './standbase/static/bower_components/jquery/dist/jquery.min.js',
+        ],
+        dest: './standbase/static/js/jquery.min.js',
       },
     },
     less: {
@@ -23,23 +28,19 @@ module.exports = function(grunt) {
         },
         files: {
           //compiling base.less into base.css
-          "./standbase/static/css/base.css":"./standbase/static/css/base.less"
+          "./standbase/static/css/base.css":"./standbase/static/less/base.less"
         }
-      },
-    },
-    uglify{
-      //...
-    },
-    phpunit{
-      //...
-    },
-    watch{
-      //...
+      }
     }
   });
 
   // Plugin loading
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Task definition
+  grunt.registerTask('default', ['watch']);
 
 };
