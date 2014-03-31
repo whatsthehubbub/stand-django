@@ -1,9 +1,8 @@
-A simple web database for Stand sessions.
+The Standing web interface.
 
 # Installation Guide
 
-## How to set up a fresh Django project on OS X
-
+## Set up a Django project (on OS X)
 1. Install homebrew, by getting the commandline tools: https://developer.apple.com/downloads and then do the install homebrew here: http://mxcl.github.com/homebrew/
 2. Open Terminal.app
 3. Check python is installed by typing ```python```
@@ -22,7 +21,6 @@ To restart the server simply repeat steps 9 and 13.
 To be up to date again always do: 9, 10, 12, 13.
 
 
-## How to install Bower
-
+## Install Bower (front-end package management)
 1. Bower depends on Node and npm. It's installed globally using npm: ```npm install -g bower```
 2. Browse to project folder and install all required dependencies: ```bower install```
