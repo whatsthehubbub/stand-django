@@ -1,0 +1,31 @@
+{
+  "name": "standing",
+  "version": "1.0.0",
+  "main": [
+    "./dist/css/bootstrap.css",
+    "./dist/js/bootstrap.js",
+    "./dist/fonts/glyphicons-halflings-regular.eot",
+    "./dist/fonts/glyphicons-halflings-regular.svg",
+    "./dist/fonts/glyphicons-halflings-regular.ttf",
+    "./dist/fonts/glyphicons-halflings-regular.woff",
+    "./dist/jquery.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "_config.yml",
+    "build",
+    "speed",
+    "test",
+    "*.md",
+    "AUTHORS.txt",
+    "CNAME",
+    "composer.json",
+    "docs"
+  ],
+  "dependencies": {
+    "bootstrap": ">= 3.1.1",
+    "jquery": ">= 1.9.0",
+    "leaflet": ">= 0.7.2",
+    "modernizr": ">= 2.7.2"
+  }
+}
