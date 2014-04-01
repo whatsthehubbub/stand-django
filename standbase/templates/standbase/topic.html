@@ -1,8 +1,10 @@
 {% extends "standbase/base.html" %}
 
 {% block head %}{{ t.name|capfirst }}{% endblock %}
-{% block content %}
 
+{% block bodyid %}cause{% endblock %}
+
+{% block content %}
 <div class="page-header">
 	<h1>
 		<span class="cause">{{ t.name|capfirst }}</span> <small>{{ t.get_total_duration }} seconds of standing in total</small>
