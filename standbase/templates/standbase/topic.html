@@ -13,7 +13,7 @@
 
 <div class="list-group">
 {% for session in sessions %}
-	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.get_duration }} <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
+	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.get_duration }} <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 {% endfor %}
 </div>
 
