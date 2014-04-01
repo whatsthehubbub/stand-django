@@ -3,42 +3,76 @@ module.exports = function(grunt) {
 
   //Initializing the configuration object
   grunt.initConfig({
-    // Task configuration
+  	pkg: grunt.file.readJSON('package.json'),
+
+    // Concat JavaScript
     concat: {
       options: {
         separator: ';',
       },
-      bootstrap: {
-        src: [
-          './standbase/static/bower_components/bootstrap/dist/js/bootstrap.min.js'
-        ],
-        dest: './standbase/static/js/bootstrap.min.js',
-      },
-      jquery: {
-        src: [
-          './standbase/static/bower_components/jquery/dist/jquery.min.js',
-        ],
-        dest: './standbase/static/js/jquery.min.js',
-      },
+      dist: {
+        src: ['./standbase/static/bower_components/bootstrap/dist/js/*.js'],
+        dest: './standbase/static/js/<%= pkg.name %>.js'
+      }
     },
+
+    // Uglify JavaScript
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          './standbase/static/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
+    },
+
+    jshint: {
+      // define the files to lint
+      files: ['./standbase/static/js/*.js'],
+      // configure JSHint
+      options: {
+        globals: {
+          jQuery: true,
+        }
+      }
+    },
+
+    // Translate LESS
     less: {
       development: {
         options: {
-          compress: true,  //minifying the result
+          yuicompress: true
         },
         files: {
-          //compiling base.less into base.css
           "./standbase/static/css/base.css":"./standbase/static/less/base.less"
         }
       }
-    }
+    },
+
+    watch: {
+      src: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['concat', 'uglify']
+      },
+      less: {
+        files: './standbase/static/less/*.less',
+        tasks: ['less'],
+        options: {
+          livereload: 8000,
+      	},
+      },
+    },
+
   });
 
   // Plugin loading
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Task definition
   grunt.registerTask('default', ['watch']);
