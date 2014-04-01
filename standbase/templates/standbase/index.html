@@ -30,7 +30,7 @@
 <h2>Trending causes</h2>
 <div>
 	{% for topic in trending_topics %}
-	<a class="btn" href="{{ topic.get_absolute_url }}">{{ topic.name }}
+	<a class="btn btn-default" href="{{ topic.get_absolute_url }}">{{ topic.name }}
 	<small>{{ topic.get_total_duration }}</small>
 	</a>
 	{% endfor %}
