@@ -1,8 +1,10 @@
 {% extends "standbase/base.html" %}
 
 {% block head %}{{ t.name|capfirst }}{% endblock %}
-{% block content %}
 
+{% block bodyid %}cause{% endblock %}
+
+{% block content %}
 <div class="page-header">
 	<h1>
 		<span class="cause">{{ t.name|capfirst }}</span> <small>{{ t.get_total_duration }} seconds of standing in total</small>
@@ -11,7 +13,7 @@
 
 <div class="list-group">
 {% for session in sessions %}
-	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.get_duration }} <small>in {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
+	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.get_duration }} <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 {% endfor %}
 </div>
 
