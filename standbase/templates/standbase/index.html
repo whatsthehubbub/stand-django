@@ -31,7 +31,7 @@
 <div>
 	{% for topic in trending_topics %}
 	<a class="btn btn-default" href="{{ topic.get_absolute_url }}">{{ topic.name }}
-	<small>{{ topic.get_total_duration }}</small>
+	<span class="label label-default">{{ topic.get_total_duration }}</span>
 	</a>
 	{% endfor %}
 </div>
