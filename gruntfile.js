@@ -41,27 +41,31 @@ module.exports = function(grunt) {
 
     // Translate LESS
     less: {
-      development: {
-        options: {
-          yuicompress: true
-        },
+      dev: {
+        options: {},
         files: {
           "./standbase/static/css/base.css":"./standbase/static/less/base.less"
+        }
+      },
+      deploy: {
+        options: {
+          compress: true
+        },
+        files: {
+          './standbase/static/css/base.min.css': './standbase/static/less/base.less'
         }
       }
     },
 
     watch: {
-      src: {
-        files: ['<%= jshint.files %>'],
+      options: { livereload: true },
+      javascript: {
+        files: ['./standbase/static/js/*.js'],
         tasks: ['concat', 'uglify']
       },
       less: {
         files: './standbase/static/less/*.less',
-        tasks: ['less'],
-        options: {
-          livereload: true
-      	}
+        tasks: ['less']
       },
     },
 

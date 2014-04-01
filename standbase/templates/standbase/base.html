@@ -13,8 +13,7 @@
 		<title>{% block head %}{% endblock %} &middot; Standing</title>
 
 		<!-- CSS -->
-		<link href="{{ STATIC_URL }}css/base.css" type="text/css" rel="stylesheet">
-
+		{% if debug %}<link href="{{ STATIC_URL }}css/base.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/base.min.css" type="text/css" rel="stylesheet">{% endif %}
 		{% if debug %}<script src="//localhost:35729/livereload.js"></script>{% endif %}
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
