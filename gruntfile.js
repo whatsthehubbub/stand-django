@@ -60,8 +60,8 @@ module.exports = function(grunt) {
         files: './standbase/static/less/*.less',
         tasks: ['less'],
         options: {
-          livereload: 8000,
-      	},
+          livereload: true
+      	}
       },
     },
 
