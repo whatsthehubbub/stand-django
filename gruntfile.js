@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['./standbase/static/bower_components/bootstrap/dist/js/*.js'],
+        src: ['./standbase/static/bower_components/jquery/dist/jquery.js', './standbase/static/bower_components/bootstrap/dist/js/*.js'],
         dest: './standbase/static/js/<%= pkg.name %>.js'
       }
     },
