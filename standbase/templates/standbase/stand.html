@@ -1,6 +1,6 @@
 {% extends "standbase/base.html" %}
 
-{% block head %}{{ s.datefinished|timeuntil:s.datecreated }} for {{ s.topic }}{% endblock head %}
+{% block head %}{{ s.get_duration }} for {{ s.topic }}{% endblock head %}
 
 {% block extrahead %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
