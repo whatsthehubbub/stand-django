@@ -5788,7 +5788,7 @@ body {
 }
 @media (max-width: 767px) {
   #map {
-    height: 290px;
+    height: 240px;
   }
 }
 #footer {
