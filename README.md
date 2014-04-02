@@ -16,6 +16,7 @@ The Standing web interface.
 11. If you have never done so, setup the database: `python manage.py syncdb`, follow the instructions you get and note down the username and password that give you /admin access to the django site
 12. Because we use *south* to create the tables for the application (and to update after model changes) you need to run: `python manage.py migrate`
 13. Start the server with `python manage.py runserver` and go to your django at http://127.0.0.1:8000/admin
+13.1 If you want your server to be accessible from other machines, start your server with `python manage.py runserver 0.0.0.0:8000`. You will need to figure out your external hostname yourself.
 [Optional]
 14. Start redis with `redis-server /usr/local/etc/redis.conf`
 15. Start rq with `python manage.py rqworker high default low` (requires redis)
