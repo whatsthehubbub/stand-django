@@ -9,12 +9,9 @@
 
 {% block content %}
 
-<div class="jumbotron">
-	<h1>Standing </h1>
-	<p>is an app for playful activism. <a href="#" title="Standing on the App Store">Grab the app</a>, go outside, and get standing for a cause.</p>
-	<p><small>{{ total_time }} of standing so far.</small></p>
-</div>
-
+<div class="page-header">
+	<h1>Standing <small>is an app for playful activism. <a href="#">Grab the app</a>, go outside and get standing for a cause. {{ total_time }} of standing so far.</small></h1>
+	
 <h2>Recent sessions</h2>
 <div class="list-group" id="sessions">
 	{% comment %}
