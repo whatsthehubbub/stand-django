@@ -31,17 +31,15 @@
 
 <h2>Trending causes</h2>
 
-<!-- 
-<div class="text-center">
-	<a class="btn btn-default" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
-	<a class="btn btn-default" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
-	<a class="btn btn-default" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
-</div>
- -->
+<!-- <div class="text-center">
+	<a class="btn btn-info btn-lg" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
+	<a class="btn btn-info btn-lg" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
+	<a class="btn btn-info btn-lg" href="#" role="button">Cause <span class="badge">00 hrs 00 min 00 sec</span></a>
+</div> -->
 
 <div class="text-center">
 	{% for topic in trending_topics %}
-	<a class="btn btn-default" href="{{ topic.get_absolute_url }}">
+	<a class="btn btn-info btn-lg" href="{{ topic.get_absolute_url }}">
 	{{ topic.name }}
 	<span class="badge">{{ topic.get_total_duration }}</span>
 	</a>
