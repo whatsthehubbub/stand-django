@@ -15,7 +15,7 @@
 
 <h2>Recent sessions</h2>
 
-<!-- <div class="list-group" id="sessions">
+<div class="list-group" id="sessions">
 	{% comment %}
 	{% for session in active_sessions %}
 		<a class="list-group-item active" id="session_{{ session.id }}"><span class="glyphicon glyphicon-time"></span> <span class="livetime">x seconds</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
@@ -26,12 +26,14 @@
 		<a class="list-group-item completed" id="session_{{ session.id }}" href="{{ session.get_absolute_url }}" id="">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
 	{% endfor %}
 </div>
- -->
+
+<!-- 
 <div class="panel panel-default">
 	<div class="panel-body" id="map">
 	</div>
 	<a href="#"><div class="panel-footer"><span class="glyphicon glyphicon-time"></span> <span class="livetime">12 seconds</span> for <strong>something</strong> <small>in some place 35 days ago</small></div></a>
 </div>
+ -->
 
 <h2>Trending causes</h2>
 
