@@ -1,1 +1,20 @@
-The page could not be found.
+{% extends "standbase/base.html" %}
+
+{% block head %}Uh oh{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block bodyid %}error{% endblock %}
+
+{% block content %}
+
+<h1>We can't find the page you're looking for!</h1>
+<p>Maybe something moved, or you mistyped. Please check to make sure you've typed the URL correctly.</p>
+
+{% include "standbase/footer.html" %}
+
+{% endblock content %}
+
+{% block extra_javascript %}
+{% endblock extra_javascript %}
