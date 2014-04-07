@@ -18,14 +18,25 @@
 <div class="panel panel-default">
 	<div class="panel-body" id="map"></div>
 
-	{% with completed_sessions.0 as session %}
-		<a id="session" href="#">
-		<div class="panel-footer">
-			<span class="glyphicon glyphicon-time"></span>
-			<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
-		</div>
-		</a>
-	{% endwith %}
+
+	{% if active_sessions %}
+		{% with active_sessions.0 as session %}
+			<a id="session" href="#">
+			<div class="panel-footer">
+				<span class="glyphicon glyphicon-time"></span>
+				<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
+			</div>
+			</a>
+		{% endwith %}
+	{% elif completed_sessions %}
+		{% with completed_sessions.0 as session %}
+			<a id="session" href="#">
+			<div class="panel-footer">
+				<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
+			</div>
+			</a>
+		{% endwith %}
+	{% endif %}
 </div>
 
 <h2>Trending causes</h2>
@@ -62,37 +73,21 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 
-	var active_sessions = {};
+	var sessions = [];
 
 	var markers = null;
 
 	$(document).ready(function() {
 		// Update seconds on all the active sessions
-		setInterval(updateCounters, 1000);
+		// TODO fix this
+		// setInterval(updateCounters, 1000);
 
+		// Refresh the current state
 		setInterval(getCurrentState, 10000);
 
 		// We need to get the current state to seed any active sessions (not doing those from django anymore)
 		getCurrentState();
 	});
-
-	function getSeconds(s) {
-		var now = new Date();
-		var datecreated = new Date(s['datecreated']);
-
-		var seconds = Math.round((now.getTime() - datecreated.getTime()) / 1000);
-
-		return seconds;
-	}
-
-	function getDuration(s) {
-		var datefinished = new Date(s['datefinished']);
-		var datecreated = new Date(s['datecreated']);
-
-		var seconds = Math.round((datefinished.getTime() - datecreated.getTime()) / 1000);
-
-		return seconds
-	}
 
 	function updateCounters() {
 		// Walk through all the active sessions and update the counters in #active_time_id
@@ -104,56 +99,117 @@
 		}
 	}
 
-	// TODO change this to just format seconds
-	function timeSince(timestring) {
-		var date = new Date(timestring);
+	function listDuration(d) {
+		var days = Math.floor(d / (24 * 60 * 60));
+		d -= days * 24 * 60 * 60;
 
-		var seconds = Math.floor((new Date() - date) / 1000);
+		var hours = Math.floor(d / (60 * 60));
+		d -= hours * 60 * 60;
 
-		var interval = Math.floor(seconds / 31536000);
+		var minutes = Math.floor(d / 60);
+		d -= minutes * 60;
 
-		if (interval > 1) {
-			return interval + " years";
+		var seconds = d;
+
+		var returnValue = [];
+
+		if (days > 1) {
+			returnValue.push(days + " days");
+		} else if (days == 1) {
+			returnValue.push("1 day");
 		}
-		interval = Math.floor(seconds / 2592000);
-		if (interval > 1) {
-			return interval + " months";
+
+		if (hours > 1) {
+			returnValue.push(hours + ' hours');
+		} else if (days == 1) {
+			returnValue.push('1 hour');
 		}
-		interval = Math.floor(seconds / 86400);
-		if (interval > 1) {
-			return interval + " days";
+
+		if (minutes > 1) {
+			returnValue.push(minutes + ' minutes');
+		} else if (days == 1) {
+			returnValue.push('1 minute');
 		}
-		interval = Math.floor(seconds / 3600);
-		if (interval > 1) {
-			return interval + " hours";
+
+		if (seconds > 1) {
+			returnValue.push(seconds + ' seconds');
+		} else if (seconds == 1) {
+			returnValue.push('1 second');
 		}
-		interval = Math.floor(seconds / 60);
-		if (interval > 1) {
-			return interval + " minutes";
+
+		return returnValue;
+	}
+
+	function formatDuration(d) {
+		var items = listDuration(d);
+
+		var returnParts = [];
+
+		for (var i = 0; i < items.length; i++) {
+			returnParts.push(items[i]);
+
+			if (i < items.length-2) {
+				returnParts.push(', ');
+			} else if (i < items.length-1) {
+				returnParts.push(' and ');
+			}
 		}
-		return Math.floor(seconds) + " seconds";
+
+		return returnParts.join('');
 	}
 
 	var cycleIndex = 0;
-	var currentSessionId = null;
 
 	function cycle() {
-		if (markers) {
-			if (cycleIndex > markers.getLayers().length - 1) { cycleIndex = 0;}
+		if (sessions.length > 0) {
+			if (cycleIndex > sessions.length -1) {
+				cycleIndex = 0;
+			}
 
-			console.log('in cycle with index', cycleIndex);
+			var s = sessions[cycleIndex];
 
-			var marker = markers.getLayers()[cycleIndex];
+			var activeSession = false;
 
-			console.log('active marker', marker);
+			var secondsStood = 0;
+			if (s['datefinished'] == null) {
+				activeSession = true;
+				secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
 
-			$('#sessions A').removeClass('active');
+				console.log("Seconds stood " + secondsStood);
+			} else {
+				secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
+			}
+
+			var location = "";
+			if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
+				// No geocode, do nothing
+			} else if (s['parsed_geocode'][0] == null) {
+				location = "in " + s['parsed_geocode'][1];
+			} else if (s['parsed_geocode'][1] == null) {
+				location = "in " + s['parsed_geocode'][0];
+			} else {
+				location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
+			}
+
+			var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+			var parts = listDuration(secondsAgo);
+			var timeAgo = "";
+			if (parts.length > 1) {
+				timeAgo = parts[0] + ' and ' + parts[1];
+			} else {
+				timeAgo = parts[0];
+			}
+
+			// Show new session below map
+			$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
+			// Set correct URL
+			$('#session').attr('href', s['get_absolute_url']);
+
+
+			var marker = sessions[cycleIndex]['marker'];
 
 			map.setZoom(16);
 			map.panTo(marker.getLatLng());
-
-			currentSessionId = marker.session_id;
-			$('#session_' + marker.session_id).addClass('active');
 
 			cycleIndex += 1;
 		}
@@ -164,7 +220,7 @@
 	cycle();
 
 	function getCurrentState() {
-		console.log("Got new state");
+		console.log("Getting new state");
 
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
 			console.log(data);
@@ -173,102 +229,28 @@
 			for (var i = 0; i < data['active_sessions'].length; i++) {
 				var s = data['active_sessions'][i];
 
-				if (s['id'] in active_sessions) {
-					// The id is already in there
-					// Probably nothing has to be done
-				} else {
-					// This session is new because it's not in the array anymore
-
-					// Add it to the array
-					active_sessions[s['id']] = s;
-
-					var location = 'unknown location';
-					if (s['parsed_geocode']) {
-						location = s['parsed_geocode'][1];
-					}
-
-					// Render it on the top of the list
-					$('#sessions A:first').before('<a class="list-group-item" id="session_' + s['id'] + '"><span class="glyphicon glyphicon-time"></span> <span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
-				}
+				sessions.push(s);
 			}
 
-			// Cull active sesssions we still have which aren't active anymore
-			// By checking which keys in our currently active sessions are not in the incoming
-			for (var key in active_sessions) {
-
-				var present = false;
-				for (var i = 0; i < data['active_sessions'].length; i++) {
-					if (data['active_sessions'][i]['id'] == key) {
-						present = true;
-						break;
-					}
-				}
-
-				if (!present) {
-					// Remove this id from sessions
-					$('#session_' + key).slideUp(function() {
-						// We need to actually remove it to maintain some markup 
-						$('#session_' + key).remove();
-					});
-					// And from the local store
-					delete active_sessions[key];
-				}
-			}
-
-			// Process incoming completed sessions
-			$('#sessions .completed').remove();
 			for (var i = 0; i < data['completed_sessions'].length; i++) {
 				var s = data['completed_sessions'][i];
 
-				var location = 'some place';
-				if (s['parsed_geocode']) {
-					location = s['parsed_geocode'][1];
-				}
-
-				{% comment %}
-				// $('#sessions A:first').before('<a class="list-group-item active" id="session_' + s['id'] + '"><span class="livetime">' + getSeconds(s) + ' seconds</span> for <strong>something</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
-				{% endcomment %}
-
-				$('#sessions').append('<a class="list-group-item completed" id="session_' + s['id'] + '" href="' + s['get_absolute_url'] + '" id="">' + getDuration(s) + ' seconds for <strong>' + s['topic__name'] + '</strong> <small>in ' + location + ' ' + timeSince(s['datecreated']) + ' ago</small></a>');
+				sessions.push(s);
 			}
-
-			// After replacing the entire DOM set the active link back
-			// Otherwise we get a nasty flicker
-			if (currentSessionId) {
-				$('#session_' + currentSessionId).addClass('active');
-			}
-
 
 			// Update map
 			// TODO don't replace all markers, it creates a nasty stutter
 			markers.clearLayers();
 
-			for (var key in active_sessions) {
-				var marker = L.marker([active_sessions[key]['lat'], active_sessions[key]['lon']]);
-
-				// Store id in the marker object as well
-				marker.session_id = active_sessions[key]['id'];
-
-				markers.addLayer(marker);
-			}
-
-			for (var i = 0; i < data['completed_sessions'].length; i++) {
-				var s = data['completed_sessions'][i];
+			for (var key in sessions) {
+				var s = sessions[key];
 
 				var marker = L.marker([s['lat'], s['lon']]);
 
-				// Store id in the marker object as well
-				marker.session_id = s['id'];
+				sessions[key]['marker'] = marker;
 
 				markers.addLayer(marker);
 			}
-
-			// if (markerList.length > 0) {
-			// 	markers = new L.featureGroup(markerList);
-			// 	markers.addTo(map);
-			// 	map.fitBounds(markers);
-			// }
-
 		});
 	}
 
