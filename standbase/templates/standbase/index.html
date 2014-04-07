@@ -274,9 +274,19 @@
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
 	map.addLayer(bing);
 
-	// add markers
+	// add markers group
 	markers = new L.featureGroup();
 	markers.addTo(map);
+
+	{% if active_sessions %}
+		var firstMarker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]);
+	{% elif completed_sessions %}
+		var firstMarker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]);
+	{% endif %}
+
+	markers.addLayer(firstMarker);
+	map.setZoom(16);
+	map.panTo(firstMarker.getLatLng());
 
 	// if (!$.isEmptyObject(active_sessions)) {
 	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
