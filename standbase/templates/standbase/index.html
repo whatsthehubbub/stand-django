@@ -15,22 +15,18 @@
 
 <h2>Recent sessions</h2>
 
-<div class="list-group" id="sessions">
-	{% for session in completed_sessions %}
-		<a class="list-group-item completed" id="session_{{ session.id }}" href="{{ session.get_absolute_url }}" id="">{{ session.datefinished|timeuntil:session.datecreated }} for <strong>{{ session.topic }}</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small></a>
-	{% endfor %}
-</div>
-
-<div id="map">
-</div>
-
-<!-- 
 <div class="panel panel-default">
-	<div class="panel-body" id="map">
-	</div>
-	<a href="#"><div class="panel-footer"><span class="glyphicon glyphicon-time"></span> <span class="livetime">12 seconds</span> for <strong>something</strong> <small>in some place 35 days ago</small></div></a>
+	<div class="panel-body" id="map"></div>
+
+	{% with completed_sessions.0 as session %}
+		<a id="session" href="#">
+		<div class="panel-footer">
+			<span class="glyphicon glyphicon-time"></span>
+			<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
+		</div>
+		</a>
+	{% endwith %}
 </div>
- -->
 
 <h2>Trending causes</h2>
 
@@ -277,7 +273,9 @@
 	}
 
 </script>
+
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
