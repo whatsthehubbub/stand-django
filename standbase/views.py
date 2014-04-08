@@ -214,10 +214,6 @@ def done(request):
             s.duration = duration
             s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
-        # TODO rename to 
-        if 'message' in request.POST:
-            
-
         s.save()
 
         code = 1
