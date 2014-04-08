@@ -158,9 +158,14 @@ def catch(request):
 
     vendorid = request.POST.get('vendorid', '')
 
-    something, created = Topic.objects.get_or_create(name='something')
+    message = request.POST.get('message', 'something')
+    slug = slugify(message)
+    try:
+        topic = Topic.objects.get(slug=slug)
+    except Topic.DoesNotExist:
+        topic = Topic.objects.create(name=message, slug=slug)
 
-    s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now(), topic=something)
+    s = StandSession.objects.create(lat=lat, lon=lon, vendorid=vendorid, datelive=timezone.now(), topic=topic)
 
     import django_rq
     django_rq.enqueue(s.retrieve_reverse_geocode)
@@ -211,17 +216,7 @@ def done(request):
 
         # TODO rename to 
         if 'message' in request.POST:
-            message = request.POST.get('message', '')
-
-            if message:
-                slug = slugify(message)
-
-                try:
-                    topic = Topic.objects.get(slug=slug)
-                except Topic.DoesNotExist:
-                    topic = Topic.objects.create(name=message, slug=slug)
-
-                s.topic = topic
+            
 
         s.save()
 
