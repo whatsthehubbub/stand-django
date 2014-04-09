@@ -32,7 +32,7 @@
 		{% with completed_sessions.0 as session %}
 			<a id="session" href="{{ session.get_absolute_url }}">
 			<div class="panel-footer">
-				<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
+				<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
 			</div>
 			</a>
 		{% endwith %}
