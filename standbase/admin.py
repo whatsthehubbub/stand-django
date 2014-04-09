@@ -14,7 +14,7 @@ def make_public(modeladmin, request, queryset):
 make_public.short_description = "Make topics public"
 
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('datecreated', 'name', 'public')
+    list_display = ('datecreated', 'name', 'slug', 'public')
     list_filter = ('public', )
 
     actions = [make_public]
