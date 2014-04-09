@@ -24,7 +24,7 @@
 			<a id="session" href="{{ session.get_absolute_url }}">
 			<div class="panel-footer">
 				<span class="glyphicon glyphicon-time"></span>
-				<span class="livetime" id="time_{{ session.id }}">{{ session.live_duration }}</span> for <strong>something</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
+				<span class="livetime" id="time_{{ session.id }}">{{ session.live_duration }}</span> for <strong>{{ s.topic }}</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
 			</div>
 			</a>
 		{% endwith %}
@@ -32,7 +32,7 @@
 		{% with completed_sessions.0 as session %}
 			<a id="session" href="{{ session.get_absolute_url }}">
 			<div class="panel-footer">
-				<span class="livetime" id="time_{{ session.id }}">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
+				<span class="livetime" id="time_{{ session.id }}">{{ session.get_duration }}</span> for <strong>{{ session.topic }}</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
 			</div>
 			</a>
 		{% endwith %}
