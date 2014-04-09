@@ -116,7 +116,8 @@ def session(request, sessionid):
 
         if s.datefinished:
             return render(request, 'standbase/stand.html', {
-                's': s
+                's': s,
+                'total_time': formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
             })
         else:
             return HttpResponseNotFound("Couldn't find such a session.")
@@ -144,7 +145,8 @@ def topic(request, topic_slug):
 
         return render(request, 'standbase/topic.html', {
             't': t,
-            'sessions': sessions
+            'sessions': sessions,
+            'total_time': formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
         })
     except Topic.DoesNotExist:
         return HttpResponseNotFound("Couldn't find such a topic.")
