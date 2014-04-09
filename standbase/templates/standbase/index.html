@@ -24,7 +24,7 @@
 			<a id="session" href="#">
 			<div class="panel-footer">
 				<span class="glyphicon glyphicon-time"></span>
-				<span class="livetime">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.parsed_geocode.0 }}, {{ session.parsed_geocode.1 }} {{ session.datecreated|timesince }} ago</small>
+				<span class="livetime" id="time_{{ session.id }}">{{ session.get_duration }}</span> for <strong>something</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
 			</div>
 			</a>
 		{% endwith %}
@@ -78,9 +78,7 @@
 	var markers = null;
 
 	$(document).ready(function() {
-		// Update seconds on all the active sessions
-		// TODO fix this
-		// setInterval(updateCounters, 1000);
+		setInterval(updateCounters, 1000);
 
 		// Refresh the current state
 		setInterval(getCurrentState, 10000);
@@ -89,13 +87,25 @@
 		getCurrentState();
 	});
 
+	/*
+	 * Updates the time on the session currently in the picture if it is an active session.
+	 */
 	function updateCounters() {
-		// Walk through all the active sessions and update the counters in #active_time_id
-		for (var key in active_sessions) {
+		var id = $('.livetime').attr('id').split('_')[1];
 
-			var seconds = getSeconds(active_sessions[key]);
+		// Find the session belonging to this id
+		var s = null;
+		for (var i = 0; i < sessions.length; i++) {
+			if (sessions[i]['id'] == id) {
+				s = sessions[i];
+			}
+		}
 
-			$('#session_' + key + ' .livetime').text('' + seconds + ' seconds');
+		if (s['datefinished'] == null) {
+			// This is a live session
+			var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+
+			$('.livetime').html(formatDuration(secondsStood));
 		}
 	}
 
@@ -201,7 +211,7 @@
 			}
 
 			// Show new session below map
-			$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
+			$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="#time_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
 			// Set correct URL
 			$('#session').attr('href', s['get_absolute_url']);
 
