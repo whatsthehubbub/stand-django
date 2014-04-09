@@ -79,7 +79,6 @@
 
 	$(document).ready(function() {
 		setInterval(updateCounters, 1000);
-		updateCounters();
 
 		// Refresh the current state
 		setInterval(getCurrentState, 10000);
@@ -262,6 +261,8 @@
 
 				markers.addLayer(marker);
 			}
+
+			updateCounters();
 		});
 	}
 
