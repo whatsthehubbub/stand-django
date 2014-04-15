@@ -11,18 +11,16 @@
 {% block bodyid %}session{% endblock %}
 
 {% block content %}
-<div class="page-header">
-	<h1>
-		{{ s.get_duration }}
-		for 
-		{% if s.topic.public %}
-			<a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
-		{% else %}
-			{{ s.topic }}
-		{% endif %}
-		<small>in {{ s.rendered_geocode }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
-	</h1>
-</div>
+<h1>
+	{{ s.get_duration }}
+	for 
+	{% if s.topic.public %}
+		<a href="{% url 'topic' s.topic.slug %}">{{ s.topic }}</a>
+	{% else %}
+		{{ s.topic }}
+	{% endif %}
+	<small>in {{ s.rendered_geocode }} <span title="{{ s.datecreated }}">{{ s.datecreated|timesince }} ago</span></small>
+</h1>
 
 <div class="google-map-canvas" id="map"></div>
 
