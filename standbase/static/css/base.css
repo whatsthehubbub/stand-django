@@ -5778,10 +5778,6 @@ body {
 #home {
   padding-top: 0px;
 }
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
 #map {
   width: 100%;
   height: 405px;
@@ -5791,8 +5787,14 @@ body {
     height: 240px;
   }
 }
-#footer {
-  margin: 20px 0;
+#session #map {
+  margin-bottom: 20px;
+}
+#footer #totaltime {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
 }
 #home nav {
   display: none !important;
