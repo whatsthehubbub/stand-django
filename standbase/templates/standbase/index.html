@@ -18,7 +18,6 @@
 <div class="panel panel-default">
 	<div class="panel-body" id="map"></div>
 
-
 	{% if active_sessions %}
 		{% with active_sessions.0 as session %}
 			<a id="session" href="{{ session.get_absolute_url }}">
@@ -276,7 +275,9 @@
 	// initialise map
 	var map = L.map('map', {
 		scrollWheelZoom: false, 
-		dragging: false
+		dragging: false,
+		zoomControl: false,
+		attributionControl: false
 	});
 	
 	// set position and zoom level
