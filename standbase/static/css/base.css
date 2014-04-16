@@ -5835,3 +5835,11 @@ body {
   margin-top: -17px;
   padding: 0 10px;
 }
+#map #controls a {
+  color: #ed6038;
+  text-decoration: none;
+}
+#map #controls a:hover {
+  color: #c73a12;
+  text-decoration: underline;
+}
