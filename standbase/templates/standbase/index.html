@@ -275,8 +275,8 @@
 	// initialise map
 	var map = L.map('map', {
 		scrollWheelZoom: false, 
-		dragging: false,
-		zoomControl: false,
+		// dragging: false,
+		// zoomControl: false,
 		attributionControl: false
 	});
 	
@@ -300,6 +300,14 @@
 	markers.addLayer(firstMarker);
 	map.setZoom(16);
 	map.panTo(firstMarker.getLatLng());
+
+	L.marker(firstMarker.getLatLng()).addTo(map)
+	    .bindPopup('<p><a href="">21 days, 22 hours, 2 minutes and 58 seconds for <strong>something</strong></a> <small>in Kottbuser Tor, Berlin, 49 days and 15 hours ago</small></p>',
+	    	{
+	    		closeButton:false
+	    	})
+	    .openPopup();
+
 
 	// if (!$.isEmptyObject(active_sessions)) {
 	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
