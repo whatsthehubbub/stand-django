@@ -5813,3 +5813,17 @@ body {
 .panel a:hover .panel-footer {
   background-color: #f5f5f5;
 }
+.leaflet-popup-content p {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+.leaflet-popup-content p a {
+  color: #ed6038;
+  text-decoration: none;
+}
+.leaflet-popup-content p a:hover {
+  color: #c73a12;
+  text-decoration: underline;
+}
