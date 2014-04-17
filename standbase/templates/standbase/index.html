@@ -177,66 +177,66 @@
 		return returnParts.join('');
 	}
 
-	var cycleIndex = 1;
+	// var cycleIndex = 1;
 
-	function cycle() {
-		if (sessions.length > 0) {
-			if (cycleIndex > sessions.length -1) {
-				cycleIndex = 0;
-			}
+	// function cycle() {
+	// 	if (sessions.length > 0) {
+	// 		if (cycleIndex > sessions.length -1) {
+	// 			cycleIndex = 0;
+	// 		}
 
-			var s = sessions[cycleIndex];
+	// 		var s = sessions[cycleIndex];
 
-			var activeSession = false;
+	// 		var activeSession = false;
 
-			var secondsStood = 0;
-			if (s['datefinished'] == null) {
-				activeSession = true;
-				secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+	// 		var secondsStood = 0;
+	// 		if (s['datefinished'] == null) {
+	// 			activeSession = true;
+	// 			secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
 
-				console.log("Seconds stood " + secondsStood);
-			} else {
-				secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
-			}
+	// 			console.log("Seconds stood " + secondsStood);
+	// 		} else {
+	// 			secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
+	// 		}
 
-			var location = "";
-			if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
-				// No geocode, do nothing
-			} else if (s['parsed_geocode'][0] == null) {
-				location = "in " + s['parsed_geocode'][1];
-			} else if (s['parsed_geocode'][1] == null) {
-				location = "in " + s['parsed_geocode'][0];
-			} else {
-				location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
-			}
+	// 		var location = "";
+	// 		if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
+	// 			// No geocode, do nothing
+	// 		} else if (s['parsed_geocode'][0] == null) {
+	// 			location = "in " + s['parsed_geocode'][1];
+	// 		} else if (s['parsed_geocode'][1] == null) {
+	// 			location = "in " + s['parsed_geocode'][0];
+	// 		} else {
+	// 			location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
+	// 		}
 
-			var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
-			var parts = listDuration(secondsAgo);
-			var timeAgo = "";
-			if (parts.length > 1) {
-				timeAgo = parts[0] + ' and ' + parts[1];
-			} else {
-				timeAgo = parts[0];
-			}
+	// 		var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+	// 		var parts = listDuration(secondsAgo);
+	// 		var timeAgo = "";
+	// 		if (parts.length > 1) {
+	// 			timeAgo = parts[0] + ' and ' + parts[1];
+	// 		} else {
+	// 			timeAgo = parts[0];
+	// 		}
 
-			// Show new session below map
-			$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="#time_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
-			// Set correct URL
-			$('#session').attr('href', s['get_absolute_url']);
+	// 		// Show new session below map
+	// 		$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="#time_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
+	// 		// Set correct URL
+	// 		$('#session').attr('href', s['get_absolute_url']);
 
 
-			var marker = sessions[cycleIndex]['marker'];
+	// 		var marker = sessions[cycleIndex]['marker'];
 
-			map.setZoom(16);
-			map.panTo(marker.getLatLng());
+	// 		map.setZoom(16);
+	// 		map.panTo(marker.getLatLng());
 
-			cycleIndex += 1;
-		}
+	// 		cycleIndex += 1;
+	// 	}
 
-		setTimeout(cycle, 6000);
-	}
+	// 	setTimeout(cycle, 6000);
+	// }
 
-	cycle();
+	// cycle();
 
 	function getCurrentState() {
 		console.log("Getting new state");
