@@ -313,7 +313,7 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '">' + duration + ' for <strong>' + topic + '</strong></a> <small>in ' + geocode + ', ' + timeago + '</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '">' + duration + ' for <strong>' + topic + '</strong></a> <small>in ' + geocode + ', ' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
