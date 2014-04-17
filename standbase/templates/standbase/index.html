@@ -87,10 +87,18 @@
 	var markers = null;
 
 	$(document).ready(function() {
-		setInterval(updateCounters, 1000);
+		$('#previous_button').click(function(e) {
+			previous();
+		});
+
+		$('#next_button').click(function(e) {
+			next();
+		});
+
+		// setInterval(updateCounters, 1000);
 
 		// Refresh the current state
-		setInterval(getCurrentState, 10000);
+		// setInterval(getCurrentState, 10000);
 
 		// We need to get the current state to seed any active sessions (not doing those from django anymore)
 		getCurrentState();
@@ -184,66 +192,88 @@
 		return returnParts.join('');
 	}
 
-	// var cycleIndex = 1;
+	function getRandomArbitrary(min, max) {
+		return Math.random() * (max - min) + min;
+	}
 
-	// function cycle() {
-	// 	if (sessions.length > 0) {
-	// 		if (cycleIndex > sessions.length -1) {
-	// 			cycleIndex = 0;
-	// 		}
+	var markerIndex = 0;
+	var marker = null;
 
-	// 		var s = sessions[cycleIndex];
+	function next() {
+		markerIndex += 1;
 
-	// 		var activeSession = false;
+		if (sessions.length > 0 && markerIndex > sessions.length-1) {
+			markerIndex = 0;
+		}
 
-	// 		var secondsStood = 0;
-	// 		if (s['datefinished'] == null) {
-	// 			activeSession = true;
-	// 			secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+		displaySession(markerIndex);
+	}
 
-	// 			console.log("Seconds stood " + secondsStood);
-	// 		} else {
-	// 			secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
-	// 		}
+	function previous() {
+		markerIndex -= 1;
 
-	// 		var location = "";
-	// 		if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
-	// 			// No geocode, do nothing
-	// 		} else if (s['parsed_geocode'][0] == null) {
-	// 			location = "in " + s['parsed_geocode'][1];
-	// 		} else if (s['parsed_geocode'][1] == null) {
-	// 			location = "in " + s['parsed_geocode'][0];
-	// 		} else {
-	// 			location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
-	// 		}
+		if (sessions.length > 0 && markerIndex < 0) {
+			markerIndex = sessions.length-1;
+		}
 
-	// 		var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
-	// 		var parts = listDuration(secondsAgo);
-	// 		var timeAgo = "";
-	// 		if (parts.length > 1) {
-	// 			timeAgo = parts[0] + ' and ' + parts[1];
-	// 		} else {
-	// 			timeAgo = parts[0];
-	// 		}
+		displaySession(markerIndex);
+	}
 
-	// 		// Show new session below map
-	// 		$('#session').html('<div class="panel-footer">' + (activeSession ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="#time_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>something</strong> <small> ' + location + ' ' + timeAgo + ' ago</small></div>');
-	// 		// Set correct URL
-	// 		$('#session').attr('href', s['get_absolute_url']);
+	function displaySession(index) {
+		console.log('display session with index', markerIndex);
 
+		var s = sessions[index];
 
-	// 		var marker = sessions[cycleIndex]['marker'];
+		map.removeLayer(marker);
 
-	// 		map.setZoom(16);
-	// 		map.panTo(marker.getLatLng());
+		marker = L.marker([s['lat'], s['lon']]).addTo(map);
 
-	// 		cycleIndex += 1;
-	// 	}
+		console.log("New marker", marker);
 
-	// 	setTimeout(cycle, 6000);
-	// }
+		map.setZoom(16);
+		map.panTo(marker.getLatLng());
 
-	// cycle();
+		// Create and bind the popups for later
+
+		var activeSession = false;
+
+		var secondsStood = 0;
+		if (s['datefinished'] == null) {
+			activeSession = true;
+			secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+		} else {
+			secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
+		}
+
+		var location = "";
+		if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
+			// No geocode, do nothing
+		} else if (s['parsed_geocode'][0] == null) {
+			location = "in " + s['parsed_geocode'][1];
+		} else if (s['parsed_geocode'][1] == null) {
+			location = "in " + s['parsed_geocode'][0];
+		} else {
+			location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
+		}
+
+		var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+		var parts = listDuration(secondsAgo);
+		var timeAgo = "";
+		if (parts.length > 1) {
+			timeAgo = parts[0] + ' and ' + parts[1];
+		} else {
+			timeAgo = parts[0];
+		}
+
+		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong></a> <small>in Kottbuser Tor, Berlin, ' + timeAgo + ' ago</small></p>';
+
+		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
+		marker.bindPopup(popup);
+
+		setTimeout(function() {
+			map.openPopup(marker.getPopup());
+		}, 100);
+	}
 
 	function getCurrentState() {
 		console.log("Getting new state");
@@ -263,22 +293,6 @@
 
 				sessions.push(s);
 			}
-
-			// Update map
-			// TODO don't replace all markers, it creates a nasty stutter
-			markers.clearLayers();
-
-			for (var key in sessions) {
-				var s = sessions[key];
-
-				var marker = L.marker([s['lat'], s['lon']]);
-
-				sessions[key]['marker'] = marker;
-
-				markers.addLayer(marker);
-			}
-
-			updateCounters();
 		});
 	}
 
@@ -298,53 +312,25 @@
 	});
 	
 	// set position and zoom level
-	map.setView([46.0, 10.0], 4);
+	map.setView([getRandomArbitrary(-90.0, 90.0), getRandomArbitrary(-180.0, 180.0)], 4);
 
 	// set bing layer
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
 	map.addLayer(bing);
 
-	// add markers group
-	markers = new L.featureGroup();
-	markers.addTo(map);
-
 	{% if active_sessions %}
-		var firstMarker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]);
+		var marker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]).addTo(map);
 	{% elif completed_sessions %}
-		var firstMarker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]);
+		var marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
 	{% endif %}
 
-	markers.addLayer(firstMarker);
 	map.setZoom(16);
-	map.panTo(firstMarker.getLatLng());
 
-	L.marker(firstMarker.getLatLng()).addTo(map)
-	    .bindPopup('<p><a href="">21 days, 22 hours, 2 minutes and 58 seconds for <strong>something</strong></a> <small>in Kottbuser Tor, Berlin, 49 days and 15 hours ago</small></p>',
-	    	{
-	    		closeButton:false
-	    	})
-	    .openPopup();
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="">21 days, 22 hours, 2 minutes and 58 seconds for <strong>something</strong></a> <small>in Kottbuser Tor, Berlin, 49 days and 15 hours ago</small></p>');
 
+	marker.bindPopup(popup);
 
-	// if (!$.isEmptyObject(active_sessions)) {
-	// 	// var map = L.map('map').setView([getActiveSession()['lat'], getActiveSession()['lon']], 13);
-
-	// 	// L.tileLayer('http://{s}.tile.cloudmade.com/d835804aba7d4dea8039b3f6c6b8b23e/997/256/{z}/{x}/{y}.png', {
-	// 	// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-	// 	// 	maxZoom: 18
-	// 	// }).addTo(map);
-
-	// 	// map.addLayer(bing);
-
-	// 	var markers = [];
-
-	// 	for (var key in active_sessions) {
-	// 		var s = active_sessions[key];
-	// 		markers.push(L.marker([s['lat'], s['lon']]).addTo(map));
-	// 	}
-
-	// 	var group = new L.featureGroup(markers);
-	// 	map.fitBounds(group.getBounds());
-	// }
+	map.openPopup(popup);
+	map.panTo(marker.getLatLng());
 </script>
 {% endblock extra_javascript %}

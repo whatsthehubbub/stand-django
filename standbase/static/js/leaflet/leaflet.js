@@ -4157,6 +4157,7 @@ L.Map.include({
 		popup._isOpen = true;
 
 		this._popup = popup;
+
 		return this.addLayer(popup);
 	},
 
