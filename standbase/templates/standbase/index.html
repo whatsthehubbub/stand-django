@@ -256,6 +256,8 @@
 			console.log(data);
 
 			// Process incoming active sessions
+			$('#active_count').html(data['active_sessions'].length);
+			
 			for (var i = 0; i < data['active_sessions'].length; i++) {
 				var s = data['active_sessions'][i];
 
