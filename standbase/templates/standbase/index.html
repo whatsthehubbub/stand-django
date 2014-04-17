@@ -118,6 +118,10 @@
 		}
 	}
 
+	/*
+	 * Takes a duration in seconds and returns parts depending on the 
+	 * units of time you can fill with them.
+	 */
 	function listDuration(d) {
 		var days = Math.floor(d / (24 * 60 * 60));
 		d -= days * 24 * 60 * 60;
@@ -159,6 +163,9 @@
 		return returnValue;
 	}
 
+	/*
+	 * Formats a set of time parts into a coherent duration.
+	 */
 	function formatDuration(d) {
 		var items = listDuration(d);
 
