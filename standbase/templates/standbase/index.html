@@ -22,32 +22,6 @@
 	</div>
 </div>
 
-{% comment %} 
-<!-- Once we get the new map working this can all be deleted – Kars -->
-<div class="panel panel-default">
-	<div class="panel-body" id="map"></div>
-
-	{% if active_sessions %}
-		{% with active_sessions.0 as session %}
-			<a id="session" href="{{ session.get_absolute_url }}">
-			<div class="panel-footer">
-				<span class="glyphicon glyphicon-time"></span>
-				<span class="livetime" id="time_{{ session.id }}">{{ session.live_duration }}</span> for <strong>{{ session.topic }}</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
-			</div>
-			</a>
-		{% endwith %}
-	{% elif completed_sessions %}
-		{% with completed_sessions.0 as session %}
-			<a id="session" href="{{ session.get_absolute_url }}">
-			<div class="panel-footer">
-				<span class="livetime" id="time_{{ session.id }}">{{ session.get_duration }}</span> for <strong>{{ session.topic }}</strong> <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small>
-			</div>
-			</a>
-		{% endwith %}
-	{% endif %}
-</div>
-{% endcomment %}
-
 <h2>Trending causes</h2>
 
 <!-- Local Demo Code. -->
@@ -98,7 +72,7 @@
 		// setInterval(updateCounters, 1000);
 
 		// Refresh the current state
-		// setInterval(getCurrentState, 10000);
+		setInterval(getCurrentState, 10000);
 
 		// We need to get the current state to seed any active sessions (not doing those from django anymore)
 		getCurrentState();
@@ -303,7 +277,6 @@
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
-	// initialise map
 	var map = L.map('map', {
 		scrollWheelZoom: false, 
 		// dragging: false,
