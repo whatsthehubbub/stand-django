@@ -5827,24 +5827,29 @@ body {
   color: #c73a12;
   text-decoration: underline;
 }
+@media (max-width: 767px) {
+  .leaflet-popup-content p {
+    font-size: 14px;
+  }
+}
 .recent,
 .trending,
 #footer {
   margin-top: 3em;
 }
-#map #controls {
+#map .controls {
   position: absolute;
   z-index: 999;
   width: 100%;
   top: 50%;
-  margin-top: -17px;
-  padding: 0 10px;
+  margin-top: -37px;
 }
-#map #controls a {
+#map .controls a {
   color: #ed6038;
   text-decoration: none;
+  padding: 20px 10px;
 }
-#map #controls a:hover {
+#map .controls a:hover {
   color: #c73a12;
   text-decoration: underline;
 }

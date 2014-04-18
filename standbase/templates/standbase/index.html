@@ -17,9 +17,17 @@
 	<h2>Recent sessions <small><span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</small></h2>
 	
 	<div id="map">
-		<div id="controls">
-			<a href="#" class="btn btn-primary pull-left" id="previous_button"><span class="glyphicon glyphicon-chevron-left"></span></a>
-			<a href="#" class="btn btn-primary pull-right" id="next_button"><span class="glyphicon glyphicon-chevron-right"></span></a>
+		<div class="controls">
+			<a href="#" class="pull-left" id="previous_button">
+				<div class="btn btn-primary">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</div>
+			</a>
+			<a href="#" class="pull-right" id="next_button">
+				<div class="btn btn-primary">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</div>
+			</a>
 		</div>
 	</div>
 </div>
@@ -245,7 +253,7 @@
 			timeAgo = parts[0];
 		}
 
-		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + ', ' + timeAgo + ' ago</small></p>';
+		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + '<br>' + timeAgo + ' ago</small></p>';
 
 		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
 		marker.bindPopup(popup);
@@ -319,7 +327,7 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '">' + duration + ' for <strong>' + topic + '</strong></a> <small>in ' + geocode + ', ' + timeago + ' ago</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '">' + duration + ' for <strong>' + topic + '</strong></a> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 

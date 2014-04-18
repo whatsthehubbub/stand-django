@@ -87,6 +87,11 @@ body {
 			}
 		}
 	}
+	@media (max-width: @screen-xs-max) {
+		p {
+			font-size: @font-size-h5;
+		}
+	}
 }
 
 .recent, .trending, #footer {
@@ -94,17 +99,16 @@ body {
 }
 
 #map {
-	#controls {
+	.controls {
 		position: absolute;
 		z-index: 999;
 		width: 100%;
 		top: 50%;
-		margin-top: -17px;
-		padding: 0 10px;
+		margin-top: -37px;
 		a {
 			color: @link-color;
 			text-decoration: none;
-
+			padding: 20px 10px;
 			&:hover {
 				color: @link-hover-color;
 				text-decoration: underline;
