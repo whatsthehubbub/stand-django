@@ -67,10 +67,12 @@
 	$(document).ready(function() {
 		$('#previous_button').click(function(e) {
 			previous();
+			return false;
 		});
 
 		$('#next_button').click(function(e) {
 			next();
+			return false;
 		});
 
 		// setInterval(updateCounters, 1000);
