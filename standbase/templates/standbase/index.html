@@ -14,8 +14,12 @@
 </div>
 
 <div class="recent">
-	<h2>Recent sessions <small><span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</small></h2>
-	
+	<div class="header clearfix">
+		<h2>Recent sessions</h2>
+		<div class="count">
+			<p class="badge"><span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
+		</div>
+	</div>
 	<div id="map">
 		<div class="controls">
 			<a href="#" class="pull-left" id="previous_button">

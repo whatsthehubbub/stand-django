@@ -94,8 +94,30 @@ body {
 	}
 }
 
-.recent, .trending, #footer {
-	margin-top: 3em;
+.recent, .trending {
+	margin-bottom: 3em;
+}
+
+#footer {
+	margin-top: 1em;
+}
+
+.recent {
+	h2 {
+		.pull-left();
+	}
+	.count {
+		.pull-right();
+		margin-top: 30px;
+		p {
+			background-color: @brand-secondary;
+		}
+		@media (max-width: @screen-xs-min) {
+			.pull-left();
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+	}
 }
 
 #map {
