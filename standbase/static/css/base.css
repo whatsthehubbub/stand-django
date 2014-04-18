@@ -5827,6 +5827,11 @@ body {
   color: #c73a12;
   text-decoration: underline;
 }
+.recent,
+.trending,
+#footer {
+  margin-top: 3em;
+}
 #map #controls {
   position: absolute;
   z-index: 999;
