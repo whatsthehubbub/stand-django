@@ -87,7 +87,7 @@
 			return false;
 		});
 
-		// setInterval(updateCounters, 1000);
+		setInterval(updateCounters, 1000);
 
 		// Refresh the current state
 		setInterval(getCurrentState, 10000);
@@ -255,7 +255,7 @@
 			timeAgo = parts[0];
 		}
 
-		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + '<br>' + timeAgo + ' ago</small></p>';
+		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '"><span class="livetime" id="duration_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + '<br>' + timeAgo + ' ago</small></p>';
 
 		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
 		marker.bindPopup(popup);
@@ -266,10 +266,8 @@
 	}
 
 	function getCurrentState() {
-		console.log("Getting new state");
-
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
-			console.log(data);
+			console.log("Got new state", data);
 
 			// Process incoming active sessions
 			$('#active_count').html(data['active_sessions'].length);
@@ -312,6 +310,7 @@
 	{% if active_sessions %}
 		var marker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]).addTo(map);
 
+		var id = '{{ active_sessions.0.id }}';
 		var geocode = '{{ active_sessions.0.rendered_geocode }}';
 		var duration = '{{ active_sessions.0.live_duration }}';
 		var url = '{{ active_sessions.0.get_absolute_url }}';
@@ -320,6 +319,7 @@
 	{% elif completed_sessions %}
 		var marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
 
+		var id = '{{ completed_sessions.0.id }}';
 		var geocode = '{{ completed_sessions.0.rendered_geocode }}';
 		var duration = '{{ completed_sessions.0.get_duration }}';
 		var url = '{{ completed_sessions.0.get_absolute_url }}';
@@ -329,7 +329,7 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '">' + duration + ' for <strong>' + topic + '</strong></a> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><a href="' + url + '"><span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong></a> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
