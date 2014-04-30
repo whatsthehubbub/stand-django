@@ -330,7 +330,7 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><span class="glyphicon glyphicon-time"></span> <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
