@@ -5846,9 +5846,6 @@ body {
   float: right !important;
   margin-top: 30px;
 }
-.recent .count p {
-  background-color: #ed6038;
-}
 @media (max-width: 480px) {
   .recent .count {
     float: left !important;

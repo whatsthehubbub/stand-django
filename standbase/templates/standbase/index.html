@@ -17,7 +17,8 @@
 	<div class="header clearfix">
 		<h2>Recent sessions</h2>
 		<div class="count">
-			<p class="badge"><span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
+			<p class="label label-default">
+				<span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
 		</div>
 	</div>
 	<div id="map">
@@ -257,14 +258,22 @@
 
 			for (var i = 0; i < data['active_sessions'].length; i++) {
 				var s = data['active_sessions'][i];
-
 				sessions.push(s);
 			}
 
 			for (var i = 0; i < data['completed_sessions'].length; i++) {
 				var s = data['completed_sessions'][i];
-
 				sessions.push(s);
+			}
+
+			// Highlighting active badge
+			var n = parseInt($('#active_count').text());
+			if (n >= 1) {
+				$('#active_count').parent().removeClass('label-default');
+				$('#active_count').parent().addClass('label-danger');
+			} else {
+				$('#active_count').parent().removeClass('label-danger');
+				$('#active_count').parent().addClass('label-default');
 			}
 		});
 	}
