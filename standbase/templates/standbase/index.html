@@ -241,7 +241,7 @@
 
 		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '"><span class="livetime" id="duration_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + '<br>' + timeAgo + ' ago</small></p>';
 
-		var popup = L.popup({closeButton: false, maxWidth: 150}).setLatLng(marker.getLatLng()).setContent(popupHTML);
+		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
 		marker.bindPopup(popup);
 
 		setTimeout(function() {
@@ -322,7 +322,7 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false, maxWidth: 150}).setLatLng(marker.getLatLng()).setContent('<p><span class="glyphicon glyphicon-time"></span> <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><span class="glyphicon glyphicon-time"></span> <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + '<br>' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
