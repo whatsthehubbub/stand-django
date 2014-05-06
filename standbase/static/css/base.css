@@ -5853,6 +5853,14 @@ body {
     margin-bottom: 10px;
   }
 }
+.leaflet-popup {
+  max-width: 300px;
+}
+@media (max-width: 480px) {
+  .leaflet-popup {
+    max-width: 200px;
+  }
+}
 #map .controls {
   position: absolute;
   z-index: 999;

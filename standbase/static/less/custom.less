@@ -113,6 +113,13 @@ body {
 	}
 }
 
+.leaflet-popup {
+	max-width: 300px;
+	@media (max-width: @screen-xs-min) {
+		max-width: 200px;
+	}	
+}
+
 #map {
 	.controls {
 		position: absolute;
