@@ -92,7 +92,7 @@ def api_state(request):
             'lon': s.lon,
             'datelive': s.datelive,
             'datefinished': s.datefinished,
-            'topic__name': s.topic.name,
+            'topic__name': s.topic.public and s.topic.name or 'something',
             'parsed_geocode': s.parsed_geocode()
         } for s in get_active_sessions()],
         'completed_sessions': [{
