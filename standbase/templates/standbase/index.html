@@ -307,7 +307,7 @@
 		var geocode = '{{ active_sessions.0.rendered_geocode }}';
 		var duration = '{{ active_sessions.0.live_duration }}';
 		var url = '{{ active_sessions.0.get_absolute_url }}';
-		var topic = '{{ active_sessions.0.topic.name }}';
+		var topic = '{% if active_sessions.0.topic.public %}{{ active_sessions.0.topic.name }}{% else %}something{% endif %}';
 		var timeago = '{{ active_sessions.0.datecreated|timesince }}';
 	{% elif completed_sessions %}
 		var marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
