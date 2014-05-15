@@ -309,6 +309,8 @@
 		var url = '{{ active_sessions.0.get_absolute_url }}';
 		var topic = '{% if active_sessions.0.topic.public %}{{ active_sessions.0.topic.name }}{% else %}something{% endif %}';
 		var timeago = '{{ active_sessions.0.datecreated|timesince }}';
+
+		var active = true;
 	{% elif completed_sessions %}
 		var marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
 
@@ -318,11 +320,13 @@
 		var url = '{{ completed_sessions.0.get_absolute_url }}';
 		var topic = '{{ completed_sessions.0.topic.name }}';
 		var timeago = '{{ completed_sessions.0.datecreated|timesince }}';
+
+		var active = false;
 	{% endif %}
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p><span class="glyphicon glyphicon-time"></span> <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + ' ' + timeago + ' ago</small></p>');
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p>' + (active ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + ' ' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
