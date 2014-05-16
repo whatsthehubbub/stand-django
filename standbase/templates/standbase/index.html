@@ -326,7 +326,15 @@
 
 	map.setZoom(16);
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p>' + (active ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong> <small>in ' + geocode + ' ' + timeago + ' ago</small></p>');
+	// Prepare the link code to insert down below
+	var linkOpen = '';
+	var linkClose = '';
+	if (!active) {
+		linkOpen  = '<a href="/s/' + id + '/">';
+		linkClose = '</a>';
+	}
+
+	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p>' + linkOpen + (active ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong>' + linkClose + ' <small>in ' + geocode + ' ' + timeago + ' ago</small></p>');
 
 	marker.bindPopup(popup);
 
