@@ -285,10 +285,14 @@
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 <script type="text/javascript">
+	// initialise map
 	var map = L.map('map', {
+		dragging: false,
+		touchZoom: false,
+		scrollWheelZoom: false,
+		doubleClickZoom: false,
 		tap: false,
-		scrollWheelZoom: false, 
-		// dragging: false,
+		closePopupOnClick: false,
 		zoomControl: false,
 		attributionControl: false
 	});

@@ -32,9 +32,12 @@
 <script type="text/javascript">
 	// initialise map
 	var map = L.map('map', {
-		tap: false,
-		scrollWheelZoom: false, 
 		dragging: false,
+		touchZoom: false,
+		scrollWheelZoom: false,
+		doubleClickZoom: false,
+		tap: false,
+		closePopupOnClick: false,
 		zoomControl: false,
 		attributionControl: false
 	});

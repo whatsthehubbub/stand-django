@@ -11,16 +11,6 @@ body {
 	padding-top: 0px;
 }
 
-
-#map {
-	width: 100%;
-	height: 405px; // 750 - 30 / 16 * 9 
-
-	@media (max-width: @screen-xs-max) {
-  		height: 240px; // 320 / 2
-  	}
-}
-
 #session {
 	#map {
 	  	margin-bottom: @padding-large-vertical * 2;
@@ -49,15 +39,12 @@ body {
 }
 
 .panel {
-
 	a {
 		text-decoration: none;
-		
 		.panel-footer {
 			background-color: #fff;
 			color: @gray-dark;
 		}
-		
 		&:hover {		
 			.panel-footer {
 				background-color: #f5f5f5;
@@ -65,6 +52,13 @@ body {
 			}
 		}
 	}
+}
+
+.leaflet-popup {
+	max-width: 300px;
+	@media (max-width: @screen-xs-min) {
+		max-width: 200px;
+	}	
 }
 
 .leaflet-popup-content {
@@ -113,16 +107,17 @@ body {
 	}
 }
 
-.leaflet-popup {
-	max-width: 300px;
-	@media (max-width: @screen-xs-min) {
-		max-width: 200px;
-	}	
-}
-
 #map {
+	display: block;
+	cursor: default;
+	width: 100%;
+	height: 405px; // 750 - 30 / 16 * 9
+	@media (max-width: @screen-xs-max) {
+  		height: 240px; // 320 / 2
+  	}
 	.controls {
 		position: absolute;
+		display: block;
 		z-index: 999;
 		width: 100%;
 		top: 50%;
