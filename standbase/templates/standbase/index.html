@@ -213,10 +213,23 @@
 
 		var secondsStood = 0;
 		if (s['datefinished'] == null) {
+			// Check whether the session we are doing is the active one
 			activeSession = true;
+
 			secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
 		} else {
 			secondsStood = Math.floor((new Date(s['datefinished']) - new Date(s['datecreated'])) / 1000);
+		}
+
+		// Variable markup for active and non active session
+		var linkOpen = '';
+		var linkClose = '';
+		var timeIcon = '';
+		if (!activeSession) {
+			linkOpen = '<a href="' + s['get_absolute_url'] + '">';
+			linkClose = '</a>';
+		} else {
+			timeIcon = '<span class="glyphicon glyphicon-time"></span>';
 		}
 
 		var location = "";
@@ -239,7 +252,7 @@
 			timeAgo = parts[0];
 		}
 
-		var popupHTML = '<p><a href="' + s['get_absolute_url'] + '"><span class="livetime" id="duration_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>' + s['topic__name'] + '</strong></a> <small> ' + location + ' ' + timeAgo + ' ago</small></p>';
+		var popupHTML = '<p>' + timeIcon + ' ' + linkOpen + '<span class="livetime" id="duration_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>' + s['topic__name'] + '</strong>' + linkClose + ' <small> ' + location + ' ' + timeAgo + ' ago</small></p>';
 
 		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
 		marker.bindPopup(popup);
