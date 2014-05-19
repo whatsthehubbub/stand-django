@@ -84,27 +84,9 @@
 	 * Updates the time on the session currently in the picture if it is an active session.
 	 */
 	function updateCounters() {
-		var liveTimeEl = $('.livetime');
-
-		if (liveTimeEl) {
-			var id = liveTimeEl.attr('id').split('_')[1];
-
-			// Find the session belonging to this id
-			var s = null;
-			for (var i = 0; i < sessions.length; i++) {
-				if (sessions[i]['id'] == id) {
-					s = sessions[i];
-				}
-			}
-
-			if (s['datefinished'] == null) {
-				// This is a live session
-				var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
-
-				$('.livetime').html(formatDuration(secondsStood));
-			}
-		}
-		
+		// Instead of updating the thing why not redisplay the bubble entirely?
+		// Fixes a lot of issues including that of the state of the session changing.
+		$('.leaflet-popup-content').html(getPopupHTML(markerIndex));
 	}
 
 	/*
@@ -200,19 +182,8 @@
 		displaySession(markerIndex);
 	}
 
-	function displaySession(index) {
-		console.log('display session with index', markerIndex);
-
+	function getPopupHTML(index) {
 		var s = sessions[index];
-
-		map.removeLayer(marker);
-
-		marker = L.marker([s['lat'], s['lon']]).addTo(map);
-
-		map.setZoom(16);
-		map.panTo(marker.getLatLng());
-
-		// Create and bind the popups for later
 
 		var activeSession = false;
 
@@ -259,7 +230,23 @@
 
 		var popupHTML = '<p>' + timeIcon + ' ' + linkOpen + '<span class="livetime" id="duration_' + s['id'] + '">' + formatDuration(secondsStood) + '</span> for <strong>' + s['topic__name'] + '</strong>' + linkClose + ' <small> ' + location + ' ' + timeAgo + ' ago</small></p>';
 
-		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(popupHTML);
+		return popupHTML;
+	}
+
+	function displaySession(index) {
+		console.log('display session with index', markerIndex);
+
+		var s = sessions[index];
+
+		map.removeLayer(marker);
+
+		marker = L.marker([s['lat'], s['lon']]).addTo(map);
+
+		map.setZoom(16);
+		map.panTo(marker.getLatLng());
+
+		// Create and bind the popups for later
+		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(getPopupHTML(index));
 		marker.bindPopup(popup);
 
 		setTimeout(function() {
@@ -270,6 +257,8 @@
 	function getCurrentState() {
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
 			console.log("Got new state", data);
+
+			sessions = [];
 
 			// Process incoming active sessions
 			$('#active_count').html(data['active_sessions'].length);
