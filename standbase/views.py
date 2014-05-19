@@ -15,6 +15,7 @@ from django.views.decorators.cache import cache_page
 
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.cache import add_never_cache_headers
 
 import datetime
 import json
@@ -81,6 +82,8 @@ def index(request):
         'total_time': formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
     })
 
+# This is cached for four minutes max
+# Cache is invalidated on write to any object, so it should be always up to date
 @cache_page(60 * 4)
 def api_state(request):
     # .values('id', 'datecreated', 'lat', 'lon', 'datelive', 'datefinished', 'topic__name', 'parsed_geocode')
@@ -108,7 +111,12 @@ def api_state(request):
         } for s in get_completed_sessions()]
     }
 
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type='application/json')
+    # However we don't want the client to cache this page ever
+    response = HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type='application/json')
+
+    add_never_cache_headers(response)
+    
+    return response
 
 def session(request, sessionid):
     try:
