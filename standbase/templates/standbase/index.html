@@ -84,22 +84,27 @@
 	 * Updates the time on the session currently in the picture if it is an active session.
 	 */
 	function updateCounters() {
-		var id = $('.livetime').attr('id').split('_')[1];
+		var liveTimeEl = $('.livetime');
 
-		// Find the session belonging to this id
-		var s = null;
-		for (var i = 0; i < sessions.length; i++) {
-			if (sessions[i]['id'] == id) {
-				s = sessions[i];
+		if (liveTimeEl) {
+			var id = liveTimeEl.attr('id').split('_')[1];
+
+			// Find the session belonging to this id
+			var s = null;
+			for (var i = 0; i < sessions.length; i++) {
+				if (sessions[i]['id'] == id) {
+					s = sessions[i];
+				}
+			}
+
+			if (s['datefinished'] == null) {
+				// This is a live session
+				var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+
+				$('.livetime').html(formatDuration(secondsStood));
 			}
 		}
-
-		if (s['datefinished'] == null) {
-			// This is a live session
-			var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
-
-			$('.livetime').html(formatDuration(secondsStood));
-		}
+		
 	}
 
 	/*
