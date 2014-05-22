@@ -60,6 +60,9 @@
 
 	var markers = null;
 
+	var sessionOnDisplay = null;
+	var sessionIndex = 0;
+
 	$(document).ready(function() {
 		$('#previous_button').click(function(e) {
 			previous();
@@ -86,7 +89,7 @@
 	function updateCounters() {
 		// Instead of updating the thing why not redisplay the bubble entirely?
 		// Fixes a lot of issues including that of the state of the session changing.
-		$('.leaflet-popup-content').html(getPopupHTML(markerIndex));
+		$('.leaflet-popup-content').html(getPopupHTMLForSession(sessions[sessionIndex]));
 	}
 
 	/*
@@ -159,32 +162,31 @@
 		return Math.random() * (max - min) + min;
 	}
 
-	var markerIndex = 0;
 	var marker = null;
 
 	function next() {
-		markerIndex += 1;
+		sessionIndex += 1;
 
-		if (sessions.length > 0 && markerIndex > sessions.length-1) {
-			markerIndex = 0;
+		if (sessions.length > 0 && sessionIndex > sessions.length-1) {
+			sessionIndex = 0;
 		}
 
-		displaySession(markerIndex);
+		sessionOnDisplay = sessions[sessionIndex];
+		displaySession(sessionOnDisplay);
 	}
 
 	function previous() {
-		markerIndex -= 1;
+		sessionIndex -= 1;
 
-		if (sessions.length > 0 && markerIndex < 0) {
-			markerIndex = sessions.length-1;
+		if (sessions.length > 0 && sessionIndex < 0) {
+			sessionIndex = sessions.length-1;
 		}
 
-		displaySession(markerIndex);
+		sessionOnDisplay = sessions[sessionIndex];
+		displaySession(sessionOnDisplay);
 	}
 
-	function getPopupHTML(index) {
-		var s = sessions[index];
-
+	function getPopupHTMLForSession(s) {
 		var activeSession = false;
 
 		var secondsStood = 0;
@@ -233,10 +235,8 @@
 		return popupHTML;
 	}
 
-	function displaySession(index) {
-		console.log('display session with index', markerIndex);
-
-		var s = sessions[index];
+	function displaySession(s) {
+		console.log('display session', s);
 
 		map.removeLayer(marker);
 
@@ -246,7 +246,7 @@
 		map.panTo(marker.getLatLng());
 
 		// Create and bind the popups for later
-		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(getPopupHTML(index));
+		var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent(getPopupHTMLForSession(s));
 		marker.bindPopup(popup);
 
 		setTimeout(function() {
@@ -256,7 +256,7 @@
 
 	function getCurrentState() {
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
-			console.log("Got new state", data);
+			console.log("Got new state:", data);
 
 			sessions = [];
 
@@ -271,6 +271,27 @@
 			for (var i = 0; i < data['completed_sessions'].length; i++) {
 				var s = data['completed_sessions'][i];
 				sessions.push(s);
+			}
+
+			// Check if the current session is one of the sessions in the new set
+			if (sessionOnDisplay) {
+				var found = false;
+
+				for (var i = 0; i < sessions.length; i++) {
+					if (sessionOnDisplay['id'] == sessions[i]['id']) {
+						found = true;
+						sessionOnDisplay = sessions[i];
+						sessionIndex = i;
+
+						break;
+					}
+				}
+
+				if (!found) {
+					// Insert the current session at the beginning of the list
+					sessions.splice(0, 0, sessionOnDisplay);
+					sessionIndex = 0;
+				}
 			}
 
 			// Highlighting active badge
@@ -311,45 +332,37 @@
 	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
 	map.addLayer(bing);
 
+
+	// Create a stub session to put in sessionOnDisplay
+	var s = {};
 	{% if active_sessions %}
-		var marker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]).addTo(map);
+		marker = L.marker([{{ active_sessions.0.lat }}, {{ active_sessions.0.lon }}]).addTo(map);
 
-		var id = '{{ active_sessions.0.id }}';
-		var geocode = '{{ active_sessions.0.rendered_geocode }}';
-		var duration = '{{ active_sessions.0.live_duration }}';
-		var url = '{{ active_sessions.0.get_absolute_url }}';
-		var topic = '{% if active_sessions.0.topic.public %}{{ active_sessions.0.topic.name }}{% else %}something{% endif %}';
-		var timeago = '{{ active_sessions.0.datecreated|timesince }}';
-
-		var active = true;
+		s['id'] = '{{ active_sessions.0.id }}';
+		s['lat'] = '{{ active_sessions.0.lat }}';
+		s['lon'] = '{{ active_sessions.0.lon }}';
+		s['datecreated'] = '{{ active_sessions.0.datecreated|date:"Y-m-d" }}T{{ active_sessions.0.datecreated|date:"H:i:s.u" }}Z';
+		s['datefinished'] = null;
+		s['parsed_geocode'] = '{{ active_sessions.0.rendered_geocode }}';
+		s['get_absolute_url'] = '{{ active_sessions.0.get_absolute_url }}';
+		s['topic__name'] = '{% if active_sessions.0.topic.public %}{{ active_sessions.0.topic.name }}{% else %}something{% endif %}';
 	{% elif completed_sessions %}
-		var marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
+		marker = L.marker([{{ completed_sessions.0.lat }}, {{ completed_sessions.0.lon }}]).addTo(map);
 
-		var id = '{{ completed_sessions.0.id }}';
-		var geocode = '{{ completed_sessions.0.rendered_geocode }}';
-		var duration = '{{ completed_sessions.0.get_duration }}';
-		var url = '{{ completed_sessions.0.get_absolute_url }}';
-		var topic = '{{ completed_sessions.0.topic.name }}';
-		var timeago = '{{ completed_sessions.0.datecreated|timesince }}';
-
-		var active = false;
+		s['id'] = '{{ completed_sessions.0.id }}';
+		s['lat'] = '{{ completed_sessions.0.lat }}';
+		s['lon'] = '{{ completed_sessions.0.lon }}';
+		s['datecreated'] = '{{ completed_sessions.0.datecreated|date:"Y-m-d" }}T{{ completed_sessions.0.datecreated|date:"H:i:s.u" }}Z';
+		s['datefinished'] = '{{ completed_sessions.0.datefinished|date:"Y-m-d" }}T{{ completed_sessions.0.datefinished|date:"H:i:s.u" }}Z';
+		s['parsed_geocode'] = '{{ completed_sessions.0.rendered_geocode }}';
+		s['get_absolute_url'] = '{{ completed_sessions.0.get_absolute_url }}';
+		s['topic__name'] = '{{ completed_sessions.0.topic.name }}';
 	{% endif %}
 
 	map.setZoom(16);
 
-	// Prepare the link code to insert down below
-	var linkOpen = '';
-	var linkClose = '';
-	if (!active) {
-		linkOpen  = '<a href="/s/' + id + '/">';
-		linkClose = '</a>';
-	}
+	sessionOnDisplay = s;
 
-	var popup = L.popup({closeButton: false}).setLatLng(marker.getLatLng()).setContent('<p>' + linkOpen + (active ? '<span class="glyphicon glyphicon-time"></span>' : '') + ' <span class="livetime" id="duration_' + id + '">' + duration + '</span> for <strong>' + topic + '</strong>' + linkClose + ' <small>in ' + geocode + ' ' + timeago + ' ago</small></p>');
-
-	marker.bindPopup(popup);
-
-	map.openPopup(popup);
-	map.panTo(marker.getLatLng());
+	displaySession(s);
 </script>
 {% endblock extra_javascript %}
