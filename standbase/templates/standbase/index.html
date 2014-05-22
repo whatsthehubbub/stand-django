@@ -343,7 +343,7 @@
 		s['lon'] = '{{ active_sessions.0.lon }}';
 		s['datecreated'] = '{{ active_sessions.0.datecreated|date:"Y-m-d" }}T{{ active_sessions.0.datecreated|date:"H:i:s.u" }}Z';
 		s['datefinished'] = null;
-		s['parsed_geocode'] = '{{ active_sessions.0.rendered_geocode }}';
+		s['parsed_geocode'] = ["{{ active_sessions.0.parsed_geocode.0 }}", "{{ active_sessions.0.parsed_geocode.1 }}"];
 		s['get_absolute_url'] = '{{ active_sessions.0.get_absolute_url }}';
 		s['topic__name'] = '{% if active_sessions.0.topic.public %}{{ active_sessions.0.topic.name }}{% else %}something{% endif %}';
 	{% elif completed_sessions %}
@@ -354,7 +354,7 @@
 		s['lon'] = '{{ completed_sessions.0.lon }}';
 		s['datecreated'] = '{{ completed_sessions.0.datecreated|date:"Y-m-d" }}T{{ completed_sessions.0.datecreated|date:"H:i:s.u" }}Z';
 		s['datefinished'] = '{{ completed_sessions.0.datefinished|date:"Y-m-d" }}T{{ completed_sessions.0.datefinished|date:"H:i:s.u" }}Z';
-		s['parsed_geocode'] = '{{ completed_sessions.0.rendered_geocode }}';
+		s['parsed_geocode'] = ["{{ completed_sessions.0.parsed_geocode.0 }}", "{{ completed_sessions.0.parsed_geocode.1 }}"];
 		s['get_absolute_url'] = '{{ completed_sessions.0.get_absolute_url }}';
 		s['topic__name'] = '{{ completed_sessions.0.topic.name }}';
 	{% endif %}
