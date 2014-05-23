@@ -20,6 +20,8 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 
+	var markers = {};
+
 	$(document).ready(function() {
 		// Refresh the current state
 		getCurrentState();
@@ -30,8 +32,6 @@
 	function getCurrentState() {
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
 			console.log("Got new state:", data);
-
-			sessions = [];
 
 			// Process incoming active sessions
 			$('#active_count').html(data['active_sessions'].length);
@@ -46,7 +46,38 @@
 
 			for (var i = 0; i < data['active_sessions'].length; i++) {
 				var s = data['active_sessions'][i];
-				sessions.push(s);
+
+				if (markers.hasOwnProperty(s['id'])) {
+					// Marker already exists
+					// Do nothing
+				} else {
+					// New create marker
+
+					console.log("Creating marker for session", s);
+
+					var marker = L.marker([s['lat'], s['lon']]).addTo(map);
+
+					markers[s['id']] = marker;
+
+					map.panTo(marker.getLatLng());
+				}
+			}
+
+			// Go through markers and remove those that are no longer active
+			for (var sessionId in markers) {
+				var found = false;
+
+				for (var i = 0; i < data['active_sessions'].length; i++) {
+					if (data['active_sessions'][i]['id'] == sessionId) {
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					map.removeLayer(markers[sessionId]);
+					delete markers[sessionId];
+				}
 			}
 
 		});
