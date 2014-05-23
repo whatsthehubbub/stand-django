@@ -90,7 +90,9 @@
 <script src="{{ STATIC_URL }}js/util.js"></script>
 
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
-<script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
+
+<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.4"></script>
+
 <script type="text/javascript">
 	// initialise map
 	var map = L.map('map', {
@@ -107,9 +109,8 @@
 	// set position and zoom level
 	map.setView([getRandomArbitrary(-90.0, 90.0), getRandomArbitrary(-180.0, 180.0)], 4);
 
-	// set bing layer
-	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
-	map.addLayer(bing);
+	var tileLayer = new L.StamenTileLayer("toner");
+	map.addLayer(tileLayer);
 
 	map.setZoom(2);
 </script>
