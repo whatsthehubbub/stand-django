@@ -6,10 +6,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
+
+		<link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
+		<link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}apple-touch-icon-precomposed.png">
 
 		<title>{% block head %}{% endblock %} &middot; Standing</title>
-
+		
 		<!-- CSS -->
 		{% if debug %}<link href="{{ STATIC_URL }}css/base.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/base.min.css" type="text/css" rel="stylesheet">{% endif %}
 		{% if debug %}<script src="//localhost:35729/livereload.js"></script>{% endif %}
