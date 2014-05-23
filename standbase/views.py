@@ -115,7 +115,7 @@ def api_state(request):
     response = HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type='application/json')
 
     add_never_cache_headers(response)
-    
+
     return response
 
 def session(request, sessionid):
