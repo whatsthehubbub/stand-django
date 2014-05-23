@@ -222,6 +222,7 @@ def done(request):
     secret = request.POST.get('secret', '')
     sessionid = request.POST.get('sessionid', '')
 
+    # TODO done does not check if the live is within a reasonable time ago
     try:
         s = StandSession.objects.get(secret=secret, id=sessionid)
 
