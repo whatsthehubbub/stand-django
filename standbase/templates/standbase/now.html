@@ -11,6 +11,8 @@
 
 <div id="map"></div>
 
+<p class="label label-default">Number of people standing right now: <span id="active_count">0</span></p>
+
 {% include "standbase/footer.html" %}
 
 {% endblock content %}
@@ -19,7 +21,10 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-
+		// Refresh the current state
+		getCurrentState();
+		// TODO make this refresh every two seconds
+		setInterval(getCurrentState, 10000);
 	});
 
 	function getCurrentState() {
@@ -31,46 +36,19 @@
 			// Process incoming active sessions
 			$('#active_count').html(data['active_sessions'].length);
 
-			for (var i = 0; i < data['active_sessions'].length; i++) {
-				var s = data['active_sessions'][i];
-				sessions.push(s);
-			}
-
-			for (var i = 0; i < data['completed_sessions'].length; i++) {
-				var s = data['completed_sessions'][i];
-				sessions.push(s);
-			}
-
-			// Check if the current session is one of the sessions in the new set
-			if (sessionOnDisplay) {
-				var found = false;
-
-				for (var i = 0; i < sessions.length; i++) {
-					if (sessionOnDisplay['id'] == sessions[i]['id']) {
-						found = true;
-						sessionOnDisplay = sessions[i];
-						sessionIndex = i;
-
-						break;
-					}
-				}
-
-				if (!found) {
-					// Insert the current session at the beginning of the list
-					sessions.splice(0, 0, sessionOnDisplay);
-					sessionIndex = 0;
-				}
-			}
-
-			// Highlighting active badge
-			var n = parseInt($('#active_count').text());
-			if (n >= 1) {
+			if (data['active_sessions'].length > 0) {
 				$('#active_count').parent().removeClass('label-default');
 				$('#active_count').parent().addClass('label-danger');
 			} else {
 				$('#active_count').parent().removeClass('label-danger');
 				$('#active_count').parent().addClass('label-default');
 			}
+
+			for (var i = 0; i < data['active_sessions'].length; i++) {
+				var s = data['active_sessions'][i];
+				sessions.push(s);
+			}
+
 		});
 	}
 
