@@ -1,0 +1,107 @@
+{% extends "standbase/base.html" %}
+
+{% block head %}Now{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block bodyid %}now{% endblock %}
+
+{% block content %}
+
+<div id="map"></div>
+
+{% include "standbase/footer.html" %}
+
+{% endblock content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+	});
+
+	function getCurrentState() {
+		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
+			console.log("Got new state:", data);
+
+			sessions = [];
+
+			// Process incoming active sessions
+			$('#active_count').html(data['active_sessions'].length);
+
+			for (var i = 0; i < data['active_sessions'].length; i++) {
+				var s = data['active_sessions'][i];
+				sessions.push(s);
+			}
+
+			for (var i = 0; i < data['completed_sessions'].length; i++) {
+				var s = data['completed_sessions'][i];
+				sessions.push(s);
+			}
+
+			// Check if the current session is one of the sessions in the new set
+			if (sessionOnDisplay) {
+				var found = false;
+
+				for (var i = 0; i < sessions.length; i++) {
+					if (sessionOnDisplay['id'] == sessions[i]['id']) {
+						found = true;
+						sessionOnDisplay = sessions[i];
+						sessionIndex = i;
+
+						break;
+					}
+				}
+
+				if (!found) {
+					// Insert the current session at the beginning of the list
+					sessions.splice(0, 0, sessionOnDisplay);
+					sessionIndex = 0;
+				}
+			}
+
+			// Highlighting active badge
+			var n = parseInt($('#active_count').text());
+			if (n >= 1) {
+				$('#active_count').parent().removeClass('label-default');
+				$('#active_count').parent().addClass('label-danger');
+			} else {
+				$('#active_count').parent().removeClass('label-danger');
+				$('#active_count').parent().addClass('label-default');
+			}
+		});
+	}
+
+</script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
+<script src="{{ STATIC_URL }}js/util.js"></script>
+
+<script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
+<script type="text/javascript">
+	// initialise map
+	var map = L.map('map', {
+		dragging: false,
+		touchZoom: false,
+		scrollWheelZoom: false,
+		doubleClickZoom: false,
+		tap: false,
+		closePopupOnClick: false,
+		zoomControl: false,
+		attributionControl: false
+	});
+	
+	// set position and zoom level
+	map.setView([getRandomArbitrary(-90.0, 90.0), getRandomArbitrary(-180.0, 180.0)], 4);
+
+	// set bing layer
+	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
+	map.addLayer(bing);
+
+	map.setZoom(2);
+</script>
+{% endblock extra_javascript %}

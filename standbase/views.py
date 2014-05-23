@@ -82,6 +82,11 @@ def index(request):
         'total_time': formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
     })
 
+def now(request):
+    return render(request, 'standbase/now.html', {
+
+    })
+
 # This is cached for four minutes max
 # Cache is invalidated on write to any object, so it should be always up to date
 @cache_page(60 * 4)

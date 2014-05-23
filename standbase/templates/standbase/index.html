@@ -158,10 +158,6 @@
 		return returnParts.join('');
 	}
 
-	function getRandomArbitrary(min, max) {
-		return Math.random() * (max - min) + min;
-	}
-
 	var marker = null;
 
 	function next() {
@@ -309,6 +305,8 @@
 </script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
+<script src="{{ STATIC_URL }}js/util.js"></script>
 
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
