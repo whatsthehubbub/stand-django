@@ -119,6 +119,7 @@
 	function getPopupHTMLForSession(s) {
 		var activeSession = false;
 
+		// TODO turn this into a function
 		var secondsStood = 0;
 		if (s['datefinished'] == null) {
 			// Check whether the session we are doing is the active one
@@ -140,6 +141,7 @@
 			timeIcon = '<span class="glyphicon glyphicon-time"></span>';
 		}
 
+		// TODO turn this into a function
 		var location = "";
 		if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
 			// No geocode, do nothing
@@ -151,6 +153,7 @@
 			location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
 		}
 
+		// TODO turn this into a function
 		var secondsAgo = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
 		var parts = listDuration(secondsAgo);
 		var timeAgo = "";
