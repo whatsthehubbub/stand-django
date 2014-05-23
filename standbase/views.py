@@ -69,6 +69,8 @@ post_save.connect(invalidate_api_state, sender=Topic)
 
 
 def get_active_sessions():
+    # Active are sessions without a date finished
+    # But with a live call within the last five minutes
     return StandSession.objects.filter(datefinished=None).filter(datelive__gt=timezone.now()-datetime.timedelta(seconds=300)).order_by('-datecreated')
 
 def get_completed_sessions():
