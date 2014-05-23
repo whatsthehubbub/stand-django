@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^api/state$', views.api_state, name='api_state'),
 
     url(r'^s/(?P<sessionid>\d+)/$', views.session, name='session'),
-    url(r'^for/(?P<topic_slug>\D+)/$', views.topic, name='topic'),
+    url(r'^for/(?P<topic_slug>\S+)/$', views.topic, name='topic'),
 
     # url(r'^signup_success$', views.signup_success, name='signup-success'),
 
