@@ -3,7 +3,7 @@ from django.contrib import admin
 from standbase.models import *
 
 class StandSessionAdmin(admin.ModelAdmin):
-    list_display = ('datecreated', 'datefinished', 'lat', 'lon', 'secret', 'topic', 'vendorid')
+    list_display = ('datecreated', 'datefinished', 'datelive', 'lat', 'lon', 'topic', 'vendorid')
     list_filter = ('topic__public', )
 
 admin.site.register(StandSession, StandSessionAdmin)
