@@ -76,17 +76,20 @@ def get_active_sessions():
 def get_completed_sessions():
     return StandSession.public_objects.exclude(datefinished=None).order_by('-datefinished')[:10]
 
+def get_total_time():
+    return formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
+
 def index(request):
     return render(request, 'standbase/index.html', {
         'active_sessions': get_active_sessions(),
         'completed_sessions': get_completed_sessions(),
         'trending_topics': Topic.public_objects.exclude(slug='something').annotate(Count('standsession')).order_by('-standsession__count')[:5],
-        'total_time': formatted_duration(StandSession.objects.all().aggregate(Sum('duration'))['duration__sum'])
+        'total_time': get_total_time()
     })
 
 def now(request):
     return render(request, 'standbase/now.html', {
-
+        'total_time': get_total_time()
     })
 
 # This is cached for four minutes max
