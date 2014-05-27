@@ -104,6 +104,13 @@
 				}
 			}
 
+			// Fit the map to the bounds of all current markers
+			var group = new L.featureGroup();
+			for (var key in markers) {
+				group.addLayer(markers[key][1]);
+			}
+			map.fitBounds(group.getBounds(), {"maxZoom": 10, "padding": [1.0, 1.0]});
+
 		});
 	}
 
