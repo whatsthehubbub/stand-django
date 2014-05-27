@@ -152,13 +152,12 @@
 <script src="{{ STATIC_URL }}js/util.js"></script>
 
 <script src="{{ STATIC_URL }}js/leaflet/leaflet.js"></script>
-
-<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.4"></script>
+<script src="{{ STATIC_URL }}js/leaflet-layer-plugins/tile/Bing.js"></script>
 
 <script type="text/javascript">
 	// initialise map
 	var map = L.map('map', {
-		// dragging: false,
+		dragging: false,
 		touchZoom: false,
 		scrollWheelZoom: false,
 		doubleClickZoom: false,
@@ -168,15 +167,17 @@
 		attributionControl: false
 	});
 	
-	// set position and zoom level
+	// set position
 	function recenterMap(map) {
 		map.setView([40.0, 0.0], 2);
 	}
 	recenterMap(map);
 
-	var tileLayer = new L.StamenTileLayer("toner");
-	map.addLayer(tileLayer);
+	// set bing layer
+	var bing = new L.BingLayer("AuqUZRCmpMVOY8D8je-TB8URkqLGVeFx8jpFNURcbNmfeQaA-k0wW7kWIAq__HzG");
+	map.addLayer(bing);
 
+	// set zoom level
 	map.setZoom(2);
 </script>
 {% endblock extra_javascript %}
