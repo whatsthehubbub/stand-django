@@ -11,12 +11,11 @@
 
 <p id="active-label" class="label label-default">Number of people standing right now: <span id="active_count">0</span></p>
 
-<div id="map"></div>
-
 <ul id="active-list">
+	<li class="title"><h1>Standing</h1></li>
 </ul>
 
-
+<div id="map"></div>
 
 {% include "standbase/footer.html" %}
 
@@ -92,14 +91,30 @@
 					// Create new marker
 					console.log("Creating marker for session", s);
 
-					var marker = L.marker([s['lat'], s['lon']]).addTo(map);
+					// custom pin
+					var PinMarker = L.Icon.Default.extend({
+						options: {
+							iconUrl: '{{ STATIC_URL }}img/marker-icon.png',
+							iconRetinaUrl: '{{ STATIC_URL }}img/marker-icon@2x.png',
+							iconSize: [32, 32],
+							iconAnchor: [16, 16],
+							popupAnchor: [0, -10],
+							shadowUrl: '{{ STATIC_URL }}img/marker-shadow.png',
+							shadowRetinaUrl: '{{ STATIC_URL }}img/marker-shadow@2x.png',
+							shadowSize: [36, 36],
+							shadowAnchor: [18, 18]
+						}
+					});
+					var pinMarker = new PinMarker();
+
+					var marker = L.marker([s['lat'], s['lon']], {icon: pinMarker}).addTo(map);
 
 					markers[s['id']] = [s, marker];
 
 					map.panTo(marker.getLatLng());
 
-					// And add an element to the list
-					$('#active-list').prepend(getHTMLForSession(s));
+					// Add an element to the list
+					$('#active-list').append(getHTMLForSession(s));
 				}
 			}
 
@@ -166,10 +181,10 @@
 		zoomControl: false,
 		attributionControl: false
 	});
-	
+
 	// set position
 	function recenterMap(map) {
-		map.setView([40.0, 0.0], 2);
+		map.setView([30.0, 90.0], 2);
 	}
 	recenterMap(map);
 
@@ -179,5 +194,6 @@
 
 	// set zoom level
 	map.setZoom(2);
+
 </script>
 {% endblock extra_javascript %}
