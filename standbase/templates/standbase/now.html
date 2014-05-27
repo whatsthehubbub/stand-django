@@ -31,8 +31,39 @@
 		// Refresh the current state
 		getCurrentState();
 		// TODO make this refresh every two seconds
-		setInterval(getCurrentState, 10000);
+		setInterval(getCurrentState, 2000);
+
+		setInterval(updateSessionsDisplay, 1000);
 	});
+
+	function getHTMLForSession(s) {
+		var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
+
+		var location = "";
+		if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
+			// No geocode, do nothing
+		} else if (s['parsed_geocode'][0] == null || s['parsed_geocode'][0] == '') {
+			location = "in " + s['parsed_geocode'][1];
+		} else if (s['parsed_geocode'][1] == null || s['parsed_geocode'][1] == '') {
+			location = "in " + s['parsed_geocode'][0];
+		} else {
+			location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
+		}
+
+		return '<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for ' + s['topic__name'] + location + '</li>';
+	}
+
+	function updateSessionsDisplay() {
+		for (var sessionId in markers) {
+			if (markers.hasOwnProperty(sessionId)) {
+				var el = $('#session_' + sessionId);
+
+				if (el) {
+					el.html(getHTMLForSession(markers[sessionId][0]));
+				}
+			}
+		}
+	}
 
 	function getCurrentState() {
 		$.getJSON('/api/state', function(data, textStatus, jqXHR) {
@@ -54,7 +85,9 @@
 
 				if (markers.hasOwnProperty(s['id'])) {
 					// Marker already exists
-					// Do nothing
+
+					// Update the session in our local store because that may have changed
+					markers[s['id']][0] = s;
 				} else {
 					// Create new marker
 					console.log("Creating marker for session", s);
@@ -66,21 +99,7 @@
 					map.panTo(marker.getLatLng());
 
 					// And add an element to the list
-
-					var secondsStood = Math.floor((new Date() - new Date(s['datecreated'])) / 1000);
-
-					var location = "";
-					if (s['parsed_geocode'] == null || (s['parsed_geocode'][0] == null && s['parsed_geocode'][1] == null)) {
-						// No geocode, do nothing
-					} else if (s['parsed_geocode'][0] == null || s['parsed_geocode'][0] == '') {
-						location = "in " + s['parsed_geocode'][1];
-					} else if (s['parsed_geocode'][1] == null || s['parsed_geocode'][1] == '') {
-						location = "in " + s['parsed_geocode'][0];
-					} else {
-						location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
-					}
-
-					$('#active_list').prepend('<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for ' + s['topic__name'] + location + '</li>');
+					$('#active_list').prepend(getHTMLForSession(s));
 				}
 			}
 
