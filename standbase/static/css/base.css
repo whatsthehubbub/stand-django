@@ -5925,6 +5925,7 @@ body {
   padding: 1em;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(237, 96, 56, 0.8);
 }
 #now #footer {
   display: none !important;

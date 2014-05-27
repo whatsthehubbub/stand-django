@@ -50,7 +50,7 @@
 			location = " in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
 		}
 
-		return '<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for ' + s['topic__name'] + location + '</li>';
+		return '<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong>' + location + '</li>';
 	}
 
 	function updateSessionsDisplay() {
@@ -170,7 +170,7 @@
 	
 	// set position and zoom level
 	function recenterMap(map) {
-		map.setView([40.0, 20.0], 2);
+		map.setView([40.0, 0.0], 2);
 	}
 	recenterMap(map);
 
