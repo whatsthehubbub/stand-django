@@ -9,11 +9,11 @@
 
 {% block content %}
 
-<p class="label label-default">Number of people standing right now: <span id="active_count">0</span></p>
+<p id="active-label" class="label label-default">Number of people standing right now: <span id="active_count">0</span></p>
 
 <div id="map"></div>
 
-<ul id="active_list">
+<ul id="active-list">
 </ul>
 
 
@@ -70,14 +70,14 @@
 			console.log("Got new state:", data);
 
 			// Process incoming active sessions
-			$('#active_count').html(data['active_sessions'].length);
+			$('#active-count').html(data['active_sessions'].length);
 
 			if (data['active_sessions'].length > 0) {
-				$('#active_count').parent().removeClass('label-default');
-				$('#active_count').parent().addClass('label-danger');
+				$('#active-count').parent().removeClass('label-default');
+				$('#active-count').parent().addClass('label-danger');
 			} else {
-				$('#active_count').parent().removeClass('label-danger');
-				$('#active_count').parent().addClass('label-default');
+				$('#active-count').parent().removeClass('label-danger');
+				$('#active-count').parent().addClass('label-default');
 			}
 
 			for (var i = 0; i < data['active_sessions'].length; i++) {
@@ -99,7 +99,7 @@
 					map.panTo(marker.getLatLng());
 
 					// And add an element to the list
-					$('#active_list').prepend(getHTMLForSession(s));
+					$('#active-list').prepend(getHTMLForSession(s));
 				}
 			}
 
@@ -164,7 +164,7 @@
 		doubleClickZoom: false,
 		tap: false,
 		closePopupOnClick: false,
-		// zoomControl: false,
+		zoomControl: false,
 		attributionControl: false
 	});
 	
