@@ -31,7 +31,7 @@
 		// Refresh the current state
 		getCurrentState();
 		// TODO make this refresh every two seconds
-		setInterval(getCurrentState, 2000);
+		setInterval(getCurrentState, 10000);
 	});
 
 	function getCurrentState() {
@@ -80,37 +80,49 @@
 						location = "in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
 					}
 
-					$('#active_list').append('<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for ' + s['topic__name'] + location + '</li>');
+					$('#active_list').prepend('<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for ' + s['topic__name'] + location + '</li>');
 				}
 			}
+
+			console.log("Remove unused markers");
 
 			// Go through markers and remove those that are no longer active
 			for (var sessionId in markers) {
-				var found = false;
+				if (markers.hasOwnProperty(sessionId)) {
+					var found = false;
 
-				for (var i = 0; i < data['active_sessions'].length; i++) {
-					if (data['active_sessions'][i]['id'] == sessionId) {
-						found = true;
-						break;
+					for (var i = 0; i < data['active_sessions'].length; i++) {
+						if (data['active_sessions'][i]['id'] == sessionId) {
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						map.removeLayer(markers[sessionId][1]);
+						delete markers[sessionId];
+
+						// Remove element from the list
+						$('#session_' + sessionId).slideUp();
 					}
 				}
-
-				if (!found) {
-					map.removeLayer(markers[sessionId][1]);
-					delete markers[sessionId];
-
-					// Remove element from the list
-					$('#session_' + sessionId).slideUp();
-				}
 			}
+
+			console.log("Re center map on bounds");
 
 			// Fit the map to the bounds of all current markers
 			var group = new L.featureGroup();
 			for (var key in markers) {
-				group.addLayer(markers[key][1]);
+				if (markers.hasOwnProperty(key)) {
+					group.addLayer(markers[key][1]);
+				}
 			}
-			map.fitBounds(group.getBounds(), {"maxZoom": 10, "padding": [1.0, 1.0]});
 
+			if (group.getLayers().length > 0) {
+				map.fitBounds(group.getBounds(), {"maxZoom": 10, "padding": [1.0, 1.0]});
+			} else {
+				recenterMap(map);
+			}
 		});
 	}
 
@@ -138,7 +150,10 @@
 	});
 	
 	// set position and zoom level
-	map.setView([40.0, 20.0], 4);
+	function recenterMap(map) {
+		map.setView([40.0, 20.0], 2);
+	}
+	recenterMap(map);
 
 	var tileLayer = new L.StamenTileLayer("toner");
 	map.addLayer(tileLayer);
