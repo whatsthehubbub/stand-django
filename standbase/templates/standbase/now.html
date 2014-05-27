@@ -96,7 +96,7 @@
 				}
 
 				if (!found) {
-					map.removeLayer(markers[sessionId]);
+					map.removeLayer(markers[sessionId][1]);
 					delete markers[sessionId];
 
 					// Remove element from the list
