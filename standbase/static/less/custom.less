@@ -153,6 +153,7 @@ body {
 		top: 20px;
 		right: 20px;
 		padding: 0.5em 1em;
+		font-size: 1.25em;
 	}
 	#active-list {
 		display: block;
@@ -162,30 +163,51 @@ body {
 		left: 0;
 		width: 25%;
 		min-width: 300px;
-		max-width: 400px;
 		height: 100%;
-		background-color: #f2f2f2;
+		background-color: #eee;
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		overflow: hidden;
 		li {
+			font-size: 1.25em;
 			position: relative;
 			display: block;
 			margin: 0;
 			padding: 1em;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 			color: rgba(255, 255, 255, 0.8);
-			background-color: @brand-secondary;
+			background-color: fade(@brand-secondary, 70%);
+			strong {
+				color: rgba(255, 255, 255, 1);
+			}
 			&.title {
 				background-color: @brand-primary;
 				h1 {
 					color: @brand-secondary;
-					font-size: 1.5em;
+					font-size: 1.75em;
 					margin: 0;
 					padding: 0;
-					font-weight: 400;
+					font-weight: 800;
 				}
+			}
+			&:nth-child(2) {
+				background-color: @brand-secondary;
+			}
+			&:nth-child(3) {
+				background-color: fade(@brand-secondary, 95%);
+			}
+			&:nth-child(4) {
+				background-color: fade(@brand-secondary, 90%);
+			}
+			&:nth-child(5) {
+				background-color: fade(@brand-secondary, 85%);
+			}
+			&:nth-child(6) {
+				background-color: fade(@brand-secondary, 80%);
+			}
+			&:nth-child(7) {
+				background-color: fade(@brand-secondary, 75%);
 			}
 		}
 	}
