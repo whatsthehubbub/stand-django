@@ -49,7 +49,7 @@
 			location = " in " + s['parsed_geocode'][0] + ", " + s['parsed_geocode'][1];
 		}
 
-		return '<li id="session_' + s['id'] + '">' + formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong>' + location + '</li>';
+		return formatDuration(secondsStood) + ' for <strong>' + s['topic__name'] + '</strong>' + location;
 	}
 
 	function updateSessionsDisplay() {
@@ -114,7 +114,7 @@
 					map.panTo(marker.getLatLng());
 
 					// Add an element to the list
-					$('#active-list').append(getHTMLForSession(s));
+					$('#active-list').append('<li id="session_' + s['id'] + '">' + getHTMLForSession(s) + '</li>');
 				}
 			}
 
