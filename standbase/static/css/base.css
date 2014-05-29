@@ -5897,7 +5897,7 @@ body {
   position: absolute;
   z-index: 9999;
   top: 20px;
-  right: 20px;
+  left: 20px;
   padding: 0.5em 1em;
   font-size: 1.25em;
 }
@@ -5906,11 +5906,11 @@ body {
   position: absolute;
   z-index: 9998;
   top: 0;
-  left: 0;
+  right: 0;
   width: 25%;
   min-width: 280px;
   height: 100%;
-  background-color: #eee;
+  background-color: #232323;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -5961,7 +5961,7 @@ body {
   display: block;
   position: absolute;
   top: 0;
-  left: 25%;
+  right: 25%;
   width: 75%;
   height: 100%;
 }
