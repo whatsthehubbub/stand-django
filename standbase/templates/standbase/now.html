@@ -114,7 +114,7 @@
 					map.panTo(marker.getLatLng());
 
 					// Add an element to the list
-					$('#active-list').append('<li id="session_' + s['id'] + '">' + getHTMLForSession(s) + '</li>');
+					$('#active-list').prepend('<li id="session_' + s['id'] + '">' + getHTMLForSession(s) + '</li>');
 				}
 			}
 
