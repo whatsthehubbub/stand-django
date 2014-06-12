@@ -83,7 +83,7 @@ def index(request):
     return render(request, 'standbase/index.html', {
         'active_sessions': get_active_sessions(),
         'completed_sessions': get_completed_sessions(),
-        'trending_topics': Topic.public_objects.exclude(slug='something').annotate(Count('standsession')).order_by('-standsession__count')[:5],
+        'trending_topics': Topic.public_objects.exclude(slug='something').annotate(latest_date=Max('standsession__datefinished')).exclude(latest_date=None).order_by('-latest_date')[:5],
         'total_time': get_total_time()
     })
 
