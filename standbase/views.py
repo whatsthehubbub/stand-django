@@ -190,9 +190,6 @@ def catch(request):
     import django_rq
     django_rq.enqueue(s.retrieve_reverse_geocode)
 
-    # Post the new session to slack so we can watch along
-    django_rq.enqueue(s.post_to_slack)
-
     response = {
         'sessionid': s.id,
         'secret': s.secret
@@ -239,6 +236,10 @@ def done(request):
             s.datefinished = s.datecreated + datetime.timedelta(seconds=duration)
 
         s.save()
+
+        # Post the done session to slack so we can watch along
+        import django_rq
+        django_rq.enqueue(s.post_to_slack)
 
         code = 1
     except StandSession.DoesNotExist:
