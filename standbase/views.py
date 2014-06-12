@@ -190,6 +190,9 @@ def catch(request):
     import django_rq
     django_rq.enqueue(s.retrieve_reverse_geocode)
 
+    # Post the new session to slack so we can watch along
+    django_rq.enqueue(s.post_to_slack)
+
     response = {
         'sessionid': s.id,
         'secret': s.secret
