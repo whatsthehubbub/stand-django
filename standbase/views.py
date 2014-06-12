@@ -7,7 +7,7 @@ from standbase.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers.json import DjangoJSONEncoder
 
-from django.db.models import Count
+from django.db.models import Max
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
