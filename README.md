@@ -1,5 +1,6 @@
 The Standing web interface.
 
+
 # Installation Guide
 
 ## Set up a Django project (on OS X)
