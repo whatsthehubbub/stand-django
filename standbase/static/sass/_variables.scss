@@ -1,0 +1,50 @@
+// TYPOGRAPHY
+///////////////////////////////////////////////////////////////////////////////
+$sans-serif: $helvetica;
+
+$base-font-family: $sans-serif;
+$header-font-family: $sans-serif;
+
+// SIZES
+///////////////////////////////////////////////////////////////////////////////
+$base-font-size: 1em;
+$base-line-height: $base-font-size * 1.5;
+$base-border-radius: em(3);
+
+$container-padding: 2em;
+
+$logo-width: 100px;
+$logo-height: 54px;
+
+$play-button-size: 80px;
+
+$border-thickness: 3px;
+
+
+// COLOURS
+///////////////////////////////////////////////////////////////////////////////
+$white: rgb(255, 255, 255);
+$red: 	rgb(255, 30, 30);
+
+$light-red: #FBE3E4;
+$light-yellow: #FFF6BF;
+$light-green: #E6EFC2;
+
+// Body Color
+$base-body-color: rgb(248, 248, 248);
+
+// Font Colors
+$base-font-color: rgb(30, 30, 30);
+$base-accent-color: $red;
+
+// Text Link Colors
+$base-link-color: $base-accent-color;
+$hover-link-color: darken($base-accent-color, 15);
+
+// Border color
+$base-border-color: rgb(220, 220, 220);
+
+// Flash Colors
+$error-color: $light-red;
+$notice-color: $light-yellow;
+$success-color: $light-green;
