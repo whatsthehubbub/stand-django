@@ -26,12 +26,6 @@ To restart the server simply repeat steps 9 and 13.
 To be up to date again always do: 9, 10, 12, 13.
 
 
-## Install Bower (front-end package managemener)
-1. Bower depends on Node and npm. It's installed globally using npm: `npm install -g bower`
-2. Browse to project folder and install all required dependencies: `bower install`
-
-## Install Grunt (JavaScript task runner)
-1. Grunt depends on Node and npm.
-2. Install grunt-cli globally with `npm install -g grunt-cli`.
-3. Navigate to the main directory, then run `npm install`. npm will look at package.json and automatically install the necessary local dependencies listed there.
-4. Watch with `grunt watch`
+## Install CodeKit (front-end)
+1. Download from Incident57: http://incident57.com/codekit/
+2. Start app and add the Standing directory as a new project
