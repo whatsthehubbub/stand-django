@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Custom styles
+   ========================================================================== */
+
+html {
+	//background-color: $base-body-color;
+}
+
+.container {
+	position: relative;
+	@include outer-container;
+}
+
+.masthead {
+	
+}

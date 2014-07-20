@@ -1,8 +1,11 @@
 // Typography
+$monospaced: "Courier New", Courier, monospace;
+
 $sans-serif: $helvetica;
 $serif: $georgia;
-$base-font-family: $sans-serif;
-$header-font-family: $base-font-family;
+
+$base-font-family: $monospaced;
+$header-font-family: $sans-serif;
 
 // Sizes
 $base-font-size: 1em;
@@ -20,7 +23,7 @@ $h5-font-size: $base-font-size * 1.25;
 $h6-font-size: $base-font-size;
 
 // Colors
-$blue: #477DCA;
+$red: #FF4A26;
 $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #DDD;
@@ -29,11 +32,11 @@ $light-yellow: #FFF6BF;
 $light-green: #E6EFC2;
 
 // Background Color
-$base-background-color: white;
+$base-background-color: rgb(248, 248, 248);
 
 // Font Colors
 $base-font-color: $dark-gray;
-$base-accent-color: $blue;
+$base-accent-color: $red;
 
 // Link Colors
 $base-link-color: $base-accent-color;
