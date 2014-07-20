@@ -4,16 +4,17 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
+		<meta name="description" content="Standing is an app for playful activism">
+		<meta name="author" content="Hubbub">
 
 		<link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
 		<link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}apple-touch-icon-precomposed.png">
 
-		<title>{% block head %}{% endblock %} &middot; Standing</title>
+		<title>Standing &middot; {% block head %}{% endblock %}</title>
 		
 		<!-- CSS -->
-		{% if debug %}<link href="{{ STATIC_URL }}css/base.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/base.min.css" type="text/css" rel="stylesheet">{% endif %}
+		<link href="{{ STATIC_URL }}css/normalize.css" type="text/css" rel="stylesheet">
+		{% if debug %}<link href="{{ STATIC_URL }}css/styles.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/base.min.css" type="text/css" rel="stylesheet">{% endif %}
 		{% if debug %}<script src="//localhost:35729/livereload.js"></script>{% endif %}
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,17 +26,8 @@
 	</head>
 
 	<body id="{% block bodyid %}{% endblock %}">
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container">
-				<a class="navbar-brand" href="/">Standing</a>
-				<a class="btn btn-primary navbar-right navbar-btn" href="https://itunes.apple.com/app/standing/id868921889" onclick="trackOutboundLink('https://itunes.apple.com/app/standing/id868921889'); return false;" role="button">Get the app</a>
-
-			</div>
-		</nav>
-
-		<div class="container">
-			{% block content %}{% endblock %}
-		</div>
+		
+		{% block content %}{% endblock %}
 
 		<!-- JS -->
 		<script src="{{ STATIC_URL }}js/standing.min.js"></script>

@@ -9,45 +9,60 @@
 
 {% block content %}
 
-<div class="page-header">
-	<h1>Standing <small>is an app for playful activism. <a href="https://itunes.apple.com/app/standing/id868921889" onclick="trackOutboundLink('https://itunes.apple.com/app/standing/id868921889'); return false;" title="Get Standing in the App Store">Grab the app</a>, go outside and get standing for a cause.</small></h1>
-</div>
+<!-- MASTHEAD -->
+	<header class="masthead" role="banner">
+		<div class="container">
+			<h1 id="logo" class="present">
+				<a href="/" title="" id="homelink" rel="home">
+					<img src="" alt="Standing">
+				</a>
+			</h1>
+			<h2>Standing</h2>
+			<p>is an app for playful activism. <a href="https://itunes.apple.com/app/standing/id868921889" onclick="trackOutboundLink('https://itunes.apple.com/app/standing/id868921889'); return false;" title="Get Standing in the App Store">Grab the app</a>, go outside and get standing for a cause.</p>
+		</div>
+	</header>
+<!-- END MASTHEAD -->
 
+<!-- RECENT -->
 <div class="recent">
-	<div class="header clearfix">
+	<div class="container">
 		<h2>Recent sessions</h2>
-		<div class="count">
-			<p class="label label-default">
-				<span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
-		</div>
-	</div>
-	<div id="map">
-		<div class="controls">
-			<a href="#" class="pull-left" id="previous_button">
-				<div class="btn btn-primary">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-				</div>
-			</a>
-			<a href="#" class="pull-right" id="next_button">
-				<div class="btn btn-primary">
-					<span class="glyphicon glyphicon-chevron-right"></span>
-				</div>
-			</a>
+		<span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
+		<div id="map">
+			<div class="controls">
+				<a href="#" class="pull-left" id="previous_button">
+					<div class="btn btn-primary">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</div>
+				</a>
+				<a href="#" class="pull-right" id="next_button">
+					<div class="btn btn-primary">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</div>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
+<!-- END RECENT -->
 
+<!-- TRENDING -->
 <div class="trending">
-	<h2>Trending causes</h2>
-	<div class="list-group">
-	{% for topic in trending_topics %}
-		<a href="{{ topic.get_absolute_url }}" class="list-group-item">
-			<h4 class="list-group-item-heading">{{ topic.name|capfirst }}</h4>
-			<p class="list-group-item-text">{{ topic.get_total_duration }}</p>
-		</a>
-	{% endfor %}
+	<div class="container">
+		<h2>Trending causes</h2>
+		<ul>
+			{% for topic in trending_topics %}
+				<li>
+					<a href="{{ topic.get_absolute_url }}" class="list-group-item">
+						<h4 class="list-group-item-heading">{{ topic.name|capfirst }}</h4>
+						<p class="list-group-item-text">{{ topic.get_total_duration }}</p>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
 	</div>
 </div>
+<!-- END TRENDING -->
 
 {% include "standbase/footer.html" %}
 
