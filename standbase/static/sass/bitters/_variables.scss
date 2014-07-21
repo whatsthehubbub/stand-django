@@ -1,11 +1,11 @@
 // Typography
 $monospaced: "Courier New", Courier, monospace;
+$headline:	 "JeanLucWeb-Thin", sans-serif;
 
 $sans-serif: $helvetica;
-$serif: $georgia;
 
 $base-font-family: $monospaced;
-$header-font-family: $sans-serif;
+$header-font-family: $headline;
 
 // Sizes
 $base-font-size: 1em;
@@ -24,15 +24,19 @@ $h6-font-size: $base-font-size;
 
 // Colors
 $red: #FF4A26;
-$dark-gray: #333;
-$medium-gray: #999;
-$light-gray: #DDD;
+$yellow: #FEDF43;
+$blue: #55AFE1;
+
+$dark-gray: #232323;
+$medium-gray: #999999;
+$light-gray: #DDDDDD;
+
 $light-red: #FBE3E4;
 $light-yellow: #FFF6BF;
 $light-green: #E6EFC2;
 
 // Background Color
-$base-background-color: rgb(248, 248, 248);
+$base-background-color: #F5F5F5;
 
 // Font Colors
 $base-font-color: $dark-gray;

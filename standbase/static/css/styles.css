@@ -1,3 +1,4 @@
+@charset "UTF-8";
 button,
 input[type="submit"] {
   -webkit-font-smoothing: antialiased;
@@ -17,14 +18,14 @@ input[type="submit"] {
 
 body {
   -webkit-font-smoothing: antialiased;
-  background-color: #f8f8f8;
-  color: #333333;
+  background-color: whitesmoke;
+  color: #232323;
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   line-height: 1.5; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-family: "JeanLucWeb-Thin", sans-serif;
   line-height: 1.25em;
   margin: 0;
   text-rendering: optimizeLegibility; }
@@ -75,12 +76,12 @@ img {
 
 blockquote {
   border-left: 2px solid #dddddd;
-  color: #595959;
+  color: #494949;
   margin: 1.5em 0;
   padding-left: 0.75em; }
 
 cite {
-  color: #737373;
+  color: #636363;
   font-style: italic; }
   cite:before {
     content: '\2014 \00A0'; }
@@ -332,6 +333,23 @@ textarea {
   color: #000;
   padding: 0.2em 0; }
 
+/* ==========================================================================
+   Fonts
+   ========================================================================== */
+/* @font-face declarations */
+@font-face {
+  font-family: 'JeanLucWeb-Bold';
+  src: url("../fonts/jeanlucweb-bold.eot");
+  src: local("☺"), url("../fonts/jeanlucweb-bold.woff") format("woff"), url("../fonts/jeanlucweb-bold.otf") format("opentype"), url("../fonts/jeanlucweb-bold#webfontup15foyj") format("svg"); }
+@font-face {
+  font-family: 'JeanLucWeb-Thin';
+  src: url("../fonts/jeanlucweb-bold.eot");
+  src: local("☺"), url("../fonts/jeanlucweb-thin.woff") format("woff"), url("../fonts/jeanlucweb-thin.otf") format("opentype"), url("../fonts/jeanlucweb-thin#webfontdsa4toug") format("svg"); }
+/*
+The Jean-Luc typeface was designed and made by Atelier Carvalho Bernau on the occasion of the 80th birthday of Jean-Luc Godard. It is available free of charge from http://www.carvalho-bernau.com/jlg/
+
+Jean-Luc typeface Copyright (c) 2010 Atelier Carvalho Bernau
+*/
 /* ==========================================================================
    Custom styles
    ========================================================================== */
