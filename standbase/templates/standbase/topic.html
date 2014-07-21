@@ -5,31 +5,53 @@
 {% block bodyid %}cause{% endblock %}
 
 {% block content %}
-<h1>
-	<span class="cause">{{ t.name|capfirst }}</span> <small>{{ t.get_total_duration }} of standing in total</small>
-</h1>
 
-<div class="list-group">
-{% for session in sessions %}
-	<a class="list-group-item" href="{{ session.get_absolute_url }}">{{ session.get_duration }} <small>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</small></a>
-{% endfor %}
+<!-- TOPIC NAME -->
+<div class="title">
+	<div class="container">
+		<h2>{{ t.name|capfirst }}<span>{{ t.get_total_duration }} of standing in total</span></h2>
+	</div>
 </div>
+<!-- END TOPIC NAME -->
 
-<ul class="pager">
-	{% if sessions.has_previous %}
-	<li class="previous"><a href="?page={{ sessions.previous_page_number }}">&larr; Newer</a></li>
-	{% else %}
-	<li class="previous disabled"><a href="#">&larr; Newer</a></li>
-	{% endif %}
-	
-	<!-- <p>Page {{ sessions.number }} of {{ sessions.paginator.num_pages }}</p> -->
-	
-	{% if sessions.has_next %}
-	<li class="next"><a href="?page={{ sessions.next_page_number }}">Older &rarr;</a></li>
-	{% else %}
-	<li class="next disabled"><a href="#">Older &rarr;</a></li>
-	{% endif %}
-</ul>
+<!-- TOPIC LIST -->
+<div class="list">
+	<div class="container">
+		<ul>
+			{% for session in sessions %}
+			<li>
+				<a href="{{ session.get_absolute_url }}">
+					{{ session.get_duration }} <span>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</span>
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+<!-- END TOPIC LIST -->
+
+<!-- PAGER -->
+<div class="pager">
+	<div class="container">
+		<ul class="pager">
+			{% if sessions.has_previous %}
+			<li class="previous"><a href="?page={{ sessions.previous_page_number }}">&larr; Newer</a></li>
+			{% else %}
+			<li class="previous disabled"><a href="#">&larr; Newer</a></li>
+			{% endif %}
+			<!-- <p>Page {{ sessions.number }} of {{ sessions.paginator.num_pages }}</p> -->
+			{% if sessions.has_next %}
+			<li class="next"><a href="?page={{ sessions.next_page_number }}">Older &rarr;</a></li>
+			{% else %}
+			<li class="next disabled"><a href="#">Older &rarr;</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+<!-- END -->
+
+{% include "standbase/tagline.html" %}
+
 {% include "standbase/footer.html" %}
 
 {% endblock content %}
