@@ -3,12 +3,21 @@
    ========================================================================== */
 
 html {
-	//background-color: $base-body-color;
+	background-color: $base-background-color;
 }
 
 .container {
 	position: relative;
 	@include outer-container;
+}
+
+h2 {
+	position: relative;
+	display: block;
+	padding: 0.1em 0.55em 0.15em;
+	font-size: 1.3em;
+	background-color: rgb(255, 255, 255);
+	border-top: 1px solid $light-gray;
 }
 
 .tagline {
@@ -56,5 +65,58 @@ html {
 				height: 100%;
 			}
 		}
+	}
+}
+
+.recent {
+	.now {
+		position: absolute;
+		display: inline;
+		top: 0;
+		right: 0;
+		font-size: 0.7em;
+		background-color: $light-gray;
+		color: darken($medium-gray, 15);
+		padding: 0.75em 1.25em;
+		height: 100%;
+		&.alert {
+			color: rgb(255, 255, 255);
+			background-color: $red;
+		}
+	}
+}
+
+.trending {
+	ul {
+		li {
+			border-bottom: 1px solid $light-gray;
+			a {
+				display: block;
+				padding: 0.8em;
+				&:hover {
+					background-color: darken($base-background-color, 2.5);
+				}
+				p {
+					margin: 0;
+					padding: 0;
+					color: $medium-gray;
+				}
+			}
+		}
+	}
+}
+
+footer {
+	.totaltime {
+		background-color: $yellow;
+		text-align: center;
+		padding: 1em;
+		border-top: 1px solid $orange;
+		color: $orange;
+	}
+	.colofon {
+		text-align: center;
+		font-size: 0.8em;
+		padding: 1em 2em;
 	}
 }
