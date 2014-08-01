@@ -15,7 +15,7 @@
 <div class="recent">
 	<div class="container">
 		<h2>Recent sessions</h2>
-		<span id="active_count">{{ active_sessions|length }}</span> active sessions at the moment</p>
+		<p class="now"><span id="active_count">{{ active_sessions|length }}</span> active sessions</p>
 		<div id="map">
 			<div class="controls">
 				<a href="#" class="pull-left" id="previous_button">
@@ -235,11 +235,11 @@
 			// Highlighting active badge
 			var n = parseInt($('#active_count').text());
 			if (n >= 1) {
-				$('#active_count').parent().removeClass('label-default');
-				$('#active_count').parent().addClass('label-danger');
+				$('#active_count').parent().removeClass('default');
+				$('#active_count').parent().addClass('alert');
 			} else {
-				$('#active_count').parent().removeClass('label-danger');
-				$('#active_count').parent().addClass('label-default');
+				$('#active_count').parent().removeClass('alert');
+				$('#active_count').parent().addClass('default');
 			}
 		});
 	}
