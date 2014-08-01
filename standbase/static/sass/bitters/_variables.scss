@@ -1,20 +1,12 @@
 // Typography
 $monospaced: "Courier New", Courier, monospace;
 $headline:	 "JeanLucWeb-Thin", sans-serif;
-
 $sans-serif: $helvetica;
-
 $base-font-family: $monospaced;
 $header-font-family: $headline;
 
-// Sizes
+// Font Sizes
 $base-font-size: 1em;
-$base-line-height: $base-font-size * 1.5;
-$unitless-line-height: $base-line-height / ($base-line-height * 0 + 1); // Strip units from line-height: https://developer.mozilla.org/en-US/docs/Web/CSS/line-height#Prefer_unitless_numbers_for_line-height_values
-$header-line-height: $base-font-size * 1.25;
-$base-border-radius: em(3);
-$base-vertical-spacing: 0.5em;
-
 $h1-font-size: $base-font-size * 2.25;
 $h2-font-size: $base-font-size * 2;
 $h3-font-size: $base-font-size * 1.75;
@@ -22,14 +14,24 @@ $h4-font-size: $base-font-size * 1.5;
 $h5-font-size: $base-font-size * 1.25;
 $h6-font-size: $base-font-size;
 
-// Colors
-$red: #FF4A26;
-$yellow: #FEDF43;
-$blue: #55AFE1;
+// Line height
+$base-line-height: 1.5;
+$header-line-height: 1.25;
 
-$dark-gray: #232323;
-$medium-gray: #999999;
-$light-gray: #DDDDDD;
+// Other Sizes
+$base-border-radius: 3px;
+$base-spacing: $base-line-height * 1em;
+$base-z-index: 0;
+
+// Colors
+$red: rgb(255, 74, 38);
+$yellow: rgb(254, 223, 67);
+$blue: rgb(85, 175, 225);
+$orange: rgb(244, 151, 63);
+
+$dark-gray: rgb(51, 51, 51);
+$medium-gray: rgb(153, 153, 153);
+$light-gray: rgb(204, 204, 204);
 
 $light-red: #FBE3E4;
 $light-yellow: #FFF6BF;
@@ -48,21 +50,22 @@ $hover-link-color: darken($base-accent-color, 15);
 $base-button-color: $base-link-color;
 $hover-button-color: $hover-link-color;
 
-// Border color
-$base-border-color: $light-gray;
-
 // Flash Colors
 $alert-color: $light-yellow;
 $error-color: $light-red;
 $notice-color: lighten($base-accent-color, 40);
 $success-color: $light-green;
 
+// Border color
+$base-border-color: $light-gray;
+$base-border: 1px solid $base-border-color;
+
 // Forms
 $form-border-color: $base-border-color;
 $form-border-color-hover: darken($base-border-color, 10);
 $form-border-color-focus: $base-accent-color;
 $form-border-radius: $base-border-radius;
-$form-box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+$form-box-shadow: inset 0 1px 3px rgba(black,0.06);
 $form-box-shadow-focus: $form-box-shadow, 0 0 5px rgba(darken($form-border-color-focus, 5), 0.7);
 $form-font-size: $base-font-size;
 $form-font-family: $base-font-family;
