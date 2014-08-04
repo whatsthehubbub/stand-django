@@ -457,14 +457,57 @@ h2 {
   .recent .now.alert {
     color: white;
     background-color: #ff4a26; }
+.recent .map-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background-color: #000; }
+.recent #map {
+  position: absolute;
+  cursor: default;
+  z-index: 1;
+  width: 100%;
+  height: 100%; }
+  .recent #map .controls {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    bottom: 10px;
+    right: 10px; }
+    .recent #map .controls a {
+      display: block;
+      float: right;
+      color: #ff4a26;
+      text-decoration: none;
+      height: 50px;
+      width: 50px;
+      background-color: whitesmoke; }
+      .recent #map .controls a:hover {
+        background-color: #fed81a; }
+    .recent #map .controls #next_button {
+      border-right: 1px solid #cccccc; }
+
+.leaflet-container {
+  font: 0.8em/1em "Courier New", Courier, monospace !important; }
+
+.leaflet-popup {
+  max-width: 300px; }
+
+.leaflet-popup-content-wrapper {
+  border-radius: none; }
+  .leaflet-popup-content-wrapper p a {
+    color: #ff4a26; }
 
 .trending ul li {
   border-bottom: 1px solid #cccccc; }
+  .trending ul li:nth-child(even) {
+    background-color: #f0f0f0; }
   .trending ul li a {
     display: block;
     padding: 0.8em; }
     .trending ul li a:hover {
-      background-color: #efefef; }
+      background-color: #ededed; }
     .trending ul li a p {
       margin: 0;
       padding: 0;

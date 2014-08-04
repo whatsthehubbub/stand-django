@@ -16,18 +16,20 @@
 	<div class="container">
 		<h2>Recent sessions</h2>
 		<p class="now"><span id="active_count">{{ active_sessions|length }}</span> active sessions</p>
-		<div id="map">
-			<div class="controls">
-				<a href="#" class="pull-left" id="previous_button">
-					<div class="btn btn-primary">
-						<span class="glyphicon glyphicon-chevron-left"></span>
-					</div>
-				</a>
-				<a href="#" class="pull-right" id="next_button">
-					<div class="btn btn-primary">
-						<span class="glyphicon glyphicon-chevron-right"></span>
-					</div>
-				</a>
+		<div class="map-container">
+			<div id="map">
+				<div class="controls">
+					<a href="#" id="previous_button">
+						<div class="btn btn-primary">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+						</div>
+					</a>
+					<a href="#" class="pull-right" id="next_button">
+						<div class="btn btn-primary">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</div>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
