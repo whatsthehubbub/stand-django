@@ -14,8 +14,8 @@ html {
 h2 {
 	position: relative;
 	display: block;
-	padding: 0.1em 0.55em 0.15em;
-	font-size: 1.3em;
+	padding: 0.15em 0.55em 0.15em;
+	font-size: 1.5em;
 	background-color: rgb(255, 255, 255);
 	border-top: 1px solid $light-gray;
 }
@@ -77,7 +77,7 @@ h2 {
 		font-size: 0.7em;
 		background-color: $light-gray;
 		color: darken($medium-gray, 15);
-		padding: 0.75em 1.25em;
+		padding: 1em 1.25em;
 		height: 100%;
 		&.alert {
 			color: rgb(255, 255, 255);
@@ -97,31 +97,46 @@ h2 {
 		width: 100%;
 		height: 100%;
 		.controls {
-			display: block;
+			display: inline;
+			overflow: hidden;
 			position: absolute;
 			z-index: 2;
-			width: 100%;
+			height: 50px;
 			bottom: 10px;
 			right: 10px;
-			//margin-top: -30px;
-			//background-color: green;
 			a {
+				position: relative;
 				display: block;
 				float: right;
 				color: $red;
 				text-decoration: none;
 				height: 50px;
 				width: 50px;
-				background-color: $base-background-color;
+				background-color: $light-gray;
 				&:hover {
 					background-color: darken($yellow, 8);
 				}
+				img {
+					position: absolute;
+					width: 22px;
+					height: 34px;
+					top: 50%;
+					left: 50%;
+					margin-top: -17px;
+					margin-left: -9px;
+				}
 			}
 			#previous_button {
-			
+				//border-right: 1px solid $medium-gray;
+				margin-right: 2px;
+				img {
+					margin-left: -13px;
+				}
 			}
 			#next_button {
-				border-right: 1px solid $light-gray;
+				img {
+					@include transform(rotate(180deg));
+				}
 			}
 		}
 	}
@@ -171,6 +186,11 @@ h2 {
 }
 
 footer {
+	a {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 	.totaltime {
 		background-color: $yellow;
 		text-align: center;
