@@ -391,6 +391,75 @@ h2 {
   background-color: white;
   border-top: 1px solid #cccccc; }
 
+.title h2 {
+  font-size: 2em; }
+  .title h2 span {
+    font-size: 0.75em;
+    display: block;
+    padding-bottom: 0.25em;
+    color: #999999; }
+
+.map-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background-color: #000; }
+
+#map {
+  position: absolute;
+  cursor: default;
+  z-index: 1;
+  width: 100%;
+  height: 100%; }
+  #map .controls {
+    display: inline;
+    overflow: hidden;
+    position: absolute;
+    z-index: 2;
+    height: 50px;
+    bottom: 10px;
+    right: 10px; }
+    #map .controls a {
+      position: relative;
+      display: block;
+      float: right;
+      color: #ff4a26;
+      text-decoration: none;
+      height: 50px;
+      width: 50px;
+      background-color: #cccccc; }
+      #map .controls a:hover {
+        background-color: #fed81a; }
+      #map .controls a img {
+        position: absolute;
+        width: 22px;
+        height: 34px;
+        top: 50%;
+        left: 50%;
+        margin-top: -17px;
+        margin-left: -9px; }
+    #map .controls #previous_button {
+      margin-right: 2px; }
+      #map .controls #previous_button img {
+        margin-left: -13px; }
+    #map .controls #next_button img {
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+      transform: rotate(180deg); }
+
+.leaflet-container {
+  font: 0.8em/1em "Courier New", Courier, monospace !important; }
+
+.leaflet-popup {
+  max-width: 300px; }
+
+.leaflet-popup-content-wrapper {
+  border-radius: none; }
+  .leaflet-popup-content-wrapper p a {
+    color: #ff4a26; }
+
 .tagline .container {
   background-color: #fedf43;
   max-width: 48em;
@@ -457,79 +526,54 @@ h2 {
   .recent .now.alert {
     color: white;
     background-color: #ff4a26; }
-.recent .map-container {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  background-color: #000; }
-.recent #map {
-  position: absolute;
-  cursor: default;
-  z-index: 1;
-  width: 100%;
-  height: 100%; }
-  .recent #map .controls {
-    display: inline;
-    overflow: hidden;
-    position: absolute;
-    z-index: 2;
-    height: 50px;
-    bottom: 10px;
-    right: 10px; }
-    .recent #map .controls a {
-      position: relative;
-      display: block;
-      float: right;
-      color: #ff4a26;
-      text-decoration: none;
-      height: 50px;
-      width: 50px;
-      background-color: #cccccc; }
-      .recent #map .controls a:hover {
-        background-color: #fed81a; }
-      .recent #map .controls a img {
-        position: absolute;
-        width: 22px;
-        height: 34px;
-        top: 50%;
-        left: 50%;
-        margin-top: -17px;
-        margin-left: -9px; }
-    .recent #map .controls #previous_button {
-      margin-right: 2px; }
-      .recent #map .controls #previous_button img {
-        margin-left: -13px; }
-    .recent #map .controls #next_button img {
-      -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
-      transform: rotate(180deg); }
 
-.leaflet-container {
-  font: 0.8em/1em "Courier New", Courier, monospace !important; }
-
-.leaflet-popup {
-  max-width: 300px; }
-
-.leaflet-popup-content-wrapper {
-  border-radius: none; }
-  .leaflet-popup-content-wrapper p a {
-    color: #ff4a26; }
-
-.trending ul li {
+.list ul li {
   border-bottom: 1px solid #cccccc; }
-  .trending ul li:nth-child(even) {
+  .list ul li:nth-child(even) {
     background-color: #f0f0f0; }
-  .trending ul li a {
+  .list ul li a {
     display: block;
     padding: 0.8em; }
-    .trending ul li a:hover {
+    .list ul li a:hover {
       background-color: #ededed; }
-    .trending ul li a p {
+    .list ul li a p {
       margin: 0;
       padding: 0;
       color: #999999; }
+
+.pager ul {
+  max-width: 48em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white; }
+  .pager ul:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .pager ul li {
+    padding: 1em 0.25em; }
+    .pager ul li.previous a, .pager ul li.next a {
+      padding: 1em; }
+    .pager ul li.previous {
+      text-align: left;
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 48.21067%; }
+      .pager ul li.previous:last-child {
+        margin-right: 0; }
+      .pager ul li.previous.disabled a {
+        color: #999999; }
+    .pager ul li.next {
+      text-align: right;
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 48.21067%; }
+      .pager ul li.next:last-child {
+        margin-right: 0; }
+      .pager ul li.next.disabled a {
+        color: #999999; }
 
 footer a:hover {
   text-decoration: underline; }
