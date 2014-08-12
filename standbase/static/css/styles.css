@@ -456,7 +456,7 @@ h2 {
   max-width: 300px; }
 
 .leaflet-popup-content-wrapper {
-  border-radius: none; }
+  border-radius: 0 !important; }
   .leaflet-popup-content-wrapper p a {
     color: #ff4a26; }
 
@@ -486,7 +486,7 @@ h2 {
     width: 74.10533%;
     margin-left: 12.94733%;
     text-align: center;
-    padding: 1em 1em 0.75em;
+    padding: 1em 1em 0;
     color: #ff4a26; }
     .tagline .container p:last-child {
       margin-right: 0; }
@@ -507,11 +507,15 @@ h2 {
     display: block;
     width: 113px;
     height: 40px;
-    margin: 0 auto; }
+    margin: 1em auto 0; }
     .tagline .container .app-store-badge img {
       display: block;
       width: 100%;
       height: 100%; }
+.tagline.top .container {
+  padding: 2em 0 1.5em; }
+.tagline.bottom p {
+  padding: 1em 1em 2em; }
 
 .recent .now {
   position: absolute;
@@ -578,15 +582,20 @@ h2 {
 footer a:hover {
   text-decoration: underline; }
 footer .totaltime {
-  background-color: #fedf43;
+  background-color: #ff4a26;
   text-align: center;
   padding: 1em;
-  border-top: 1px solid #f4973f;
-  color: #f4973f; }
+  margin: 0;
+  color: #fedf43; }
 footer .colofon {
+  background-color: white;
   text-align: center;
   font-size: 0.8em;
-  padding: 1em 2em; }
+  padding: 2em 2em;
+  margin: 0;
+  color: #999999; }
+  footer .colofon a {
+    color: #333333; }
 
 /* ==========================================================================
    Helper classes
