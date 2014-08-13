@@ -14,8 +14,8 @@ $max-width: $medium-screen;
 $min-width: $small-screen;
 
 // Display grid
-$visual-grid: true;
-$visual-grid-color: #ccc;
+//$visual-grid: true;
+//$visual-grid-color: #ccc;
 
 $tablet: new-breakpoint(max-width $medium-screen 8);
 $mobile: new-breakpoint(max-width $small-screen 4);
