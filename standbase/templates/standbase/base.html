@@ -14,7 +14,8 @@
 		
 		<!-- CSS -->
 		<link href="{{ STATIC_URL }}css/normalize.css" type="text/css" rel="stylesheet">
-		{% if debug %}<link href="{{ STATIC_URL }}css/styles.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/base.min.css" type="text/css" rel="stylesheet">{% endif %}
+		<link href="{{ STATIC_URL }}js/leaflet/leaflet.css" type="text/css" rel="stylesheet">
+		{% if debug %}<link href="{{ STATIC_URL }}css/styles.css" type="text/css" rel="stylesheet">{% else %}<link href="{{ STATIC_URL }}css/styles.min.css" type="text/css" rel="stylesheet">{% endif %}
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
