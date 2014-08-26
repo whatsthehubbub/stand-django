@@ -22,12 +22,16 @@ h2 {
 
 .title {
 	h2 {
+		color: $red;
 		font-size: 2em;
+		a {
+			border-bottom: 3px solid $red;
+		}
 		span {
 			font-size: 0.75em;
 			display: block;
 			padding-bottom: 0.25em;
-			color: $medium-gray;
+			color: $dark-gray;
 		}
 	}
 }
@@ -61,17 +65,17 @@ h2 {
 			text-decoration: none;
 			height: 50px;
 			width: 50px;
-			background-color: $light-gray;
+			background-color: rgb(255, 255, 255);
 			&:hover {
 				background-color: darken($yellow, 8);
 			}
 			img {
 				position: absolute;
-				width: 22px;
-				height: 34px;
+				width: 18px;
+				height: 28px;
 				top: 50%;
 				left: 50%;
-				margin-top: -17px;
+				margin-top: -14px;
 				margin-left: -9px;
 			}
 		}
@@ -79,7 +83,7 @@ h2 {
 			//border-right: 1px solid $medium-gray;
 			margin-right: 2px;
 			img {
-				margin-left: -13px;
+				margin-left: -11px;
 			}
 		}
 		#next_button {
@@ -195,32 +199,48 @@ h2 {
 		top: 0;
 		right: 0;
 		font-size: 0.7em;
-		background-color: $light-gray;
-		color: darken($medium-gray, 15);
+		font-weight: 800;
+		background-color: $blue;
+		color: rgb(255, 255, 255);
 		padding: 1em 1.25em;
 		height: 100%;
 		&.alert {
-			color: rgb(255, 255, 255);
 			background-color: $red;
+		}
+		@include media($mobile) {
+			position: relative;
+			display: block;
+			width: 100%;
+			padding: 0.5em 1.25em;
+			margin: 0;
 		}
 	}
 }
 
 .list {
 	ul {
+		border-top: 1px solid $base-background-color;
+		background-color: rgb(255, 255, 255);
 		li {
 			border-bottom: 1px solid $base-background-color;
 			&:first-child {
 				//border-top: 1px solid $light-gray;
 			}
 			&:nth-child(even) {
-				background-color: darken($base-background-color, 5);
+				//background-color: darken($base-background-color, 5);
 			}
 			a {
 				display: block;
 				padding: 0.8em;
 				&:hover {
-					background-color: $yellow;
+					color: rgb(255, 255, 255);
+					background-color: $red;
+					h4 {
+						color: rgb(255, 255, 255);
+					}
+					p {
+						color: $dark-gray;
+					}
 				}
 				p {
 					margin: 0;
@@ -273,12 +293,13 @@ footer {
 		}
 	}
 	.totaltime {
+		font-family: $headline;
+		font-size: 1.25em;
 		background-color: $red;
 		text-align: center;
-		padding: 1em;
+		padding: 0.5em;
 		margin: 0;
-		//border-top: 1px solid $orange;
-		color: $yellow;
+		color: rgb(255, 255, 255);
 	}
 	.colofon {
 		background-color: rgb(255, 255, 255);

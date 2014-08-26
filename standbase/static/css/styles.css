@@ -355,12 +355,15 @@ h2 {
   background-color: white; }
 
 .title h2 {
+  color: #ff4a26;
   font-size: 2em; }
+  .title h2 a {
+    border-bottom: 3px solid #ff4a26; }
   .title h2 span {
     font-size: 0.75em;
     display: block;
     padding-bottom: 0.25em;
-    color: #999999; }
+    color: #333333; }
 
 .map-container {
   position: relative;
@@ -390,21 +393,21 @@ h2 {
       text-decoration: none;
       height: 50px;
       width: 50px;
-      background-color: #cccccc; }
+      background-color: white; }
       #map .controls a:hover {
         background-color: #fed81a; }
       #map .controls a img {
         position: absolute;
-        width: 22px;
-        height: 34px;
+        width: 18px;
+        height: 28px;
         top: 50%;
         left: 50%;
-        margin-top: -17px;
+        margin-top: -14px;
         margin-left: -9px; }
     #map .controls #previous_button {
       margin-right: 2px; }
       #map .controls #previous_button img {
-        margin-left: -13px; }
+        margin-left: -11px; }
     #map .controls #next_button img {
       -webkit-transform: rotate(180deg);
       -moz-transform: rotate(180deg);
@@ -505,27 +508,40 @@ h2 {
   top: 0;
   right: 0;
   font-size: 0.7em;
-  background-color: #cccccc;
-  color: #737373;
+  font-weight: 800;
+  background-color: #55afe1;
+  color: white;
   padding: 1em 1.25em;
   height: 100%; }
   .recent .now.alert {
-    color: white;
     background-color: #ff4a26; }
+  @media screen and (max-width: 30em) {
+    .recent .now {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0.5em 1.25em;
+      margin: 0; } }
 
-.list ul li {
-  border-bottom: 1px solid whitesmoke; }
-  .list ul li:nth-child(even) {
-    background-color: #e8e8e8; }
-  .list ul li a {
-    display: block;
-    padding: 0.8em; }
-    .list ul li a:hover {
-      background-color: #fedf43; }
-    .list ul li a p {
-      margin: 0;
-      padding: 0;
-      color: #999999; }
+.list ul {
+  border-top: 1px solid whitesmoke;
+  background-color: white; }
+  .list ul li {
+    border-bottom: 1px solid whitesmoke; }
+    .list ul li a {
+      display: block;
+      padding: 0.8em; }
+      .list ul li a:hover {
+        color: white;
+        background-color: #ff4a26; }
+        .list ul li a:hover h4 {
+          color: white; }
+        .list ul li a:hover p {
+          color: #333333; }
+      .list ul li a p {
+        margin: 0;
+        padding: 0;
+        color: #999999; }
 
 .pager ul {
   max-width: 48em;
@@ -563,11 +579,13 @@ h2 {
 footer a:hover {
   text-decoration: underline; }
 footer .totaltime {
+  font-family: "JeanLucWeb-Thin", sans-serif;
+  font-size: 1.25em;
   background-color: #ff4a26;
   text-align: center;
-  padding: 1em;
+  padding: 0.5em;
   margin: 0;
-  color: #fedf43; }
+  color: white; }
 footer .colofon {
   background-color: white;
   text-align: center;
