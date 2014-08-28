@@ -350,7 +350,7 @@ html {
 h2 {
   position: relative;
   display: block;
-  padding: 0.15em 0.55em 0.15em;
+  padding: 0.15em 0.4em 0.15em;
   font-size: 1.5em;
   background-color: white; }
 
@@ -371,7 +371,7 @@ h2 {
 .map-container {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
+  padding-bottom: 65%;
   background-color: #000; }
 
 #map {
@@ -540,7 +540,7 @@ h2 {
         .list ul li a:hover h4 {
           color: white; }
         .list ul li a:hover p {
-          color: #333333; }
+          color: white; }
       .list ul li a p {
         margin: 0;
         padding: 0;

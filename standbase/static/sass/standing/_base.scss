@@ -14,7 +14,7 @@ html {
 h2 {
 	position: relative;
 	display: block;
-	padding: 0.15em 0.55em 0.15em;
+	padding: 0.15em 0.4em 0.15em;
 	font-size: 1.5em;
 	background-color: rgb(255, 255, 255);
 	//border-top: 1px solid $light-gray;
@@ -42,7 +42,7 @@ h2 {
 .map-container {
 	position: relative;
 	width: 100%;
-	padding-bottom: 56.25%;
+	padding-bottom: 65%;
 	background-color: #000;
 }
 
@@ -242,7 +242,7 @@ h2 {
 						color: rgb(255, 255, 255);
 					}
 					p {
-						color: $dark-gray;
+						color: rgb(255, 255, 255);
 					}
 				}
 				p {
