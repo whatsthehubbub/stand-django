@@ -24,12 +24,15 @@ h2 {
 	h2 {
 		color: $red;
 		font-size: 2em;
+		line-height: 1em;
+		padding-top: 0.4em;
 		a {
 			border-bottom: 3px solid $red;
 		}
 		span {
 			font-size: 0.75em;
 			display: block;
+			padding-top: 0.25em;
 			padding-bottom: 0.25em;
 			color: $dark-gray;
 		}

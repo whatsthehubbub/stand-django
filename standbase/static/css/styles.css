@@ -356,12 +356,15 @@ h2 {
 
 .title h2 {
   color: #ff4a26;
-  font-size: 2em; }
+  font-size: 2em;
+  line-height: 1em;
+  padding-top: 0.4em; }
   .title h2 a {
     border-bottom: 3px solid #ff4a26; }
   .title h2 span {
     font-size: 0.75em;
     display: block;
+    padding-top: 0.25em;
     padding-bottom: 0.25em;
     color: #333333; }
 
