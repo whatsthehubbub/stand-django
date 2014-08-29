@@ -23,7 +23,7 @@
 			{% for session in sessions %}
 			<li>
 				<a href="{{ session.get_absolute_url }}">
-					<p>{{ session.get_duration }} <span>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</span></p>
+					<p><strong>{{ session.get_duration }}</strong> <span>in {{ session.rendered_geocode }} {{ session.datecreated|timesince }} ago</span></p>
 				</a>
 			</li>
 			{% endfor %}

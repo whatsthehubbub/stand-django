@@ -128,28 +128,47 @@ h2 {
 		#logo {
 			a {
 				display: block;
-				width: 60px;
-				height: 60px;
+				width: 50px;
+				height: 50px;
 				margin: 0 auto;
 				img {
 					display: block;
 					width: 100%;
 					height: 100%;
 				}
+				@include media($mobile) {
+					width: 40px;
+					height: 40px;
+				}
 			}
+		}
+		h2 {
+			color: $red;
+			text-align: center;
+			background-color: transparent;
+			padding: 0.25em 1em 0;
+			margin: 0.5em 0 0;
+			font-size: 1.25em;
 		}
 		p {
 			@include span-columns(6);
 			@include shift(1);
 			text-align: center;
-			padding: 1em 1em 0;
+			padding: 0.25em 1em 0.5em;
 			color: $red;
+			font-weight: 800;
+			font-size: 0.9em;
+			color: $orange;
 			@include media($mobile) {
 				@include span-columns(4);
 				@include shift(0);
 			}
 			a {
+				color: $orange;
 				text-decoration: underline;
+				&:hover {
+					color: $red;
+				}
 			}
 		}
 		.app-store-badge {
@@ -158,7 +177,7 @@ h2 {
 			display: block;
 			width: 113px;
 			height: 40px;
-			margin: 1em auto 0;
+			margin: 3em auto 0;
 			img {
 				display: block;
 				width: 100%;
@@ -168,12 +187,15 @@ h2 {
 	}
 	&.top {
 		.container {
-			padding: 2em 0 1.5em;
+			padding: 1.5em 0 0.75em;
+			@include media($mobile) {
+				padding: 1em 0 0;
+			}
 		}
 	}
 	&.footer {
-		p {
-			padding: 1em 1em 1em;
+		.container {
+			padding: 1.5em 0 2.25em;
 		}
 	}
 	&.small {
@@ -247,11 +269,17 @@ h2 {
 					p {
 						color: rgb(255, 255, 255);
 					}
+					strong {
+						color: rgb(255, 255, 255);
+					}
 				}
 				p {
 					margin: 0;
 					padding: 0;
 					color: $medium-gray;
+					strong {
+						color: $dark-gray;
+					}
 				}
 			}
 		}
