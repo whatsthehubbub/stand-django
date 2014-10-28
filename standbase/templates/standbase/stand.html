@@ -74,22 +74,18 @@
 	// }).addTo(map);
 
 	// custom pin
-	var PinMarker = L.Icon.Default.extend({
-		options: {
-			iconUrl: '{{ STATIC_URL }}img/marker-icon.png',
-			iconRetinaUrl: '{{ STATIC_URL }}img/marker-icon-2x.png',
-			iconSize: [32, 32],
-			iconAnchor: [16, 16],
-			popupAnchor: [0, 0],
-			shadowUrl: '{{ STATIC_URL }}img/marker-shadow.png',
-			shadowRetinaUrl: '{{ STATIC_URL }}img/marker-shadow-2x.png',
-			shadowSize: [36, 36],
-			shadowAnchor: [18, 18]
-		}
+	var pinIcon = L.icon({
+		iconUrl: '{{ STATIC_URL }}img/marker-icon.png',
+		iconRetinaUrl: '{{ STATIC_URL }}img/marker-icon-2x.png',
+		iconSize: [32, 32],
+		iconAnchor: [16, 16],
+		popupAnchor: [0, 0],
+		shadowUrl: '{{ STATIC_URL }}img/marker-shadow.png',
+		shadowRetinaUrl: '{{ STATIC_URL }}img/marker-shadow-2x.png',
+		shadowSize: [36, 36],
+		shadowAnchor: [18, 18]
 	});
-	var pinMarker = new PinMarker();
 
-	// add markers
-	var marker = L.marker([{{ s.lat }}, {{ s.lon }}], {icon: pinMarker}).addTo(map);
+	var pinMarker = L.marker([{{ s.lat }}, {{ s.lon }}], {icon: pinIcon}).addTo(map);
 </script>
 {% endblock extra_javascript %}
