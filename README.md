@@ -4,6 +4,8 @@ This is the web interface for the Standing iOS app for ludic resistance.
 
 Read more about the app and its background here: http://whatsthehubbub.nl/projects/standing/
 
+This project is licensed under an MIT License as detained in the LICENSE file in the same directory.
+
 
 # Installation Guide
 
